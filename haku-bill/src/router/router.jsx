@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import Products from "@/pages/products";
+import Products from "@/pages/Products";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
