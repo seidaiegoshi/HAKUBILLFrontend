@@ -1,14 +1,10 @@
 import React from "react";
-import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
-import HomeMenu from "@/components/home/HomeMenu";
+import DeliverySlip from "./DeliverySlip";
 
 const Home = () => {
 	return (
 		<div>
-			<Header>HOME(Header Title)</Header>
-			<Sidebar />
-			<HomeMenu />
+			<DeliverySlip />
 		</div>
 	);
 };

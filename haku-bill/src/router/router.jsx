@@ -8,7 +8,7 @@ const routes = createRoutes(
 	<Route path="/" errorElement={<div>error</div>}>
 		{/* <Route index element={<Hoge />} /> */}
 		<Route path="/" element={<Home />} />
-		<Route path="/product" element={<Products />} />
+		<Route path="/setting/product" element={<Products />} />
 	</Route>
 );
 
