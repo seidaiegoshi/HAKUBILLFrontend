@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import HomeMenu from "@/pages/home/HomeMenu";
+import HomeMenu from "@/components/home/HomeMenu";
 
 const Home = () => {
 	return (
