@@ -1,5 +1,6 @@
-import axios from "@/libs/axios";
+import axios from "./../../libs/axios";
 import React, { useEffect, useState } from "react";
+import Sidebar from "../../components/Sidebar";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -15,12 +16,18 @@ const Products = () => {
 	}, []);
 
 	return (
-		<div>
-			<p>Products Page</p>
-			{/* {products.map((product) => (
-				<p key={product.id}>{product.body}</p>
-			))} */}
-		</div>
+		<>
+			<div className="flex">
+				<div className="flex-none">
+					<Sidebar />
+				</div>
+				<div className="flex-initial">
+					{products.map((value) => (
+						<p key={value.id}>{value.name}</p>
+					))}
+				</div>
+			</div>
+		</>
 	);
 };
 
