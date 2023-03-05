@@ -7,9 +7,12 @@ const Products = () => {
 	const [products, setProducts] = useState([]);
 
 	const fetchProducts = async () => {
-		const response = await axios.get("/products");
-		setProducts(response.data);
-		console.log(response.data);
+		try {
+			const response = await axios.get("/products");
+			setProducts(response.data);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
