@@ -1,10 +1,10 @@
 import React from "react";
-import DeliverySlip from "./DeliverySlip";
+import Header from "../components/Header";
 
 const Home = () => {
 	return (
 		<div>
-			{/* <DeliverySlip /> */}
+			<Header />
 			home
 		</div>
 	);
