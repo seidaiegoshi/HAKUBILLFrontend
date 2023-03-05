@@ -9,10 +9,11 @@ export default defineConfig({
 	},
 	// パスエイリアスの設定
 	// src以下を@で記載できる
-	resolve: {
-		alias: {
-			"@/": `${__dirname}/src/`,
-		},
-	},
+	// 定義へ飛べなくなるので、一旦削除
+	// resolve: {
+	// 	alias: {
+	// 		"@/": `${__dirname}/src/`,
+	// 	},
+	// },
 	plugins: [react()],
 });
