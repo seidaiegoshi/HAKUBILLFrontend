@@ -1,6 +1,5 @@
 import React from "react";
-import { Router, Routes, Route, Link } from "react-router-dom";
-import Home from "../pages/Home";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
 	return (

@@ -1,6 +1,7 @@
 import axios from "./../../libs/axios";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
+import Header from "./../../components/Header";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -17,6 +18,7 @@ const Products = () => {
 
 	return (
 		<>
+			<Header />
 			<div className="flex">
 				<div className="flex-none">
 					<Sidebar />

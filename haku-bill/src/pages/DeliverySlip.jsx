@@ -6,7 +6,6 @@ import CreateDeliverySlip from "../pages/deliverySlip/CreateDeliverySlip";
 const DeliverySlip = () => {
 	return (
 		<>
-			<SideButton />
 			<CreateDeliverySlip />
 		</>
 	);

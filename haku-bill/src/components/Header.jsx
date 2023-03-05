@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Header = (props) => {
+const Header = () => {
 	return (
 		<header className="text-gray-600 body-font">
 			<div className="container flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -19,10 +20,14 @@ const Header = (props) => {
 					<span className="ml-3 text-xl">HAKU Bill</span>
 				</a>
 				<nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-					<a className="mr-5 hover:text-gray-900">納品書</a>
+					<Link to="/delivery-slip" className="mr-5 hover:text-gray-900">
+						納品書
+					</Link>
 					<a className="mr-5 hover:text-gray-900">請求書</a>
 					<a className="mr-5 hover:text-gray-900">分析</a>
-					<a className="mr-5 hover:text-gray-900">設定</a>
+					<Link to="/setting/product" className="mr-5 hover:text-gray-900">
+						設定
+					</Link>
 				</nav>
 				{/* <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
 					Button

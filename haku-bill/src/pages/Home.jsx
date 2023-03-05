@@ -4,7 +4,8 @@ import DeliverySlip from "./DeliverySlip";
 const Home = () => {
 	return (
 		<div>
-			<DeliverySlip />
+			{/* <DeliverySlip /> */}
+			home
 		</div>
 	);
 };
