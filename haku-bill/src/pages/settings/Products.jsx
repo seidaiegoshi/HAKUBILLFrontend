@@ -2,17 +2,21 @@ import axios from "./../../libs/axios";
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Header from "./../../components/Header";
+import { Link } from "react-router-dom";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
 
-	const fetchProducts = async () => {
-		try {
-			const response = await axios.get("/products");
-			setProducts(response.data);
-		} catch (error) {
-			console.log(error);
-		}
+	const fetchProducts = () => {
+		const requestUrl = "/products";
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				setProducts(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	useEffect(() => {
@@ -31,6 +35,11 @@ const Products = () => {
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
 							<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
 								<div className="overflow-hidden">
+									<Link
+										to="/setting/product/new"
+										className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+										追加
+									</Link>
 									<table className="min-w-full">
 										<thead className="bg-white border-b">
 											<tr>
