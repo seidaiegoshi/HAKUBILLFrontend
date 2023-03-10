@@ -6,7 +6,10 @@ import ProductModal from "./ProductSearchModal";
 
 const CreateDeliverySlip = () => {
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
-	const showModal = () => {
+	const [rowIndex, setRowIndex] = useState(null); //modalの状態管理
+
+	const showModal = (index) => {
+		setRowIndex(index);
 		setProductModal(true);
 	};
 
@@ -14,17 +17,30 @@ const CreateDeliverySlip = () => {
 		{ id: 1, name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
 	]);
 
-	const handleChange = (index, name, value) => {
+	const handleChange = (index, columnName, value) => {
+		console.log(index, columnName, value);
 		const newContents = [...contents];
-		newContents[index][name] = value;
+		newContents[index][columnName] = value;
 
 		newContents[index].subtotal = contents[index].quantity * contents[index].price;
 		setContents(newContents);
 	};
 
+	const getProduct = (id) => {
+		const requestUrl = `/products/${id}`;
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				setCategories(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	const addRow = () => {
 		const newId = contents.length + 1;
-		const newData = { id: newId, name: "", unit: "", price: 0, quantity: 0, subtotal: 0 };
+		const newData = { id: newId, product_id: null, name: "", unit: "", price: 0, quantity: 0, subtotal: 0 };
 		const newTableData = [...contents, newData];
 		setContents(newTableData);
 	};
@@ -36,7 +52,12 @@ const CreateDeliverySlip = () => {
 			<div className="flex flex-col">
 				<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
 					<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-						<ProductModal showFlag={productModal} setModal={setProductModal} />
+						<ProductModal
+							showFlag={productModal}
+							setModal={setProductModal}
+							setProductName={handleChange}
+							rowIndex={rowIndex}
+						/>
 
 						<div className="overflow-hidden">
 							<table className="min-w-full">
@@ -71,7 +92,9 @@ const CreateDeliverySlip = () => {
 														onChange={(e) => handleChange(index, "name", e.target.value)}
 													/>
 													<button
-														onClick={showModal}
+														onClick={() => {
+															showModal(index);
+														}}
 														className="justify-between block uppercase mx-auto mt-3 shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">
 														選択する
 													</button>
