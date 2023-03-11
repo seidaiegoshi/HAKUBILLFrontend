@@ -3,6 +3,7 @@ import Header from "./../../components/Header";
 import SideButton from "../../components/SideButton";
 import TextInput from "../../components/Atoms/TextInput";
 import ProductModal from "./ProductSearchModal";
+import axios from "./../../libs/axios";
 
 const CreateDeliverySlip = () => {
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
@@ -14,33 +15,28 @@ const CreateDeliverySlip = () => {
 	};
 
 	const [contents, setContents] = useState([
-		{ id: 1, name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
+		{ id: 1, product_id: null, product_name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
 	]);
 
-	const handleChange = (index, columnName, value) => {
-		console.log(index, columnName, value);
+	const handleChange = (index, obj) => {
 		const newContents = [...contents];
-		newContents[index][columnName] = value;
+		newContents[index] = { ...newContents[index], ...obj };
+		newContents[index].subtotal = newContents[index].quantity * newContents[index].price;
 
-		newContents[index].subtotal = contents[index].quantity * contents[index].price;
 		setContents(newContents);
-	};
-
-	const getProduct = (id) => {
-		const requestUrl = `/products/${id}`;
-		axios
-			.get(requestUrl)
-			.then((response) => {
-				setCategories(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
 	};
 
 	const addRow = () => {
 		const newId = contents.length + 1;
-		const newData = { id: newId, product_id: null, name: "", unit: "", price: 0, quantity: 0, subtotal: 0 };
+		const newData = {
+			id: newId,
+			product_id: null,
+			product_name: "",
+			unit: "",
+			price: 0,
+			quantity: 0,
+			subtotal: 0,
+		};
 		const newTableData = [...contents, newData];
 		setContents(newTableData);
 	};
@@ -88,8 +84,8 @@ const CreateDeliverySlip = () => {
 												<div className="flex  ">
 													<TextInput
 														type="text"
-														value={content.name}
-														onChange={(e) => handleChange(index, "name", e.target.value)}
+														value={content.product_name}
+														onChange={(e) => handleChange(index, { product_name: e.target.value })}
 													/>
 													<button
 														onClick={() => {
@@ -101,20 +97,24 @@ const CreateDeliverySlip = () => {
 												</div>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{content.unit}
+												<TextInput
+													type="text"
+													value={content.unit}
+													onChange={(e) => handleChange(index, { unit: e.target.value })}
+												/>{" "}
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
 													type="text"
 													value={content.price}
-													onChange={(e) => handleChange(index, "price", e.target.value)}
+													onChange={(e) => handleChange(index, { price: e.target.value })}
 												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
 													type="text"
 													value={content.quantity}
-													onChange={(e) => handleChange(index, "quantity", e.target.value)}
+													onChange={(e) => handleChange(index, { quantity: e.target.value })}
 												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

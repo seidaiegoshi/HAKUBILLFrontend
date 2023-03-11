@@ -8,8 +8,6 @@ const ProductSearchModal = (props) => {
 	const [showProducts, setsShowProducts] = useState(false);
 	const [selectedCategory, setSelectedCategory] = useState();
 
-	const [selectedProduct, setSelectedProduct] = useState();
-
 	const handleClickCategory = (index) => {
 		setsShowProducts(true);
 		setSelectedCategory(index);
@@ -19,9 +17,14 @@ const ProductSearchModal = (props) => {
 		props.setModal(false);
 	};
 
-	const handleClickProduct = (id, name) => {
-		setSelectedProduct(id);
-		props.setProductName(props.rowIndex, "name", name);
+	const handleClickProduct = (index) => {
+		props.setProductName(props.rowIndex, {
+			product_id: categories[selectedCategory].products[index].id,
+			product_name: categories[selectedCategory].products[index].name,
+			unit: categories[selectedCategory].products[index].unit,
+			price: categories[selectedCategory].products[index].price,
+		});
+		closeModal();
 	};
 
 	const fetchProducts = () => {
@@ -30,6 +33,7 @@ const ProductSearchModal = (props) => {
 			.get(requestUrl)
 			.then((response) => {
 				setCategories(response.data);
+				console.log(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -73,24 +77,37 @@ const ProductSearchModal = (props) => {
 									})}
 								</ul>
 							</div>
-							商品名
 							<div>
 								<ul>
 									{showProducts ? (
-										<ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg ">
-											{categories[selectedCategory].products.map((product) => {
-												return (
-													<li
-														key={product.id}
-														onClick={() => {
-															handleClickProduct(product.id, product.name);
-														}}
-														className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
-														{product.name}
-													</li>
-												);
-											})}
-										</ul>
+										<>
+											<table className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+												<thead>
+													<tr>
+														<th>商品名</th>
+														<th>単位</th>
+													</tr>
+												</thead>
+												<tbody>
+													{categories[selectedCategory].products.map((product, index) => {
+														return (
+															<tr key={product.id}>
+																<td
+																	onClick={() => {
+																		handleClickProduct(index);
+																	}}
+																	className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
+																	{product.name}
+																</td>
+																<td className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
+																	{product.unit}
+																</td>
+															</tr>
+														);
+													})}
+												</tbody>
+											</table>
+										</>
 									) : (
 										<></>
 									)}
