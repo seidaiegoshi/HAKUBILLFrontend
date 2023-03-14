@@ -29,9 +29,10 @@ const ProductAdd = () => {
 	};
 
 	const postProduct = () => {
-		const requestUrl = "/products";
+		const requestUrl = "/product";
 		const params = new FormData();
 		params.append("name", Name);
+		params.append("product_category_id", 1);
 		params.append("unit", Unit);
 		params.append("cost", Cost);
 		params.append("price", Price);

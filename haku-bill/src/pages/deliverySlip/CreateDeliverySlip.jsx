@@ -1,22 +1,28 @@
 import React, { useState } from "react";
 import Header from "./../../components/Header";
-import SideButton from "../../components/SideButton";
+import SideButton from "./SideButton";
 import TextInput from "../../components/Atoms/TextInput";
 import ProductModal from "./ProductSearchModal";
 import axios from "./../../libs/axios";
+import { format } from "date-fns";
 
 const CreateDeliverySlip = () => {
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
-	const [rowIndex, setRowIndex] = useState(null); //modalの状態管理
+	const [rowIndex, setRowIndex] = useState(null);
+	const [deliverySlip, setDeliverySlip] = useState({
+		customer_id: null,
+		customer_name: "",
+		publish_date: "",
+	});
+
+	const [contents, setContents] = useState([
+		{ id: 1, product_id: null, product_name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
+	]);
 
 	const showModal = (index) => {
 		setRowIndex(index);
 		setProductModal(true);
 	};
-
-	const [contents, setContents] = useState([
-		{ id: 1, product_id: null, product_name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
-	]);
 
 	const handleChange = (index, obj) => {
 		const newContents = [...contents];
@@ -24,6 +30,47 @@ const CreateDeliverySlip = () => {
 		newContents[index].subtotal = newContents[index].quantity * newContents[index].price;
 
 		setContents(newContents);
+	};
+
+	const handleCustomerChange = (obj) => {
+		const newCustomer = { ...deliverySlip, ...obj };
+		console.log(obj);
+		setDeliverySlip(newCustomer);
+	};
+
+	const postDeliverySlip = async () => {
+		const dsUrl = "/delivery_slip";
+		const DSParam = new FormData();
+		let deliverySlipId = null;
+		DSParam.append("customer_id", 1);
+		DSParam.append("publish_date", format(new Date(), "yyyy-M-d"));
+
+		await axios
+			.post(dsUrl, DSParam)
+			.then((response) => {
+				deliverySlipId = response.data.id;
+			})
+			.catch((e) => {
+				console.log(e);
+			})
+			.finally();
+
+		const dcUrl = "/delivery_slip/contents";
+		const contentsParam = new FormData();
+		const data = contents.map((obj) => ({
+			delivery_slip_id: deliverySlipId,
+			product_id: obj.product_id,
+			quantity: obj.quantity,
+		}));
+		axios
+			.post(dcUrl, [...data])
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((e) => {
+				console.log(e);
+			})
+			.finally();
 	};
 
 	const addRow = () => {
@@ -44,9 +91,23 @@ const CreateDeliverySlip = () => {
 	return (
 		<>
 			<Header />
-			<SideButton />
+			<SideButton register={postDeliverySlip} />
 			<div className="flex flex-col">
 				<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+					<div>
+						<label htmlFor="customer" className="mb-3 block text-base font-medium text-[#07074D]">
+							取引先名
+						</label>
+						<TextInput
+							id="customer"
+							type="text"
+							value={deliverySlip.customer_name}
+							onChange={(e) => {
+								handleCustomerChange({ customer_name: e.target.value });
+							}}
+						/>
+					</div>
+
 					<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
 						<ProductModal
 							showFlag={productModal}
@@ -54,7 +115,6 @@ const CreateDeliverySlip = () => {
 							setProductName={handleChange}
 							rowIndex={rowIndex}
 						/>
-
 						<div className="overflow-hidden">
 							<table className="min-w-full">
 								<thead className="bg-white border-b-2">

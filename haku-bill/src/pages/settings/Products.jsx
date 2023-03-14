@@ -8,7 +8,7 @@ const Products = () => {
 	const [products, setProducts] = useState([]);
 
 	const fetchProducts = () => {
-		const requestUrl = "/products";
+		const requestUrl = "/product";
 		axios
 			.get(requestUrl)
 			.then((response) => {

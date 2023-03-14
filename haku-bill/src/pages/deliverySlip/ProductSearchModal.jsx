@@ -28,12 +28,11 @@ const ProductSearchModal = (props) => {
 	};
 
 	const fetchProducts = () => {
-		const requestUrl = "/products/categories";
+		const requestUrl = "/product/categories";
 		axios
 			.get(requestUrl)
 			.then((response) => {
 				setCategories(response.data);
-				console.log(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
