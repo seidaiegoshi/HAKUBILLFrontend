@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./../../components/Header";
 import SideButton from "./SideButton";
 import TextInput from "../../components/Atoms/TextInput";
@@ -7,17 +7,53 @@ import axios from "./../../libs/axios";
 import { format } from "date-fns";
 
 const CreateDeliverySlip = () => {
-	const [productModal, setProductModal] = useState(false); //modalの状態管理
-	const [rowIndex, setRowIndex] = useState(null);
-	const [deliverySlip, setDeliverySlip] = useState({
-		customer_id: null,
-		customer_name: "",
-		publish_date: "",
-	});
+	const [searchWord, setSearchWord] = useState("");
+	const [suggestions, setSuggestions] = useState([]);
+	const [displayResult, setDisplayResult] = useState(false);
+	const [customerId, setCustomerId] = useState(null);
 
 	const [contents, setContents] = useState([
-		{ id: 1, product_id: null, product_name: "", unit: "", price: 0, quantity: 0, subtotal: 0 },
+		{
+			id: 1,
+			product_id: null,
+			product_name: "",
+			unit: "",
+			price: 0,
+			quantity: 0,
+			gross_profit: 0,
+			subtotal: 0,
+		},
 	]);
+	const [productModal, setProductModal] = useState(false); //modalの状態管理
+	const [rowIndex, setRowIndex] = useState(null);
+
+	const getCustomerList = async (word) => {
+		const requestUrl = `customer/${word}`;
+		let res;
+		await axios
+			.get(requestUrl)
+			.then((response) => {
+				res = response.data;
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+		return res;
+	};
+
+	const handleChangeCustomerInput = (e) => {
+		const input = e.target.value;
+		setSearchWord(input);
+		setDisplayResult(true);
+		getCustomerList(input).then((res) => {
+			setSuggestions(res);
+		});
+	};
+
+	const handleClickSuggestion = (result) => {
+		setSearchWord(result);
+		setDisplayResult(false);
+	};
 
 	const showModal = (index) => {
 		setRowIndex(index);
@@ -30,12 +66,6 @@ const CreateDeliverySlip = () => {
 		newContents[index].subtotal = newContents[index].quantity * newContents[index].price;
 
 		setContents(newContents);
-	};
-
-	const handleCustomerChange = (obj) => {
-		const newCustomer = { ...deliverySlip, ...obj };
-		console.log(obj);
-		setDeliverySlip(newCustomer);
 	};
 
 	const postDeliverySlip = async () => {
@@ -56,7 +86,6 @@ const CreateDeliverySlip = () => {
 			.finally();
 
 		const dcUrl = "/delivery_slip/contents";
-		const contentsParam = new FormData();
 		const data = contents.map((obj) => ({
 			delivery_slip_id: deliverySlipId,
 			product_id: obj.product_id,
@@ -101,11 +130,22 @@ const CreateDeliverySlip = () => {
 						<TextInput
 							id="customer"
 							type="text"
-							value={deliverySlip.customer_name}
-							onChange={(e) => {
-								handleCustomerChange({ customer_name: e.target.value });
-							}}
+							value={searchWord}
+							onChange={(e) => handleChangeCustomerInput(e)}
 						/>
+						{displayResult && (
+							<ul className="absolute bg-white ">
+								{suggestions.map((item) => (
+									<li
+										key={item.id}
+										onClick={() => {
+											handleClickSuggestion(item.name);
+										}}>
+										{item.name}
+									</li>
+								))}
+							</ul>
+						)}
 					</div>
 
 					<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
