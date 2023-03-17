@@ -50,8 +50,9 @@ const CreateDeliverySlip = () => {
 		});
 	};
 
-	const handleClickSuggestion = (result) => {
-		setSearchWord(result);
+	const handleClickSuggestion = (customer) => {
+		setSearchWord(customer.name);
+		setCustomerId(customer.id);
 		setDisplayResult(false);
 	};
 
@@ -72,7 +73,7 @@ const CreateDeliverySlip = () => {
 		const dsUrl = "/delivery_slip";
 		const DSParam = new FormData();
 		let deliverySlipId = null;
-		DSParam.append("customer_id", 1);
+		DSParam.append("customer_id", customerId);
 		DSParam.append("publish_date", format(new Date(), "yyyy-M-d"));
 
 		await axios
@@ -139,7 +140,7 @@ const CreateDeliverySlip = () => {
 									<li
 										key={item.id}
 										onClick={() => {
-											handleClickSuggestion(item.name);
+											handleClickSuggestion(item);
 										}}>
 										{item.name}
 									</li>
