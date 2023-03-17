@@ -18,11 +18,12 @@ const ProductSearchModal = (props) => {
 	};
 
 	const handleClickProduct = (index) => {
-		props.setProductName(props.rowIndex, {
+		props.setProduct(props.rowIndex, {
 			product_id: categories[selectedCategory].products[index].id,
 			product_name: categories[selectedCategory].products[index].name,
 			unit: categories[selectedCategory].products[index].unit,
 			price: categories[selectedCategory].products[index].price,
+			cost: categories[selectedCategory].products[index].cost,
 		});
 		closeModal();
 	};

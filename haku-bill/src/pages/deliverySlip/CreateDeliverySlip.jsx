@@ -20,6 +20,7 @@ const CreateDeliverySlip = () => {
 			unit: "",
 			price: 0,
 			quantity: 0,
+			cost: 0,
 			gross_profit: 0,
 			subtotal: 0,
 		},
@@ -65,6 +66,7 @@ const CreateDeliverySlip = () => {
 		const newContents = [...contents];
 		newContents[index] = { ...newContents[index], ...obj };
 		newContents[index].subtotal = newContents[index].quantity * newContents[index].price;
+		newContents[index].gross_profit = newContents[index].price - newContents[index].cost;
 
 		setContents(newContents);
 	};
@@ -91,6 +93,8 @@ const CreateDeliverySlip = () => {
 			delivery_slip_id: deliverySlipId,
 			product_id: obj.product_id,
 			quantity: obj.quantity,
+			price: obj.price,
+			gross_profit: obj.gross_profit,
 		}));
 		axios
 			.post(dcUrl, [...data])
@@ -112,6 +116,8 @@ const CreateDeliverySlip = () => {
 			unit: "",
 			price: 0,
 			quantity: 0,
+			cost: 0,
+			gross_profit: 0,
 			subtotal: 0,
 		};
 		const newTableData = [...contents, newData];
@@ -153,7 +159,7 @@ const CreateDeliverySlip = () => {
 						<ProductModal
 							showFlag={productModal}
 							setModal={setProductModal}
-							setProductName={handleChange}
+							setProduct={handleChange}
 							rowIndex={rowIndex}
 						/>
 						<div className="overflow-hidden">
