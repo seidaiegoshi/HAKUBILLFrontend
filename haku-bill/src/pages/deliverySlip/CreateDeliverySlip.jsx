@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./../../components/Header";
 import SideButton from "./SideButton";
 import TextInput from "../../components/Atoms/TextInput";
 import ProductModal from "./ProductSearchModal";
 import axios from "./../../libs/axios";
 import { format } from "date-fns";
+import { useReactToPrint } from "react-to-print";
+import PrintComponent from "./PrintComponent";
 
 const CreateDeliverySlip = () => {
 	const [searchWord, setSearchWord] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [displayResult, setDisplayResult] = useState(false);
-	const [customerId, setCustomerId] = useState(null);
 
-	const [contents, setContents] = useState([
-		{
-			id: 1,
-			product_id: null,
-			product_name: "",
-			unit: "",
-			price: 0,
-			quantity: 0,
-			cost: 0,
-			gross_profit: 0,
-			subtotal: 0,
-		},
-	]);
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
 	const [rowIndex, setRowIndex] = useState(null);
+
+	const defaultContent = {
+		product_id: null,
+		product_name: "",
+		unit: "",
+		price: 0,
+		quantity: 0,
+		cost: 0,
+		gross_profit: 0,
+		subtotal: 0,
+	};
+
+	const [deliverySlip, setDeliverySlip] = useState({
+		customerId: null,
+		deliverySlipNumber: 0,
+		customerName: "",
+		customerAddress: "",
+		publishDate: format(new Date(), "yyyy-M-d"),
+		contents: [defaultContent],
+		totalAmount: 0,
+	});
 
 	const getCustomerList = async (word) => {
 		const requestUrl = `customer/${word}`;
@@ -52,8 +61,11 @@ const CreateDeliverySlip = () => {
 	};
 
 	const handleClickSuggestion = (customer) => {
+		const newDeliverySlip = { ...deliverySlip };
+		newDeliverySlip.customerId = customer.id;
+		newDeliverySlip.customerName = customer.name;
 		setSearchWord(customer.name);
-		setCustomerId(customer.id);
+		setDeliverySlip(newDeliverySlip);
 		setDisplayResult(false);
 	};
 
@@ -63,20 +75,22 @@ const CreateDeliverySlip = () => {
 	};
 
 	const handleChange = (index, obj) => {
-		const newContents = [...contents];
-		newContents[index] = { ...newContents[index], ...obj };
-		newContents[index].subtotal = newContents[index].quantity * newContents[index].price;
-		newContents[index].gross_profit = newContents[index].price - newContents[index].cost;
+		const newDeliverySlip = { ...deliverySlip };
+		newDeliverySlip.contents[index] = { ...newDeliverySlip.contents[index], ...obj };
+		newDeliverySlip.contents[index].subtotal =
+			newDeliverySlip.contents[index].quantity * newDeliverySlip.contents[index].price;
+		newDeliverySlip.contents[index].gross_profit =
+			newDeliverySlip.contents[index].price - newDeliverySlip.contents[index].cost;
 
-		setContents(newContents);
+		setDeliverySlip(newDeliverySlip);
 	};
 
 	const postDeliverySlip = async () => {
 		const dsUrl = "/delivery_slip";
 		const DSParam = new FormData();
 		let deliverySlipId = null;
-		DSParam.append("customer_id", customerId);
-		DSParam.append("publish_date", format(new Date(), "yyyy-M-d"));
+		DSParam.append("customer_id", deliverySlip.customerId);
+		DSParam.append("publish_date", deliverySlip.publishDate);
 
 		await axios
 			.post(dsUrl, DSParam)
@@ -89,7 +103,7 @@ const CreateDeliverySlip = () => {
 			.finally();
 
 		const dcUrl = "/delivery_slip/contents";
-		const data = contents.map((obj) => ({
+		const data = deliverySlip.contents.map((obj) => ({
 			delivery_slip_id: deliverySlipId,
 			product_id: obj.product_id,
 			quantity: obj.quantity,
@@ -108,26 +122,24 @@ const CreateDeliverySlip = () => {
 	};
 
 	const addRow = () => {
-		const newId = contents.length + 1;
-		const newData = {
-			id: newId,
-			product_id: null,
-			product_name: "",
-			unit: "",
-			price: 0,
-			quantity: 0,
-			cost: 0,
-			gross_profit: 0,
-			subtotal: 0,
-		};
-		const newTableData = [...contents, newData];
-		setContents(newTableData);
+		const newData = { ...defaultContent };
+		const newDeliverySlipContents = [...deliverySlip.contents, newData];
+
+		const newDeliverySlip = { ...deliverySlip };
+		newDeliverySlip.contents = newDeliverySlipContents;
+		setDeliverySlip(newDeliverySlip);
 	};
+
+	const componentRef = useRef();
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
 
 	return (
 		<>
 			<Header />
-			<SideButton register={postDeliverySlip} />
+			<SideButton register={postDeliverySlip} print={handlePrint} />
+
 			<div className="flex flex-col">
 				<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
 					<div>
@@ -185,13 +197,13 @@ const CreateDeliverySlip = () => {
 								</thead>
 
 								<tbody>
-									{contents.map((content, index) => (
-										<tr key={content.id} className="bg-white border-b">
+									{deliverySlip.contents.map((item, index) => (
+										<tr key={index} className="bg-white border-b">
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<div className="flex  ">
 													<TextInput
 														type="text"
-														value={content.product_name}
+														value={item.product_name}
 														onChange={(e) => handleChange(index, { product_name: e.target.value })}
 													/>
 													<button
@@ -206,26 +218,26 @@ const CreateDeliverySlip = () => {
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
 													type="text"
-													value={content.unit}
+													value={item.unit}
 													onChange={(e) => handleChange(index, { unit: e.target.value })}
 												/>{" "}
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
 													type="text"
-													value={content.price}
+													value={item.price}
 													onChange={(e) => handleChange(index, { price: e.target.value })}
 												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
 													type="text"
-													value={content.quantity}
+													value={item.quantity}
 													onChange={(e) => handleChange(index, { quantity: e.target.value })}
 												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{content.subtotal}
+												{item.subtotal}
 											</td>
 										</tr>
 									))}
@@ -239,6 +251,10 @@ const CreateDeliverySlip = () => {
 						</button>
 					</div>
 				</div>
+			</div>
+
+			<div className="">
+				<PrintComponent deliverySlipData={deliverySlip} ref={componentRef} />
 			</div>
 		</>
 	);

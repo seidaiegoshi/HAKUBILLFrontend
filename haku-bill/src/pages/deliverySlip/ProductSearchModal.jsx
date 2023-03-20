@@ -49,7 +49,7 @@ const ProductSearchModal = (props) => {
 		<>
 			<div
 				id="overlay"
-				className="fixed h-screen w-screen flex justify-center items-center top-0 left-0  bg-slate-900/50">
+				className="fixed h-screen w-screen flex justify-center items-center top-0 left-0  bg-slate-900/50 z-50">
 				<div id="modalContent" className="bg-white p-5 rounded-sm">
 					<div className="flex justify-end w-full">
 						<button
