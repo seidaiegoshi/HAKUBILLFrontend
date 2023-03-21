@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./../../components/Header";
 import SideButton from "./SideButton";
 import TextInput from "../../components/Atoms/TextInput";
@@ -29,13 +29,32 @@ const CreateDeliverySlip = () => {
 
 	const [deliverySlip, setDeliverySlip] = useState({
 		customerId: null,
-		deliverySlipNumber: 0,
+		deliverySlipNumber: null,
 		customerName: "",
 		customerAddress: "",
 		publishDate: format(new Date(), "yyyy-M-d"),
 		contents: [defaultContent],
 		totalAmount: 0,
 	});
+
+	const fetchDeliverySlipId = () => {
+		const requestUrl = "/delivery_slip/create";
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				const newDS = { ...deliverySlip };
+				newDS.deliverySlipNumber = response.data + 1;
+				setDeliverySlip(newDS);
+				console.log(newDS);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	useEffect(() => {
+		fetchDeliverySlipId();
+	}, []);
 
 	const getCustomerList = async (word) => {
 		const requestUrl = `customer/${word}`;
@@ -77,10 +96,16 @@ const CreateDeliverySlip = () => {
 	const handleChange = (index, obj) => {
 		const newDeliverySlip = { ...deliverySlip };
 		newDeliverySlip.contents[index] = { ...newDeliverySlip.contents[index], ...obj };
+
 		newDeliverySlip.contents[index].subtotal =
 			newDeliverySlip.contents[index].quantity * newDeliverySlip.contents[index].price;
+
 		newDeliverySlip.contents[index].gross_profit =
 			newDeliverySlip.contents[index].price - newDeliverySlip.contents[index].cost;
+
+		newDeliverySlip.totalAmount = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
+			return accumulator + currentValue.subtotal;
+		}, 0);
 
 		setDeliverySlip(newDeliverySlip);
 	};
