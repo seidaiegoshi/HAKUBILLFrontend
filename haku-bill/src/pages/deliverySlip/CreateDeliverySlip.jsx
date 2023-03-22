@@ -244,7 +244,7 @@ const CreateDeliverySlip = () => {
 													type="text"
 													value={item.unit}
 													onChange={(e) => handleChange(index, { unit: e.target.value })}
-												/>{" "}
+												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 												<TextInput
@@ -261,7 +261,7 @@ const CreateDeliverySlip = () => {
 												/>
 											</td>
 											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-												{item.subtotal}
+												{Number(item.subtotal).toLocaleString("jp-JP")}
 											</td>
 										</tr>
 									))}

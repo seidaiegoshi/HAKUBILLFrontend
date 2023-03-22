@@ -3,6 +3,9 @@ import React from "react";
 
 const PrintComponent = React.forwardRef((props, ref) => {
 	const deliverySlipData = props.deliverySlipData;
+	const toCommaStyle = (value) => {
+		return Number(value).toLocaleString("jp-JP");
+	};
 
 	return (
 		<div className="container mx-auto p-8">
@@ -37,16 +40,20 @@ const PrintComponent = React.forwardRef((props, ref) => {
 							{deliverySlipData.contents.map((item, index) => (
 								<tr key={index} className={`${index % 2 === 0 ? "bg-gray-50" : ""}`}>
 									<td className="border border-gray-300 px-4 py-2">{item.product_name}</td>
-									<td className="border border-gray-300 text-right px-4 py-2">{item.price}</td>
-									<td className="border border-gray-300 text-right px-4 py-2">{item.quantity}</td>
-									<td className="border border-gray-300 text-right px-4 py-2">{item.subtotal}</td>
+									<td className="border border-gray-300 text-right px-4 py-2">{toCommaStyle(item.price)}</td>
+									<td className="border border-gray-300 text-right px-4 py-2">
+										{toCommaStyle(item.quantity)}
+									</td>
+									<td className="border border-gray-300 text-right px-4 py-2">
+										{toCommaStyle(item.subtotal)}
+									</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
 
 					<div className="text-right mt-4">
-						<p className="font-bold ">合計金額: {deliverySlipData.totalAmount}</p>
+						<p className="font-bold ">合計金額: {toCommaStyle(deliverySlipData.totalAmount)}</p>
 					</div>
 				</div>
 			</div>
