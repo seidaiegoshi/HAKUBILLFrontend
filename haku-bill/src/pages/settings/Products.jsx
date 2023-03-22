@@ -47,6 +47,9 @@ const Products = () => {
 													商品名
 												</th>
 												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+													カテゴリ
+												</th>
+												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
 													単位
 												</th>
 												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -62,6 +65,9 @@ const Products = () => {
 												<tr key={value.id} className="bg-white border-b">
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.name}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+														{value.category_name}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.unit}
