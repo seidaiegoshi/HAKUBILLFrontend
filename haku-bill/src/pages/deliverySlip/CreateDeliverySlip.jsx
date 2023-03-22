@@ -45,7 +45,6 @@ const CreateDeliverySlip = () => {
 				const newDS = { ...deliverySlip };
 				newDS.deliverySlipNumber = response.data + 1;
 				setDeliverySlip(newDS);
-				console.log(newDS);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -210,7 +209,7 @@ const CreateDeliverySlip = () => {
 											単位
 										</th>
 										<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-											金額
+											単価
 										</th>
 										<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
 											数量

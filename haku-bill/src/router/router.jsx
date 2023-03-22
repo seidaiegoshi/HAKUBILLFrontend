@@ -5,6 +5,8 @@ import Settings from "../pages/Settings";
 import Products from "../pages/settings/Products";
 import ProductAdd from "../pages/settings/ProductAdd";
 import Analysis from "../pages/analysis/Analysis";
+import FixedCosts from "../pages/settings/FixedCosts";
+import FixedCostAdd from "../pages/settings/FixedCostAdd";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
@@ -18,6 +20,8 @@ const routes = createRoutes(
 		<Route path="/setting" element={<Settings />} />
 		<Route path="/setting/product" element={<Products />} />
 		<Route path="/setting/product/new" element={<ProductAdd />} />
+		<Route path="/setting/fixed_cost" element={<FixedCosts />} />
+		<Route path="/setting/fixed_cost/new" element={<FixedCostAdd />} />
 	</Route>
 );
 
