@@ -1,6 +1,6 @@
 import axios from "./../../libs/axios";
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
+import SettingSidebar from "./SettingSidebar";
 import Header from "./../../components/Header";
 import { Link } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const Products = () => {
 			<Header />
 			<div className="flex">
 				<div className="flex-none">
-					<Sidebar />
+					<SettingSidebar />
 				</div>
 				<div className="flex-initial">
 					<div className="flex flex-col">

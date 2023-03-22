@@ -2,7 +2,7 @@ import axios from "./../../libs/axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
+import SettingSidebar from "./SettingSidebar";
 
 const ProductAdd = () => {
 	const navigate = useNavigate();
@@ -54,7 +54,7 @@ const ProductAdd = () => {
 			<Header />
 			<div className="flex flex-row">
 				<div className="flex-none">
-					<Sidebar />
+					<SettingSidebar />
 				</div>
 				<div className="flex flex-auto justify-start p-12">
 					<div className="ml-0 w-full max-w-[550px]">

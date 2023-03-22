@@ -1,10 +1,7 @@
 import React from "react";
-import LinkButton from "./Atoms/LinkButton";
+import LinkButton from "../../components/Atoms/LinkButton";
 
-const Sidebar = () => {
-	// propsでpath,text,iconを受け取って、それを表示するようにする。
-	// 現在のurlとpathが一致する場合、背景色を変更する。
-
+const SettingSidebar = () => {
 	return (
 		<>
 			<aside className="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
@@ -54,4 +51,4 @@ const Sidebar = () => {
 	);
 };
 
-export default Sidebar;
+export default SettingSidebar;
