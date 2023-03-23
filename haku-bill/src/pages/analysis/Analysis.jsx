@@ -9,7 +9,7 @@ const Analysis = () => {
 	const [graphData, setGraphData] = useState([]);
 
 	const fetchProfit = (startDate, endDate) => {
-		const requestUrl = `/delivery_slip/daily_profit/${startDate}/${endDate}`;
+		const requestUrl = `/analysis/daily_profit/${startDate}/${endDate}`;
 		console.log(requestUrl);
 		axios
 			.get(requestUrl)
