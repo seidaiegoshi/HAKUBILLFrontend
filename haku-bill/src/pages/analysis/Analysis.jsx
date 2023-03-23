@@ -6,7 +6,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import CalendarComponent from "./CalendarComponent";
 
 const Analysis = () => {
-	const [span, setSpan] = useState(["start_date", "end_date"]);
 	const [graphData, setGraphData] = useState([]);
 
 	const fetchProfit = (startDate, endDate) => {
@@ -16,7 +15,6 @@ const Analysis = () => {
 			.get(requestUrl)
 			.then((response) => {
 				setGraphData(cumulativeData(response.data));
-				setSpan([response.data[0].publish_date, response.data[response.data.length - 1].publish_date]);
 			})
 			.catch((error) => {
 				console.log(error);

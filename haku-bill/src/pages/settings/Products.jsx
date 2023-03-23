@@ -58,6 +58,12 @@ const Products = () => {
 												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
 													価格
 												</th>
+												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+													粗利
+												</th>
+												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+													粗利率
+												</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -77,6 +83,12 @@ const Products = () => {
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{Number(value.price).toLocaleString("jp-JP") + "円"}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+														{Number(value.gross_profit).toLocaleString("jp-JP") + "円"}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+														{Number(value.gross_rate).toLocaleString("jp-JP") + "円"}
 													</td>
 												</tr>
 											))}
