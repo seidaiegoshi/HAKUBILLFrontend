@@ -20,7 +20,7 @@ const ProductAdd = () => {
 	const [categories, setCategories] = useState([]);
 
 	const fetchCategories = () => {
-		const requestUrl = "/product/categories";
+		const requestUrl = "/product/groupByCategories";
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -54,8 +54,8 @@ const ProductAdd = () => {
 		params.append("cost", product.cost);
 		params.append("price", product.price);
 		params.append("tax_class", product.tax_class);
-		params.append("tax_class", product.gross_profit);
-		params.append("tax_class", product.gross_rate);
+		params.append("gross_profit", product.gross_profit);
+		params.append("gross_rate", product.gross_rate);
 		axios
 			.post(requestUrl, params)
 			.then((response) => {

@@ -88,7 +88,7 @@ const Products = () => {
 														{Number(value.gross_profit).toLocaleString("jp-JP") + "円"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-														{Number(value.gross_rate).toLocaleString("jp-JP") + "円"}
+														{(value.gross_rate * 100).toFixed(1) + "%"}
 													</td>
 												</tr>
 											))}
