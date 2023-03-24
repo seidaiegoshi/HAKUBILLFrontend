@@ -58,18 +58,20 @@ const ProductEdit = () => {
 	};
 
 	const postProduct = () => {
-		const requestUrl = "/product";
-		const params = new FormData();
-		params.append("name", product.name);
-		params.append("product_category_id", product.category_id);
-		params.append("unit", product.unit);
-		params.append("cost", product.cost);
-		params.append("price", product.price);
-		params.append("tax_class", product.tax_class);
-		params.append("gross_profit", product.gross_profit);
-		params.append("gross_rate", product.gross_rate);
+		const requestUrl = `/product/${id}`;
+		const params = {
+			name: product.name,
+			product_category_id: product.product_category_id,
+			unit: product.unit,
+			cost: product.cost,
+			price: product.price,
+			tax_class: product.tax_class,
+			gross_profit: product.gross_profit,
+			gross_rate: product.gross_rate,
+		};
+		console.log(params);
 		axios
-			.post(requestUrl, params)
+			.patch(requestUrl, params)
 			.then((response) => {
 				console.log(response);
 				navigate("/setting/product");
