@@ -24,7 +24,9 @@ const Header = () => {
 						納品書
 					</Link>
 					<a className="mr-5 hover:text-gray-900">請求書</a>
-					<a className="mr-5 hover:text-gray-900">分析</a>
+					<Link to="/analysis" className="mr-5 hover:text-gray-900">
+						分析
+					</Link>
 					<Link to="/setting/product" className="mr-5 hover:text-gray-900">
 						設定
 					</Link>
