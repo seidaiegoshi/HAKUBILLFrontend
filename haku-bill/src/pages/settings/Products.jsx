@@ -9,7 +9,7 @@ import { parseISO, format } from "date-fns";
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
-	const [sortColumn, setSortColumn] = useState("created_at");
+	const [sortColumn, setSortColumn] = useState("updated_at");
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [deleteProductId, setDeleteProductId] = useState(null);
 
@@ -96,7 +96,7 @@ const Products = () => {
 									<Link
 										to="/setting/product/new"
 										className="inline-flex items-center bg-gray-100 border-0 m-3 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-										商品を追加する
+										商品を追加
 									</Link>
 									<table className="min-w-full table-auto mt-4">
 										<thead className="bg-white border-b">
@@ -167,9 +167,9 @@ const Products = () => {
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-													onClick={() => handleSortClick("created_at")}>
-													追加日
-													{sortColumn === "created_at" && (
+													onClick={() => handleSortClick("updated_at")}>
+													更新日
+													{sortColumn === "updated_at" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -202,7 +202,7 @@ const Products = () => {
 														{(value.gross_rate * 100).toFixed(1) + "%"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														{format(parseISO(value.created_at), "yyyy-MM-dd")}
+														{format(parseISO(value.updated_at), "yyyy-MM-dd")}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														<button

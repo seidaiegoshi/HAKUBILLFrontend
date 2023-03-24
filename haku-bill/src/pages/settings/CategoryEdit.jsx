@@ -1,27 +1,45 @@
 import axios from "./../../libs/axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import SettingSidebar from "./SettingSidebar";
 
-const CategoryAdd = () => {
+const CategoryEdit = () => {
 	const navigate = useNavigate();
-	const [category, setCategory] = useState({
+	const { id } = useParams();
+	const [category, setProduct] = useState({
 		name: "",
 	});
+
+	const fetchCategory = () => {
+		const requestUrl = `/category/${id}`;
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				setProduct(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	useEffect(() => {
+		fetchCategory();
+	}, []);
 
 	const handleChange = (key, value) => {
 		const newCategory = { ...category };
 		newCategory[key] = value;
-		setCategory(newCategory);
+		newCategory.gross_profit = newCategory.price - newCategory.cost;
+		newCategory.gross_rate = newCategory.gross_profit / newCategory.price;
+
+		setProduct(newCategory);
 	};
 
-	const postCategory = () => {
-		const requestUrl = "/category";
-		const params = new FormData();
-		params.append("name", category.name);
+	const updateCategory = () => {
+		const requestUrl = `/category/${id}`;
 		axios
-			.post(requestUrl, params)
+			.patch(requestUrl, { name: category.name })
 			.then((response) => {
 				navigate("/setting/category");
 			})
@@ -49,6 +67,7 @@ const CategoryAdd = () => {
 								name="name"
 								id="name"
 								placeholder="カテゴリ名"
+								value={category.name}
 								onChange={(e) => handleChange("name", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
@@ -56,9 +75,9 @@ const CategoryAdd = () => {
 
 						<div>
 							<button
-								onClick={postCategory}
+								onClick={updateCategory}
 								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								登録
+								カテゴリ情報を更新
 							</button>
 						</div>
 					</div>
@@ -68,4 +87,4 @@ const CategoryAdd = () => {
 	);
 };
 
-export default CategoryAdd;
+export default CategoryEdit;

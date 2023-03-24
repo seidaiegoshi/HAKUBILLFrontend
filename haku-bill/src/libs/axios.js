@@ -6,14 +6,6 @@ const api = axios.create({
 	timeout: 60000,
 });
 
-// api.interceptors.request.use((config) => {
-// 	const token = getToken();
-// 	if (!!token && !!config.headers) {
-// 		config.headers.Authorization = `Bearer ${token}`;
-// 	}
-// 	return config;
-// });
-
 // エラーハンドル
 api.interceptors.response.use(
 	(response) => {
