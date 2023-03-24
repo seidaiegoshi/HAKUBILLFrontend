@@ -4,11 +4,12 @@ import SettingSidebar from "./SettingSidebar";
 import Header from "./../../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import { parseISO, format } from "date-fns";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
-	const [sortOrder, setSortOrder] = useState("asc");
-	const [sortColumn, setSortColumn] = useState("name");
+	const [sortOrder, setSortOrder] = useState("desc");
+	const [sortColumn, setSortColumn] = useState("created_at");
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const [deleteProductId, setDeleteProductId] = useState(null);
 
@@ -94,15 +95,15 @@ const Products = () => {
 								<div className="overflow-hidden">
 									<Link
 										to="/setting/product/new"
-										className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+										className="inline-flex items-center bg-gray-100 border-0 m-3 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
 										商品を追加する
 									</Link>
-									<table className="min-w-full">
+									<table className="min-w-full table-auto mt-4">
 										<thead className="bg-white border-b">
-											<tr>
+											<tr className="bg-gray-200">
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("name")}>
 													商品名
 													{sortColumn === "name" && (
@@ -111,7 +112,7 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("category_name")}>
 													カテゴリ
 													{sortColumn === "category_name" && (
@@ -120,7 +121,7 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("unit")}>
 													単位
 													{sortColumn === "unit" && (
@@ -129,7 +130,7 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("cost")}>
 													原価
 													{sortColumn === "cost" && (
@@ -138,7 +139,7 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("price")}>
 													価格
 													{sortColumn === "price" && (
@@ -147,7 +148,7 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("gross_profit")}>
 													粗利
 													{sortColumn === "gross_profit" && (
@@ -156,40 +157,54 @@ const Products = () => {
 												</th>
 												<th
 													scope="col"
-													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("gross_rate")}>
 													粗利率
 													{sortColumn === "gross_rate" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
+												<th
+													scope="col"
+													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
+													onClick={() => handleSortClick("created_at")}>
+													追加日
+													{sortColumn === "created_at" && (
+														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+													)}
+												</th>
+												<th></th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											{sortedProducts.map((value) => (
 												<tr key={value.id} className="bg-white border-b">
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{value.name}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{value.category_name}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{value.unit}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{Number(value.cost).toLocaleString("jp-JP") + "円"}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{Number(value.price).toLocaleString("jp-JP") + "円"}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{Number(value.gross_profit).toLocaleString("jp-JP") + "円"}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{(value.gross_rate * 100).toFixed(1) + "%"}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+														{format(parseISO(value.created_at), "yyyy-MM-dd")}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														<button
 															onClick={() => handleEditClick(value.id)}
 															className="bg-gray-100 hover:bg-gray-200 text-base  py-2 px-4
@@ -197,7 +212,7 @@ const Products = () => {
 															編集
 														</button>
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														<button
 															className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"
 															onClick={() => handleDeleteClick(value.id)}>

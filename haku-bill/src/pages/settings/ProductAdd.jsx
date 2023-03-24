@@ -41,7 +41,6 @@ const ProductAdd = () => {
 		newProduct.gross_profit = newProduct.price - newProduct.cost;
 		newProduct.gross_rate = newProduct.gross_profit / newProduct.price;
 
-		console.log(newProduct);
 		setProduct(newProduct);
 	};
 
