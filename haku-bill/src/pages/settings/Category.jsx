@@ -4,6 +4,7 @@ import SettingSidebar from "./SettingSidebar";
 import Header from "../../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import { parseISO, format } from "date-fns";
 
 const Category = () => {
 	const [categories, setCategories] = useState([]);
@@ -104,13 +105,16 @@ const Category = () => {
 													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
 													onClick={() => handleSortClick("name")}>
 													カテゴリ名
+													{sortColumn === "name" && (
+														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+													)}
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-													onClick={() => handleSortClick("created_at")}>
+													onClick={() => handleSortClick("updated_at")}>
 													更新日
-													{sortColumn === "created_at" && (
+													{sortColumn === "updated_at" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -123,6 +127,9 @@ const Category = () => {
 												<tr key={value.id} className="bg-white border-b">
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.name}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+														{format(parseISO(value.updated_at), "yyyy-MM-dd")}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														<button
