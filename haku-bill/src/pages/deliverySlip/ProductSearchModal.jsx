@@ -29,7 +29,7 @@ const ProductSearchModal = (props) => {
 	};
 
 	const fetchProducts = () => {
-		const requestUrl = "/product/categories";
+		const requestUrl = "/product/groupByCategories";
 		axios
 			.get(requestUrl)
 			.then((response) => {

@@ -234,7 +234,7 @@ const CreateDeliverySlip = () => {
 														onClick={() => {
 															showModal(index);
 														}}
-														className="justify-between block uppercase mx-auto mt-3 shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">
+														className="justify-between block uppercase mx-auto mt-3 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
 														選択する
 													</button>
 												</div>
@@ -270,7 +270,7 @@ const CreateDeliverySlip = () => {
 						</div>
 						<button
 							onClick={addRow}
-							className="block uppercase mx-auto mt-3 shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">
+							className="block uppercase mx-auto mt-3 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
 							追加
 						</button>
 					</div>
