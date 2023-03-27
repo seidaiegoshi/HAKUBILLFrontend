@@ -57,7 +57,11 @@ const CreateDeliverySlip = () => {
 	}, []);
 
 	const getCustomerList = async (word) => {
-		const requestUrl = `customer/${word}`;
+		const requestUrl = "/customer";
+		const params = {};
+		if (word !== "") {
+			params.customer_name = word;
+		}
 		let res;
 		await axios
 			.get(requestUrl)
