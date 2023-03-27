@@ -1,5 +1,5 @@
 import React from "react";
-import LinkButton from "../../components/Atoms/LinkButton";
+import LinkButton from "@/components/Atoms/LinkButton";
 
 const SettingSidebar = () => {
 	return (

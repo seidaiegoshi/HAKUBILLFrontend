@@ -1,5 +1,5 @@
 import React from "react";
-import CreateDeliverySlip from "../pages/deliverySlip/CreateDeliverySlip";
+import CreateDeliverySlip from "@/pages/deliverySlip/CreateDeliverySlip";
 
 const DeliverySlip = () => {
 	return (

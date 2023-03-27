@@ -1,31 +1,46 @@
-import axios from "../../libs/axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import SettingSidebar from "./SettingSidebar";
+import axios from "@/libs/axios";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
 
-const FixedCostAdd = () => {
+const FixedCostEdit = () => {
 	const navigate = useNavigate();
-	const [Name, setName] = useState([]);
-	const [Price, setPrice] = useState([]);
+	const { id } = useParams();
+	const [fixedCost, setFixedCost] = useState({
+		name: "",
+		price: "",
+	});
+	const [categories, setCategories] = useState([]);
 
-	const handleChangeName = (e) => {
-		setName(e.target.value);
-	};
-
-	const handleChangePrice = (e) => {
-		setPrice(e.target.value);
-	};
-
-	const postProduct = () => {
-		const requestUrl = "/fixed_cost";
-		const params = new FormData();
-		params.append("name", Name);
-		params.append("price", Price);
+	const fetchFixedCosts = () => {
+		const requestUrl = `/fixed_cost/${id}`;
 		axios
-			.post(requestUrl, params)
+			.get(requestUrl)
 			.then((response) => {
-				console.log(response);
+				setFixedCost(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	useEffect(() => {
+		fetchFixedCosts();
+	}, []);
+
+	const handleChange = (key, value) => {
+		const newFixedCost = { ...fixedCost };
+		newFixedCost[key] = value;
+
+		setFixedCost(newFixedCost);
+	};
+
+	const patchFixedCost = () => {
+		const requestUrl = `/fixed_cost/${id}`;
+		axios
+			.patch(requestUrl, { name: fixedCost.name, price: fixedCost.price })
+			.then((response) => {
 				navigate("/setting/fixed_cost");
 			})
 			.catch((e) => {
@@ -52,28 +67,32 @@ const FixedCostAdd = () => {
 								name="name"
 								id="name"
 								placeholder="固定費名"
-								onChange={handleChangeName}
+								value={fixedCost.name}
+								onChange={(e) => handleChange("name", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
+
 						<div className="mb-5">
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
-								値段
+								金額
 							</label>
 							<input
 								type="number"
 								name="price"
 								id="price"
-								placeholder="値段"
-								onChange={handleChangePrice}
+								value={fixedCost.price}
+								placeholder="金額"
+								onChange={(e) => handleChange("price", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
+
 						<div>
 							<button
-								onClick={postProduct}
+								onClick={patchFixedCost}
 								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								登録
+								固定費情報を更新
 							</button>
 						</div>
 					</div>
@@ -83,4 +102,4 @@ const FixedCostAdd = () => {
 	);
 };
 
-export default FixedCostAdd;
+export default FixedCostEdit;

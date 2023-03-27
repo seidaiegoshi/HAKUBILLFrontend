@@ -1,9 +1,9 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
-import SettingSidebar from "./SettingSidebar";
-import Header from "./../../components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
 
 const Products = () => {

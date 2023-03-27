@@ -1,8 +1,8 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import SettingSidebar from "./SettingSidebar";
+import Header from "@/components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
 
 const CategoryAdd = () => {
 	const navigate = useNavigate();

@@ -1,35 +1,23 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import SettingSidebar from "./SettingSidebar";
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
 
-const ProductEdit = () => {
+const ProductAdd = () => {
 	const navigate = useNavigate();
-	const { id } = useParams();
 	const [product, setProduct] = useState({
 		name: "",
-		product_category_id: "",
+		category_id: null,
 		unit: "",
-		cost: "",
-		price: "",
-		tax_class: "",
-		gross_profit: "",
-		gross_rate: "",
+		cost: null,
+		price: null,
+		tax_class: null,
+		gross_profit: null,
+		gross_rate: null,
 	});
-	const [categories, setCategories] = useState([]);
 
-	const fetchProducts = () => {
-		const requestUrl = `/product/${id}`;
-		axios
-			.get(requestUrl)
-			.then((response) => {
-				setProduct(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+	const [categories, setCategories] = useState([]);
 
 	const fetchCategories = () => {
 		const requestUrl = "/product/groupByCategories";
@@ -44,7 +32,6 @@ const ProductEdit = () => {
 	};
 
 	useEffect(() => {
-		fetchProducts();
 		fetchCategories();
 	}, []);
 
@@ -58,20 +45,18 @@ const ProductEdit = () => {
 	};
 
 	const postProduct = () => {
-		const requestUrl = `/product/${id}`;
-		const params = {
-			name: product.name,
-			product_category_id: product.product_category_id,
-			unit: product.unit,
-			cost: product.cost,
-			price: product.price,
-			tax_class: product.tax_class,
-			gross_profit: product.gross_profit,
-			gross_rate: product.gross_rate,
-		};
-		console.log(params);
+		const requestUrl = "/product";
+		const params = new FormData();
+		params.append("name", product.name);
+		params.append("product_category_id", product.category_id);
+		params.append("unit", product.unit);
+		params.append("cost", product.cost);
+		params.append("price", product.price);
+		params.append("tax_class", product.tax_class);
+		params.append("gross_profit", product.gross_profit);
+		params.append("gross_rate", product.gross_rate);
 		axios
-			.patch(requestUrl, params)
+			.post(requestUrl, params)
 			.then((response) => {
 				console.log(response);
 				navigate("/setting/product");
@@ -99,7 +84,6 @@ const ProductEdit = () => {
 								type="text"
 								name="category"
 								id="category"
-								value={product.product_category_id}
 								onChange={(e) => handleChange("category_id", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
 								<option value="">選択してください</option>
@@ -119,7 +103,6 @@ const ProductEdit = () => {
 								name="name"
 								id="name"
 								placeholder="商品名"
-								value={product.name}
 								onChange={(e) => handleChange("name", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
@@ -133,7 +116,6 @@ const ProductEdit = () => {
 								name="Unit"
 								id="Unit"
 								placeholder="単位(個、箱など)"
-								value={product.unit}
 								onChange={(e) => handleChange("unit", e.target.value)}
 								className="w-1/2 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
@@ -146,7 +128,6 @@ const ProductEdit = () => {
 								type="number"
 								name="cost"
 								id="cost"
-								value={product.cost}
 								onChange={(e) => handleChange("cost", e.target.value)}
 								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -160,7 +141,6 @@ const ProductEdit = () => {
 								type="number"
 								name="price"
 								id="price"
-								value={product.price}
 								placeholder="販売価格(デフォルト)"
 								onChange={(e) => handleChange("price", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -174,7 +154,6 @@ const ProductEdit = () => {
 								type="number"
 								name="Tax_class"
 								id="Tax_class"
-								value={product.tax_class}
 								placeholder="税区分"
 								onChange={(e) => handleChange("tax_class", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -197,7 +176,7 @@ const ProductEdit = () => {
 							<button
 								onClick={postProduct}
 								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								商品情報を更新
+								登録
 							</button>
 						</div>
 					</div>
@@ -207,4 +186,4 @@ const ProductEdit = () => {
 	);
 };
 
-export default ProductEdit;
+export default ProductAdd;

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import Header from "./../../components/Header";
+import Header from "@/components/Header";
 import SideButton from "./SideButton";
-import TextInput from "../../components/Atoms/TextInput";
+import TextInput from "@/components/Atoms/TextInput";
 import ProductSelectModal from "./ProductSelectModal";
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import { format } from "date-fns";
 import { useReactToPrint } from "react-to-print";
 import PrintComponent from "./PrintComponent";

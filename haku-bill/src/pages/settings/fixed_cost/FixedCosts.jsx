@@ -1,25 +1,24 @@
-import axios from "../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
-import SettingSidebar from "./SettingSidebar";
-import Header from "../../components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
 
-const Category = () => {
-	const [categories, setCategories] = useState([]);
+const FixedCosts = () => {
+	const [fixedCosts, setFixedCosts] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
 	const [sortColumn, setSortColumn] = useState("created_at");
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-	const [deleteCategoryId, setDeleteCategory] = useState(null);
+	const [deleteFixedCostId, setDeleteFixedCost] = useState(null);
 
-	const fetchCategories = () => {
-		const requestUrl = "/category";
+	const fetchFixedCosts = () => {
+		const requestUrl = "/fixed_cost";
 		axios
 			.get(requestUrl)
 			.then((response) => {
-				const newCategories = response.data;
-				setCategories(newCategories);
+				setFixedCosts(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -27,17 +26,17 @@ const Category = () => {
 	};
 
 	useEffect(() => {
-		fetchCategories();
+		fetchFixedCosts();
 	}, []);
 
 	const navigate = useNavigate();
 
 	const handleEditClick = (id) => {
-		navigate(`/setting/category/${id}/edit`);
+		navigate(`/setting/fixed_cost/${id}/edit`);
 	};
 
-	const handleDeleteClick = (categoryId) => {
-		setDeleteCategory(categoryId);
+	const handleDeleteClick = (fixedCostId) => {
+		setDeleteFixedCost(fixedCostId);
 		setDeleteModalOpen(true);
 	};
 
@@ -46,12 +45,12 @@ const Category = () => {
 	};
 
 	const handleDeleteConfirm = () => {
-		const requestUrl = `/category/${deleteCategoryId}`;
+		const requestUrl = `/fixed_cost/${deleteFixedCostId}`;
 		axios
 			.delete(requestUrl)
 			.then((response) => {
 				setDeleteModalOpen(false);
-				fetchCategories();
+				fetchFixedCosts();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -67,7 +66,7 @@ const Category = () => {
 		}
 	};
 
-	const sortedCategories = [...categories].sort((a, b) => {
+	const sortedFixedCosts = [...fixedCosts].sort((a, b) => {
 		if (sortOrder === "asc") {
 			return a[sortColumn] > b[sortColumn] ? 1 : -1;
 		} else {
@@ -93,9 +92,9 @@ const Category = () => {
 							<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
 								<div className="overflow-hidden">
 									<Link
-										to="/setting/category/new"
+										to="/setting/fixed_cost/new"
 										className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-										カテゴリを追加
+										固定費を追加
 									</Link>
 									<table className="min-w-full">
 										<thead className="bg-white border-b">
@@ -104,8 +103,18 @@ const Category = () => {
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
 													onClick={() => handleSortClick("name")}>
-													カテゴリ名
+													名前
 													{sortColumn === "name" && (
+														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+													)}
+												</th>
+
+												<th
+													scope="col"
+													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+													onClick={() => handleSortClick("price")}>
+													金額
+													{sortColumn === "price" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -123,10 +132,14 @@ const Category = () => {
 											</tr>
 										</thead>
 										<tbody>
-											{sortedCategories.map((value) => (
+											{sortedFixedCosts.map((value) => (
 												<tr key={value.id} className="bg-white border-b">
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.name}
+													</td>
+
+													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+														{Number(value.price).toLocaleString("jp-JP") + "円"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{format(parseISO(value.updated_at), "yyyy-MM-dd")}
@@ -160,4 +173,4 @@ const Category = () => {
 	);
 };
 
-export default Category;
+export default FixedCosts;

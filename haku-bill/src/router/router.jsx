@@ -2,16 +2,16 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import Home from "../pages/Home";
 import DeliverySlip from "../pages/DeliverySlip";
 import Settings from "../pages/Settings";
-import Products from "../pages/settings/Products";
-import ProductAdd from "../pages/settings/ProductAdd";
+import Products from "../pages/settings/product/Products";
+import ProductAdd from "../pages/settings/product/ProductAdd";
 import Analysis from "../pages/analysis/Analysis";
-import FixedCosts from "../pages/settings/FixedCosts";
-import FixedCostAdd from "../pages/settings/FixedCostAdd";
-import ProductCategory from "../pages/settings/Category";
-import CategoryAdd from "../pages/settings/CategoryAdd";
-import ProductEdit from "../pages/settings/ProductEdit";
-import CategoryEdit from "../pages/settings/CategoryEdit";
-import FixedCostEdit from "../pages/settings/FixedCostEdit";
+import FixedCosts from "../pages/settings/fixed_cost/FixedCosts";
+import FixedCostAdd from "../pages/settings/fixed_cost/FixedCostAdd";
+import ProductCategory from "../pages/settings/category/Category";
+import CategoryAdd from "../pages/settings/category/CategoryAdd";
+import ProductEdit from "../pages/settings/product/ProductEdit";
+import CategoryEdit from "../pages/settings/category/CategoryEdit";
+import FixedCostEdit from "../pages/settings/fixed_cost/FixedCostEdit";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 

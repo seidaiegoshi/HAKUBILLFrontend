@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header";
-import axios from "./../../libs/axios.js";
+import Header from "@/components/Header";
+import axios from "@/libs/axios.js";
 import { startOfMonth, endOfMonth, format } from "date-fns";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import CalendarComponent from "./CalendarComponent";
+import CalendarComponent from "@/pages/analysis/CalendarComponent";
 
 const Analysis = () => {
 	const [graphData, setGraphData] = useState([]);
