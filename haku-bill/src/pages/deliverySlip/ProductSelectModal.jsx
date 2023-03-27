@@ -50,7 +50,7 @@ const ProductSelectModal = (props) => {
 
 	const handleClickCustomerProduct = (index) => {
 		props.setProduct(props.rowIndex, {
-			product_id: customerProducts[index].id,
+			product_id: customerProducts[index].product_id,
 			product_name: customerProducts[index].name,
 			unit: customerProducts[index].unit,
 			price: customerProducts[index].price,

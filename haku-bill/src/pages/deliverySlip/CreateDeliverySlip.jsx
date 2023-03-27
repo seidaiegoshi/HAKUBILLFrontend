@@ -110,7 +110,6 @@ const CreateDeliverySlip = () => {
 		newDeliverySlip.totalPrice = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue.subtotal;
 		}, 0);
-		console.log(newDeliverySlip.totalPrice);
 
 		setDeliverySlip(newDeliverySlip);
 	};
