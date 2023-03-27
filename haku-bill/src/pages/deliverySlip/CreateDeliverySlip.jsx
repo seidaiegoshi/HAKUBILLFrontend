@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Header from "./../../components/Header";
 import SideButton from "./SideButton";
 import TextInput from "../../components/Atoms/TextInput";
-import ProductModal from "./ProductSearchModal";
+import ProductSelectModal from "./ProductSelectModal";
 import axios from "./../../libs/axios";
 import { format } from "date-fns";
 import { useReactToPrint } from "react-to-print";
@@ -15,6 +15,7 @@ const CreateDeliverySlip = () => {
 
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
 	const [rowIndex, setRowIndex] = useState(null);
+	const [customerId, setCustomerId] = useState(null);
 
 	const defaultContent = {
 		product_id: null,
@@ -87,9 +88,10 @@ const CreateDeliverySlip = () => {
 		setDisplayResult(false);
 	};
 
-	const showModal = (index) => {
+	const showProductSelectModal = (index) => {
 		setRowIndex(index);
 		setProductModal(true);
+		setCustomerId(deliverySlip.customerId);
 	};
 
 	const handleChange = (index, obj) => {
@@ -192,11 +194,12 @@ const CreateDeliverySlip = () => {
 					</div>
 
 					<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-						<ProductModal
+						<ProductSelectModal
 							showFlag={productModal}
 							setModal={setProductModal}
 							setProduct={handleChange}
 							rowIndex={rowIndex}
+							customerId={customerId}
 						/>
 						<div className="overflow-hidden">
 							<table className="min-w-full">
@@ -232,7 +235,7 @@ const CreateDeliverySlip = () => {
 													/>
 													<button
 														onClick={() => {
-															showModal(index);
+															showProductSelectModal(index);
 														}}
 														className="justify-between block uppercase mx-auto mt-3 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
 														選択する
