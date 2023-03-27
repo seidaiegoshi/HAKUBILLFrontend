@@ -15,7 +15,6 @@ const CreateDeliverySlip = () => {
 
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
 	const [rowIndex, setRowIndex] = useState(null);
-	const [customerId, setCustomerId] = useState(null);
 
 	const defaultContent = {
 		product_id: null,
@@ -26,6 +25,7 @@ const CreateDeliverySlip = () => {
 		cost: 0,
 		gross_profit: 0,
 		subtotal: 0,
+		subtotal_gross_profit: 0,
 	};
 
 	const [deliverySlip, setDeliverySlip] = useState({
@@ -35,7 +35,7 @@ const CreateDeliverySlip = () => {
 		customerAddress: "",
 		publishDate: format(new Date(), "yyyy-M-d"),
 		contents: [defaultContent],
-		totalAmount: 0,
+		totalPrice: 0,
 	});
 
 	const fetchDeliverySlipId = () => {
@@ -83,6 +83,7 @@ const CreateDeliverySlip = () => {
 		const newDeliverySlip = { ...deliverySlip };
 		newDeliverySlip.customerId = customer.id;
 		newDeliverySlip.customerName = customer.name;
+		newDeliverySlip.customerAddress = customer.address;
 		setSearchWord(customer.name);
 		setDeliverySlip(newDeliverySlip);
 		setDisplayResult(false);
@@ -91,55 +92,49 @@ const CreateDeliverySlip = () => {
 	const showProductSelectModal = (index) => {
 		setRowIndex(index);
 		setProductModal(true);
-		setCustomerId(deliverySlip.customerId);
 	};
 
 	const handleChange = (index, obj) => {
 		const newDeliverySlip = { ...deliverySlip };
 		newDeliverySlip.contents[index] = { ...newDeliverySlip.contents[index], ...obj };
 
+		// 粗利、小計、小計粗利
 		newDeliverySlip.contents[index].subtotal =
 			newDeliverySlip.contents[index].quantity * newDeliverySlip.contents[index].price;
-
 		newDeliverySlip.contents[index].gross_profit =
 			newDeliverySlip.contents[index].price - newDeliverySlip.contents[index].cost;
+		newDeliverySlip.contents[index].subtotal_gross_profit =
+			newDeliverySlip.contents[index].gross_profit * newDeliverySlip.contents[index].quantity;
 
-		newDeliverySlip.totalAmount = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
+		// 合計金額
+		newDeliverySlip.totalPrice = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue.subtotal;
 		}, 0);
+		console.log(newDeliverySlip.totalPrice);
 
 		setDeliverySlip(newDeliverySlip);
 	};
 
 	const postDeliverySlip = async () => {
-		const dsUrl = "/delivery_slip";
-		const DSParam = new FormData();
+		const requestUrl = "/delivery_slip";
+		// const param = new FormData();
 		let deliverySlipId = null;
-		DSParam.append("customer_id", deliverySlip.customerId);
-		DSParam.append("publish_date", deliverySlip.publishDate);
+		const data = deliverySlip.contents;
+		console.log(deliverySlip);
+		const param = {
+			customer_id: deliverySlip.customerId,
+			customer_name: deliverySlip.customerName,
+			customer_address: deliverySlip.customerAddress,
+			publish_date: deliverySlip.publishDate,
+			contents: data,
+			total_price: deliverySlip.totalPrice,
+		};
 
 		await axios
-			.post(dsUrl, DSParam)
+			.post(requestUrl, param)
 			.then((response) => {
+				console.log(response.data);
 				deliverySlipId = response.data.id;
-			})
-			.catch((e) => {
-				console.log(e);
-			})
-			.finally();
-
-		const dcUrl = "/delivery_slip/contents";
-		const data = deliverySlip.contents.map((obj) => ({
-			delivery_slip_id: deliverySlipId,
-			product_id: obj.product_id,
-			quantity: obj.quantity,
-			price: obj.price,
-			gross_profit: obj.gross_profit,
-		}));
-		axios
-			.post(dcUrl, [...data])
-			.then((response) => {
-				console.log(response);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -199,7 +194,7 @@ const CreateDeliverySlip = () => {
 							setModal={setProductModal}
 							setProduct={handleChange}
 							rowIndex={rowIndex}
-							customerId={customerId}
+							customerId={deliverySlip.customerId}
 						/>
 						<div className="overflow-hidden">
 							<table className="min-w-full">

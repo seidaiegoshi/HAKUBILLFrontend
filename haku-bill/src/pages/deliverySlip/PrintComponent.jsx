@@ -53,7 +53,7 @@ const PrintComponent = React.forwardRef((props, ref) => {
 					</table>
 
 					<div className="text-right mt-4">
-						<p className="font-bold ">合計金額: {toCommaStyle(deliverySlipData.totalAmount)}</p>
+						<p className="font-bold ">合計金額: {toCommaStyle(deliverySlipData.totalPrice)}</p>
 					</div>
 				</div>
 			</div>

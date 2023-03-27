@@ -19,7 +19,6 @@ const ProductSelectModal = (props) => {
 	const handleClickCustomerProducts = () => {
 		setsShowProducts(true);
 		setsShowCustomerProducts(true);
-		customerProducts.length == 0 && fetchCustomerProducts();
 	};
 
 	const closeModal = () => {
@@ -50,8 +49,6 @@ const ProductSelectModal = (props) => {
 	};
 
 	const handleClickCustomerProduct = (index) => {
-		console.log(categories);
-		console.log(customerProducts);
 		props.setProduct(props.rowIndex, {
 			product_id: customerProducts[index].id,
 			product_name: customerProducts[index].name,
@@ -66,7 +63,6 @@ const ProductSelectModal = (props) => {
 		axios
 			.get(requestUrl)
 			.then((response) => {
-				console.log("test");
 				setCustomerProducts(response.data);
 			})
 			.catch((error) => {
@@ -77,6 +73,12 @@ const ProductSelectModal = (props) => {
 	useEffect(() => {
 		fetchProducts();
 	}, []);
+
+	useEffect(() => {
+		if (props.showFlag) {
+			fetchCustomerProducts();
+		}
+	}, [props.showFlag]);
 
 	if (!props.showFlag) return <></>;
 	return (
@@ -101,7 +103,7 @@ const ProductSelectModal = (props) => {
 									<li
 										className="flex flex-row mb-2 border-gray-400"
 										onClick={() => handleClickCustomerProducts()}>
-										<ListBox>過去取り扱い商品</ListBox>
+										<ListBox>取引先別商品</ListBox>
 									</li>
 
 									{categories.map((category, index) => {
