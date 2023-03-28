@@ -59,7 +59,7 @@ const ProductSelectModal = (props) => {
 		closeModal();
 	};
 	const fetchCustomerProducts = () => {
-		const requestUrl = `/customer/${props.customerId}/products`;
+		const requestUrl = `/customer/${props.customerId}/customer_price`;
 		axios
 			.get(requestUrl)
 			.then((response) => {

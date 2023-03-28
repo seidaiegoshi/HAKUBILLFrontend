@@ -11,6 +11,7 @@ import ProductEdit from "@/pages/settings/product/ProductEdit";
 import CategoryEdit from "@/pages/settings/category/CategoryEdit";
 import FixedCostEdit from "@/pages/settings/fixed_cost/FixedCostEdit";
 import CreateDeliverySlip from "@/pages/deliverySlip/CreateDeliverySlip";
+import DeliverySlipList from "@/pages/deliverySlip/DeliverySlipList";
 import CustomerProduct from "@/pages/settings/customer_product/CustomerProduct";
 import CustomerProductEdit from "@/pages/settings/customer_product/CustomerProductEdit";
 import ProductSales from "@/pages/analysis/ProductSales";
@@ -21,7 +22,8 @@ const routes = createRoutes(
 	<Route path="/" errorElement={<div>error</div>}>
 		<Route index element={<Home />} />
 
-		<Route path="/delivery-slip" element={<CreateDeliverySlip />} />
+		<Route path="/delivery-slip/new" element={<CreateDeliverySlip />} />
+		<Route path="/delivery-slip/list" element={<DeliverySlipList />} />
 
 		<Route path="/analysis/daily_profit" element={<DailyProfit />} />
 		<Route path="/analysis/product_sales" element={<ProductSales />} />
