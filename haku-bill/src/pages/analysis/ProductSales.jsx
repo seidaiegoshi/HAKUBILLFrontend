@@ -2,17 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AnalysisSidebar from "@/pages/analysis/AnalysisSidebar";
 import CalendarComponent from "@/pages/analysis/CalendarComponent";
-import {
-	ResponsiveContainer,
-	BarChart,
-	Bar,
-	LabelList,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
-} from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
 import axios from "@/libs/axios.js";
 import { startOfMonth, endOfMonth, format } from "date-fns";
@@ -22,7 +12,7 @@ const ProductSales = () => {
 	const [sortOrder, setSortOrder] = useState("desc");
 	const [sortColumn, setSortColumn] = useState("created_at");
 
-	const chartHeight = 50 + salesData.length * 50;
+	const chartHeight = salesData.length * 50;
 
 	const addPercentage = (data) => {
 		const totalProfit = data.reduce((total, current) => total + Number(current.sum_gross_profit), 0);
@@ -91,7 +81,7 @@ const ProductSales = () => {
 						<div>
 							<CalendarComponent getData={fetchProfit} />
 						</div>
-						<div className="flex flex-row">
+						<div className="flex flex-row w-full">
 							<div className="w-1/2">
 								<table className="min-w-full">
 									<thead className="bg-white border-b sticky top-0">
@@ -177,7 +167,7 @@ const ProductSales = () => {
 											top: 20,
 											right: 50,
 											left: 100,
-											bottom: 5,
+											bottom: 10,
 										}}>
 										<CartesianGrid strokeDasharray="3 3" />
 										<XAxis type="number" domain={[0, "auto"]} />
