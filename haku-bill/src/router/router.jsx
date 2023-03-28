@@ -11,6 +11,8 @@ import ProductEdit from "@/pages/settings/product/ProductEdit";
 import CategoryEdit from "@/pages/settings/category/CategoryEdit";
 import FixedCostEdit from "@/pages/settings/fixed_cost/FixedCostEdit";
 import CreateDeliverySlip from "@/pages/deliverySlip/CreateDeliverySlip";
+import CustomerProduct from "@/pages/settings/customer_product/CustomerProduct";
+import CustomerProductEdit from "@/pages/settings/customer_product/CustomerProductEdit";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
@@ -30,6 +32,8 @@ const routes = createRoutes(
 		<Route path="/setting/fixed_cost" element={<FixedCosts />} />
 		<Route path="/setting/fixed_cost/new" element={<FixedCostAdd />} />
 		<Route path="/setting/fixed_cost/:id/edit" element={<FixedCostEdit />} />
+		<Route path="/setting/customer_product" element={<CustomerProduct />} />
+		<Route path="/setting/customer_product/:id/edit" element={<CustomerProductEdit />} />
 	</Route>
 );
 

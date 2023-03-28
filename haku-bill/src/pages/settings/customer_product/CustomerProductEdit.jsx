@@ -4,20 +4,25 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
 
-const FixedCostEdit = () => {
+const CustomerProductEdit = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const [fixedCost, setFixedCost] = useState({
-		name: "",
+	const [customerPrice, setCustomerPrice] = useState({
+		customer_id: "",
+		customers: { name: "" },
+		product_id: "",
+		products: { name: "" },
+		product_name: "",
 		price: "",
 	});
 
 	const fetchFixedCosts = () => {
-		const requestUrl = `/fixed_cost/${id}`;
+		const requestUrl = `/customer/customer_price/${id}}`;
+
 		axios
 			.get(requestUrl)
 			.then((response) => {
-				setFixedCost(response.data);
+				setCustomerPrice(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -29,18 +34,20 @@ const FixedCostEdit = () => {
 	}, []);
 
 	const handleChange = (key, value) => {
-		const newFixedCost = { ...fixedCost };
-		newFixedCost[key] = value;
-
-		setFixedCost(newFixedCost);
+		const newCustomerPrice = { ...customerPrice };
+		newCustomerPrice[key] = value;
+		setCustomerPrice(newCustomerPrice);
 	};
 
 	const patchFixedCost = () => {
-		const requestUrl = `/fixed_cost/${id}`;
+		const requestUrl = `/customer/customer_price/${id}`;
 		axios
-			.patch(requestUrl, { name: fixedCost.name, price: fixedCost.price })
+			.patch(requestUrl, {
+				price: customerPrice.price,
+			})
 			.then((response) => {
-				navigate("/setting/fixed_cost");
+				console.log(response.data);
+				navigate("/setting/customer_product");
 			})
 			.catch((e) => {
 				console.log(e);
@@ -59,17 +66,15 @@ const FixedCostEdit = () => {
 					<div className="ml-0 w-full max-w-[550px]">
 						<div className="mb-5">
 							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
-								固定費名
+								顧客名
 							</label>
-							<input
-								type="text"
-								name="name"
-								id="name"
-								placeholder="固定費名"
-								value={fixedCost.name}
-								onChange={(e) => handleChange("name", e.target.value)}
-								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-							/>
+							<p className="mb-3 block text-base font-medium">{customerPrice.customers.name}</p>
+						</div>
+						<div className="mb-5">
+							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
+								商品名
+							</label>
+							<p className="mb-3 block text-base font-medium">{customerPrice.products.name}</p>
 						</div>
 
 						<div className="mb-5">
@@ -80,7 +85,7 @@ const FixedCostEdit = () => {
 								type="number"
 								name="price"
 								id="price"
-								value={fixedCost.price}
+								value={customerPrice.price}
 								placeholder="金額"
 								onChange={(e) => handleChange("price", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -91,7 +96,7 @@ const FixedCostEdit = () => {
 							<button
 								onClick={patchFixedCost}
 								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								固定費情報を更新
+								更新
 							</button>
 						</div>
 					</div>
@@ -101,4 +106,4 @@ const FixedCostEdit = () => {
 	);
 };
 
-export default FixedCostEdit;
+export default CustomerProductEdit;
