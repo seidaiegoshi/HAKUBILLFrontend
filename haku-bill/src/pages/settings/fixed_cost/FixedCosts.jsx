@@ -5,14 +5,13 @@ import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
-import { BsBarChartSteps } from "react-icons/bs";
 
 const FixedCosts = () => {
 	const [fixedCosts, setFixedCosts] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
 	const [sortColumn, setSortColumn] = useState("created_at");
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-	const [deleteFixedCostId, setDeleteFixedCost] = useState(null);
+	const [deleteFixedCostId, setDeleteFixedCostId] = useState(null);
 
 	const fetchFixedCosts = () => {
 		const requestUrl = "/fixed_cost";
@@ -37,7 +36,7 @@ const FixedCosts = () => {
 	};
 
 	const handleDeleteClick = (fixedCostId) => {
-		setDeleteFixedCost(fixedCostId);
+		setDeleteFixedCostId(fixedCostId);
 		setDeleteModalOpen(true);
 	};
 

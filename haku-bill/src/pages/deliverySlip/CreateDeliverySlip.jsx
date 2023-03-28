@@ -65,7 +65,7 @@ const CreateDeliverySlip = () => {
 		}
 		let res;
 		await axios
-			.get(requestUrl)
+			.get(requestUrl, { params })
 			.then((response) => {
 				res = response.data;
 			})
