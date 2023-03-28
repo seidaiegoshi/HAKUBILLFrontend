@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
+import { BsBarChartSteps } from "react-icons/bs";
 
 const FixedCosts = () => {
 	const [fixedCosts, setFixedCosts] = useState([]);
@@ -108,7 +109,6 @@ const FixedCosts = () => {
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
-
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
@@ -137,7 +137,6 @@ const FixedCosts = () => {
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.name}
 													</td>
-
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{Number(value.price).toLocaleString("jp-JP") + "円"}
 													</td>
