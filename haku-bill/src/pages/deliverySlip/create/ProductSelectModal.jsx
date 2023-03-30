@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ListBox from "./ListBlock";
-import axios from "../../libs/axios.js";
+import ListBox from "@/pages/deliverySlip/create/ListBlock";
+import axios from "@/libs/axios.js";
 
 const ProductSelectModal = (props) => {
 	const [categories, setCategories] = useState([]);
@@ -96,7 +96,7 @@ const ProductSelectModal = (props) => {
 					</div>
 
 					<div className="p-5">
-						<div className="container flex flex-col items-center justify-center w-full mx-auto">
+						<div className=" flex flex-col items-center justify-center w-full mx-auto">
 							カテゴリ
 							<div>
 								<ul className="grid grid-cols-3 gap-4">

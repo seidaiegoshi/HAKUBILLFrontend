@@ -97,9 +97,9 @@ const CustomerProduct = () => {
 				<div className="flex-none">
 					<SettingSidebar />
 				</div>
-				<div className="flex flex-col">
+				<div className="flex flex-col p-2">
 					<SearchForm search={onSearch} searchWords={setSearchWords} />
-					<div className=" overflow-y-auto h-80px">
+					<div className="overflow-y-auto h-80px">
 						<table className="flex-1  min-w-full">
 							<thead className="bg-white border-b-2 sticky top-0">
 								<tr>

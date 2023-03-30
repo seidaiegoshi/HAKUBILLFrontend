@@ -1,5 +1,7 @@
-// PrintComponent.js
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
+import { css } from "@emotion/react";
 
 const PrintComponent = React.forwardRef((props, ref) => {
 	const deliverySlipData = props.deliverySlipData;
@@ -8,22 +10,22 @@ const PrintComponent = React.forwardRef((props, ref) => {
 	};
 
 	return (
-		<div className="container mx-auto p-8">
-			<div className="print-container bg-white shadow-md rounded ">
-				<div ref={ref} className="px-8 pt-6 pb-8 mb-4">
+		<>
+			<div>
+				<div ref={ref} css={printStyles}>
 					<div className="relative mb-8">
 						<h1 className="text-4xl absolute left-1/2 transform -translate-x-1/2">納品書</h1>
 						<div className="text-right">
-							<div>請求番号: {deliverySlipData.deliverySlipNumber}</div>
-							<div>請求日: {deliverySlipData.publishDate}</div>
+							<div>請求番号: {deliverySlipData.id}</div>
+							<div>請求日: {deliverySlipData.publish_date}</div>
 						</div>
 					</div>
 					<div className="mb-8">
 						<div className="font-bold mb-2">送り先:</div>
 						<div className="ml-4">
-							{deliverySlipData.customerName}
+							{deliverySlipData.customer_name}
 							<br />
-							{deliverySlipData.customerAddress}
+							{deliverySlipData.customer_address}
 						</div>
 					</div>
 
@@ -53,12 +55,33 @@ const PrintComponent = React.forwardRef((props, ref) => {
 					</table>
 
 					<div className="text-right mt-4">
-						<p className="font-bold ">合計金額: {toCommaStyle(deliverySlipData.totalPrice)}</p>
+						<p className="font-bold ">合計金額: {toCommaStyle(deliverySlipData.total_price)}</p>
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 });
+
+const printStyles = css`
+	transform: scale(0.7);
+	transform-origin: top left;
+	width: 210mm;
+	height: 297mm;
+	box-sizing: border-box;
+	background-color: white;
+	padding: 16px;
+	margin-bottom: 16px;
+	border: solid 2px #ccc;
+
+	@media print {
+		transform: scale(1);
+		width: 210mm;
+		height: 297mm;
+		margin: 0 auto;
+		page-break-after: always;
+		overflow: hidden;
+	}
+`;
 
 export default PrintComponent;

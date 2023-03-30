@@ -5,12 +5,6 @@ function SearchForm(props) {
 	const [customer, setCustomer] = useState("");
 	const [product, setProduct] = useState("");
 
-	const handleChangeCustomer = (value) => {
-		setCustomer(value);
-		const SearchWords = { customer: customer, product: product };
-		props.setSearchWords(SearchWords);
-	};
-
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		props.search({ customer, product });

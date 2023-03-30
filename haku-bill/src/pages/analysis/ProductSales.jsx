@@ -18,8 +18,8 @@ const ProductSales = () => {
 		const totalProfit = data.reduce((total, current) => total + Number(current.sum_gross_profit), 0);
 		const totalQuantity = data.reduce((total, current) => total + Number(current.sum_quantity), 0);
 		return data.map((item) => {
-			const profitRate = (item.sum_gross_profit / totalProfit) * 100;
-			const quantityRate = (item.sum_quantity / totalQuantity) * 100;
+			const profitRate = ((item.sum_gross_profit / totalProfit) * 100).toFixed(2);
+			const quantityRate = ((item.sum_quantity / totalQuantity) * 100).toFixed(2);
 			return {
 				...item,
 				profit_rate: profitRate,
@@ -143,13 +143,13 @@ const ProductSales = () => {
 													{Number(value.sum_gross_profit).toLocaleString("jp-JP") + "円"}
 												</td>
 												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-													{value.profit_rate.toFixed(2)}%
+													{value.profit_rate}%
 												</td>
 												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 													{value.sum_quantity + " " + value.unit}
 												</td>
 												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-													{value.quantity_rate.toFixed(2)}%
+													{value.quantity_rate}%
 												</td>
 											</tr>
 										))}
@@ -174,8 +174,8 @@ const ProductSales = () => {
 										<YAxis dataKey="name" type="category" />
 										<Tooltip />
 										<Legend verticalAlign="top" height={36} />
-										<Bar dataKey="profit_rate" name="総粗利" fill="#82ca9d" barSize={10} />
-										<Bar dataKey="quantity_rate" name="販売数" fill="#8884d8" barSize={10} />
+										<Bar dataKey="profit_rate" name="粗利[%]" fill="#82ca9d" barSize={10} />
+										<Bar dataKey="quantity_rate" name="販売数[%]" fill="#8884d8" barSize={10} />
 									</BarChart>
 								</ResponsiveContainer>
 							</div>

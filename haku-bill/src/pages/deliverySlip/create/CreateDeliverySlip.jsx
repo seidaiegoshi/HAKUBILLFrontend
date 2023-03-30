@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
-import SideButton from "./SideButton";
+import SideButton from "@/pages/deliverySlip/create/SideButton";
 import TextInput from "@/components/Atoms/TextInput";
-import ProductSelectModal from "./ProductSelectModal";
+import ProductSelectModal from "@/pages/deliverySlip/create/ProductSelectModal";
 import axios from "@/libs/axios";
 import { format } from "date-fns";
 import { useReactToPrint } from "react-to-print";
-import PrintComponent from "./PrintComponent";
+import PrintComponent from "@/pages/deliverySlip/create/PrintComponent";
 import DeliverySlipSidebar from "@/pages/deliverySlip/DeliverySlipSidebar";
 
 const CreateDeliverySlip = () => {
@@ -30,13 +30,13 @@ const CreateDeliverySlip = () => {
 	};
 
 	const [deliverySlip, setDeliverySlip] = useState({
-		customerId: null,
-		deliverySlipNumber: null,
-		customerName: "",
-		customerAddress: "",
-		publishDate: format(new Date(), "yyyy-M-d"),
+		customer_id: null,
+		id: null,
+		customer_name: "",
+		customer_address: "",
+		publish_date: format(new Date(), "yyyy-M-d"),
 		contents: [defaultContent],
-		totalPrice: 0,
+		total_price: 0,
 	});
 
 	const fetchDeliverySlipId = () => {
@@ -45,7 +45,7 @@ const CreateDeliverySlip = () => {
 			.get(requestUrl)
 			.then((response) => {
 				const newDS = { ...deliverySlip };
-				newDS.deliverySlipNumber = response.data + 1;
+				newDS.id = response.data + 1;
 				setDeliverySlip(newDS);
 			})
 			.catch((error) => {
@@ -86,9 +86,9 @@ const CreateDeliverySlip = () => {
 
 	const handleClickSuggestion = (customer) => {
 		const newDeliverySlip = { ...deliverySlip };
-		newDeliverySlip.customerId = customer.id;
-		newDeliverySlip.customerName = customer.name;
-		newDeliverySlip.customerAddress = customer.address;
+		newDeliverySlip.customer_id = customer.id;
+		newDeliverySlip.customer_name = customer.name;
+		newDeliverySlip.customer_address = customer.address;
 		setSearchWord(customer.name);
 		setDeliverySlip(newDeliverySlip);
 		setDisplayResult(false);
@@ -112,7 +112,7 @@ const CreateDeliverySlip = () => {
 			newDeliverySlip.contents[index].gross_profit * newDeliverySlip.contents[index].quantity;
 
 		// 合計金額
-		newDeliverySlip.totalPrice = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
+		newDeliverySlip.total_price = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue.subtotal;
 		}, 0);
 
@@ -126,12 +126,12 @@ const CreateDeliverySlip = () => {
 		const data = deliverySlip.contents;
 		console.log(deliverySlip);
 		const param = {
-			customer_id: deliverySlip.customerId,
-			customer_name: deliverySlip.customerName,
-			customer_address: deliverySlip.customerAddress,
-			publish_date: deliverySlip.publishDate,
+			customer_id: deliverySlip.customer_id,
+			customer_name: deliverySlip.customer_name,
+			customer_address: deliverySlip.customer_address,
+			publish_date: deliverySlip.publish_date,
 			contents: data,
-			total_price: deliverySlip.totalPrice,
+			total_price: deliverySlip.total_price,
 		};
 
 		await axios
@@ -202,7 +202,7 @@ const CreateDeliverySlip = () => {
 									setModal={setProductModal}
 									setProduct={handleChange}
 									rowIndex={rowIndex}
-									customerId={deliverySlip.customerId}
+									customerId={deliverySlip.customer_id}
 								/>
 								<div className="overflow-hidden">
 									<table className="min-w-full">
@@ -230,7 +230,7 @@ const CreateDeliverySlip = () => {
 											{deliverySlip.contents.map((item, index) => (
 												<tr key={index} className="bg-white border-b">
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-														<div className="flex  ">
+														<div className="flex ">
 															<TextInput
 																type="text"
 																value={item.product_name}
@@ -240,7 +240,7 @@ const CreateDeliverySlip = () => {
 																onClick={() => {
 																	showProductSelectModal(index);
 																}}
-																className="justify-between block uppercase mx-auto mt-3 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
+																className="justify-evenly block uppercase mx-1 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  px-4 rounded">
 																選択する
 															</button>
 														</div>
@@ -283,7 +283,7 @@ const CreateDeliverySlip = () => {
 						</div>
 					</div>
 
-					<div className="">
+					<div className="m-4">
 						<PrintComponent deliverySlipData={deliverySlip} ref={componentRef} />
 					</div>
 				</div>
