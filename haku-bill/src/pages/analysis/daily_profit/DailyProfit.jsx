@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import axios from "@/libs/axios.js";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, parseISO } from "date-fns";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, parseISO, differenceInDays } from "date-fns";
+import {
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	ResponsiveContainer,
+	ReferenceLine,
+} from "recharts";
 import CalendarComponent from "@/pages/analysis/CalendarComponent";
 import AnalysisSidebar from "@/pages/analysis/AnalysisSidebar";
 
@@ -11,27 +21,27 @@ const DailyProfit = () => {
 	const now = new Date();
 	const [startDate, setStartDate] = useState(format(startOfMonth(now), "yyyy-MM-dd"));
 	const [endDate, setEndDate] = useState(format(endOfMonth(now), "yyyy-MM-dd"));
+	const [fixedCostDay, setFixedCostDay] = useState(null);
+	const [fixedCostGraph, setFixedCostGraph] = useState(null);
 
 	const handleChangeDate = (startDate, endDate) => {
 		setStartDate(startDate);
 		setEndDate(endDate);
 	};
-	const fetchProfit = (startDate, endDate) => {
+	const fetchProfit = (startDate, endDate, fixedCostDay) => {
 		const requestUrl = `/analysis/daily_profit/${startDate}/${endDate}`;
 		axios
 			.get(requestUrl)
 			.then((response) => {
 				const filledData = fillMissingDates(cumulativeData(response.data));
+				const daysDiff = differenceInDays(new Date(endDate), new Date(startDate)) + 1;
+				setFixedCostGraph(daysDiff * fixedCostDay);
 				setGraphData(filledData);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
-
-	useEffect(() => {
-		fetchProfit(startDate, endDate);
-	}, [startDate, endDate]);
 
 	const cumulativeData = (data) => {
 		let cumulative = 0;
@@ -58,6 +68,29 @@ const DailyProfit = () => {
 
 		return filledData;
 	};
+
+	const fetchFixedCost = () => {
+		const requestUrl = `/fixed_cost/day`;
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				setFixedCostDay(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	useEffect(() => {
+		fetchFixedCost();
+	}, []);
+
+	useEffect(() => {
+		fetchProfit(startDate, endDate);
+		if (fixedCostDay !== null) {
+			fetchProfit(startDate, endDate, fixedCostDay);
+		}
+	}, [startDate, endDate, fixedCostDay]);
 
 	return (
 		<>
@@ -89,7 +122,12 @@ const DailyProfit = () => {
 									<YAxis domain={[0, "dataMax + 1000"]} />
 									<Tooltip />
 									<Legend />
-									<Line dataKey="daily_profit" stroke="#8884d8" />
+									<ReferenceLine
+										y={fixedCostGraph}
+										label={"固定費" + Math.floor(fixedCostGraph)}
+										stroke="red"
+									/>
+									<Line dataKey="daily_profit" name="累積粗利" stroke="#8884d8" />
 								</LineChart>
 							</ResponsiveContainer>
 						</div>
