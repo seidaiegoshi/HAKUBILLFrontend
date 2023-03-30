@@ -32,7 +32,7 @@ const DeliverySlipList = () => {
 			total_price: 0,
 		},
 	]);
-	const [preview, setPreview] = useState(deliverySlips[0]);
+	const [preview, setPreview] = useState(null);
 	const [searchWords, setSearchWords] = useState({
 		dateFrom: format(startOfMonth(currentDate), "yyyy-MM-dd"),
 		dateTo: format(endOfMonth(currentDate), "yyyy-MM-dd"),
@@ -52,8 +52,8 @@ const DeliverySlipList = () => {
 		axios
 			.get(requestUrl, { params })
 			.then((response) => {
-				console.log(response.data);
 				setDeliverySlips(response.data);
+				setPreview(response.data[0]);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -105,9 +105,7 @@ const DeliverySlipList = () => {
 						</div>
 						<div>
 							<div className="m-4">
-								{deliverySlips.length !== 0 && (
-									<PrintComponent deliverySlipData={preview} ref={componentRef} />
-								)}
+								{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
 							</div>
 						</div>
 					</div>
