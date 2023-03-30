@@ -4,9 +4,8 @@ import TextInput from "@/components/Atoms/TextInput";
 function SearchDelivery(props) {
 	const [searchWords, setSearchWords] = useState(props.searchWords);
 
-	const handleChangeSearchWords = (key, value) => {
-		const newSearchWords = { ...searchWords };
-		newSearchWords[key] = value;
+	const handleChangeSearchWords = (key) => (event) => {
+		const newSearchWords = { ...searchWords, [key]: event.target.value };
 		setSearchWords(newSearchWords);
 		props.setSearchWords(newSearchWords);
 	};
@@ -24,26 +23,16 @@ function SearchDelivery(props) {
 					<TextInput
 						type="date"
 						value={searchWords.dateFrom}
-						onChange={(event) => {
-							handleChangeSearchWords("dateFrom", event.target.value);
-						}}
+						onChange={handleChangeSearchWords("dateFrom")}
 					/>
 					<span>~</span>
-					<TextInput
-						type="date"
-						value={searchWords.dateTo}
-						onChange={(event) => {
-							handleChangeSearchWords("dateTo", event.target.value);
-						}}
-					/>
+					<TextInput type="date" value={searchWords.dateTo} onChange={handleChangeSearchWords("dateTo")} />
 				</div>
 				<TextInput
 					type="text"
 					value={searchWords.word}
 					placeholder={"取引先名"}
-					onChange={(event) => {
-						handleChangeSearchWords("word", event.target.value);
-					}}
+					onChange={handleChangeSearchWords("word")}
 				/>
 				<button
 					type="submit"
