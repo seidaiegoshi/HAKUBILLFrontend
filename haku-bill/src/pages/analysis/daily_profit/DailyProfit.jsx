@@ -59,10 +59,12 @@ const DailyProfit = () => {
 	// startDateからendDateの範囲で、データが存在しないところもラベル出力のために日付を埋める。
 	const fillMissingDates = (data) => {
 		const dateRange = eachDayOfInterval({ start: parseISO(startDate), end: parseISO(endDate) });
+		let previousDataPoint = 0;
 		const filledData = dateRange.map((date) => {
 			const formattedDate = format(date, "yyyy-MM-dd");
 			const dataPoint = data.find((d) => d.publish_date === formattedDate);
-			const daily_profit = dataPoint ? dataPoint.daily_profit : null;
+			const daily_profit = dataPoint ? dataPoint.daily_profit : previousDataPoint;
+			previousDataPoint = daily_profit;
 			return { publish_date: formattedDate, daily_profit };
 		});
 
