@@ -2,7 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import Home from "@/pages/Home";
 import Products from "@/pages/settings/product/Products";
 import ProductAdd from "@/pages/settings/product/ProductAdd";
-import DailyProfit from "@/pages/analysis/DailyProfit";
+import DailyProfit from "@/pages/analysis/daily_profit/DailyProfit";
 import FixedCosts from "@/pages/settings/fixed_cost/FixedCosts";
 import FixedCostAdd from "@/pages/settings/fixed_cost/FixedCostAdd";
 import ProductCategory from "@/pages/settings/category/Category";
@@ -14,7 +14,7 @@ import CreateDeliverySlip from "@/pages/deliverySlip/create/CreateDeliverySlip";
 import DeliverySlipList from "@/pages/deliverySlip/list/DeliverySlipList";
 import CustomerProduct from "@/pages/settings/customer_product/CustomerProduct";
 import CustomerProductEdit from "@/pages/settings/customer_product/CustomerProductEdit";
-import ProductSales from "@/pages/analysis/ProductSales";
+import ProductSales from "@/pages/analysis/product_sales/ProductSales";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 

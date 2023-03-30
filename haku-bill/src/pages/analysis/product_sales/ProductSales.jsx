@@ -11,8 +11,16 @@ const ProductSales = () => {
 	const [salesData, setSalesData] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
 	const [sortColumn, setSortColumn] = useState("created_at");
+	const now = new Date();
+	const [startDate, setStartDate] = useState(format(startOfMonth(now), "yyyy-MM-dd"));
+	const [endDate, setEndDate] = useState(format(endOfMonth(now), "yyyy-MM-dd"));
 
 	const chartHeight = salesData.length * 50;
+
+	const handleChangeDate = (startDate, endDate) => {
+		setStartDate(startDate);
+		setEndDate(endDate);
+	};
 
 	const addPercentage = (data) => {
 		const totalProfit = data.reduce((total, current) => total + Number(current.sum_gross_profit), 0);
@@ -28,7 +36,7 @@ const ProductSales = () => {
 		});
 	};
 
-	const fetchProfit = (startDate, endDate) => {
+	const fetchSales = (startDate, endDate) => {
 		const requestUrl = `/analysis/sales/${startDate}/${endDate}`;
 		axios
 			.get(requestUrl)
@@ -42,11 +50,8 @@ const ProductSales = () => {
 	};
 
 	useEffect(() => {
-		const now = new Date();
-		const start = format(startOfMonth(now), "yyyy-MM-dd");
-		const end = format(endOfMonth(now), "yyyy-MM-dd");
-		fetchProfit(start, end);
-	}, []);
+		fetchSales(startDate, endDate);
+	}, [startDate, endDate]);
 
 	const handleSortClick = (column) => {
 		if (column === sortColumn) {
@@ -79,7 +84,7 @@ const ProductSales = () => {
 					<div className="min-h-screen">
 						<div>Product Sales</div>
 						<div>
-							<CalendarComponent getData={fetchProfit} />
+							<CalendarComponent setDate={handleChangeDate} />
 						</div>
 						<div className="flex flex-row w-full">
 							<div className="w-1/2">

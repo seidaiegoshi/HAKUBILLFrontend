@@ -15,7 +15,7 @@ const CalendarComponent = (props) => {
 
 	const handleSelect = (ranges) => {
 		setRange(ranges.selection);
-		props.getData(
+		props.setDate(
 			format(ranges.selection.startDate, "yyyy-MM-dd"),
 			format(ranges.selection.endDate, "yyyy-MM-dd")
 		);
