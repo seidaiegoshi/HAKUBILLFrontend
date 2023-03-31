@@ -12,7 +12,6 @@ const ProductAdd = () => {
 		unit: "",
 		cost: null,
 		price: null,
-		tax_class: null,
 		gross_profit: null,
 		gross_rate: null,
 	});
@@ -52,7 +51,6 @@ const ProductAdd = () => {
 		params.append("unit", product.unit);
 		params.append("cost", product.cost);
 		params.append("price", product.price);
-		params.append("tax_class", product.tax_class);
 		params.append("gross_profit", product.gross_profit);
 		params.append("gross_rate", product.gross_rate);
 		axios
@@ -143,19 +141,6 @@ const ProductAdd = () => {
 								id="price"
 								placeholder="販売価格(デフォルト)"
 								onChange={(e) => handleChange("price", e.target.value)}
-								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-							/>
-						</div>
-						<div className="mb-5">
-							<label htmlFor="Tax_class" className="mb-3 block text-base font-medium text-[#07074D]">
-								税区分
-							</label>
-							<input
-								type="number"
-								name="Tax_class"
-								id="Tax_class"
-								placeholder="税区分"
-								onChange={(e) => handleChange("tax_class", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
