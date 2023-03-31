@@ -18,7 +18,7 @@ function SearchDelivery(props) {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="flex">
-				<div className="flex">
+				<div className="flex items-center">
 					<span>期間</span>
 					<TextInput
 						type="date"
