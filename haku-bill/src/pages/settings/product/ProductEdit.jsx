@@ -11,7 +11,7 @@ const ProductEdit = () => {
 		name: "",
 		product_category_id: "",
 		unit: "",
-		cost: "",
+		total_cost: "",
 		price: "",
 		gross_profit: "",
 		gross_rate: "",
@@ -50,7 +50,7 @@ const ProductEdit = () => {
 	const handleChange = (key, value) => {
 		const newProduct = { ...product };
 		newProduct[key] = value;
-		newProduct.gross_profit = newProduct.price - newProduct.cost;
+		newProduct.gross_profit = newProduct.price - newProduct.total_cost;
 		newProduct.gross_rate = newProduct.gross_profit / newProduct.price;
 
 		setProduct(newProduct);
@@ -62,7 +62,7 @@ const ProductEdit = () => {
 			name: product.name,
 			product_category_id: product.product_category_id,
 			unit: product.unit,
-			cost: product.cost,
+			total_cost: product.total_cost,
 			price: product.price,
 			tax_class: product.tax_class,
 			gross_profit: product.gross_profit,
@@ -143,10 +143,10 @@ const ProductEdit = () => {
 							</label>
 							<input
 								type="number"
-								name="cost"
-								id="cost"
-								value={product.cost}
-								onChange={(e) => handleChange("cost", e.target.value)}
+								name="total_cost"
+								id="total_cost"
+								value={product.total_cost}
+								onChange={(e) => handleChange("total_cost", e.target.value)}
 								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>

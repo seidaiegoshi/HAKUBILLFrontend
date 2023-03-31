@@ -15,7 +15,7 @@ const DeliverySlipList = () => {
 		unit: "",
 		price: 0,
 		quantity: 0,
-		cost: 0,
+		total_cost: 0,
 		gross_profit: 0,
 		subtotal: 0,
 		subtotal_gross_profit: 0,

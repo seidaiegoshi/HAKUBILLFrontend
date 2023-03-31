@@ -23,7 +23,7 @@ const CreateDeliverySlip = () => {
 		unit: "",
 		price: 0,
 		quantity: 0,
-		cost: 0,
+		total_cost: 0,
 		gross_profit: 0,
 		subtotal: 0,
 		subtotal_gross_profit: 0,
@@ -107,7 +107,7 @@ const CreateDeliverySlip = () => {
 		newDeliverySlip.contents[index].subtotal =
 			newDeliverySlip.contents[index].quantity * newDeliverySlip.contents[index].price;
 		newDeliverySlip.contents[index].gross_profit =
-			newDeliverySlip.contents[index].price - newDeliverySlip.contents[index].cost;
+			newDeliverySlip.contents[index].price - newDeliverySlip.contents[index].total_cost;
 		newDeliverySlip.contents[index].subtotal_gross_profit =
 			newDeliverySlip.contents[index].gross_profit * newDeliverySlip.contents[index].quantity;
 

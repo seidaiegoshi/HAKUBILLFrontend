@@ -10,7 +10,7 @@ const ProductAdd = () => {
 		name: "",
 		category_id: null,
 		unit: "",
-		cost: null,
+		total_cost: null,
 		price: null,
 		gross_profit: null,
 		gross_rate: null,
@@ -37,7 +37,7 @@ const ProductAdd = () => {
 	const handleChange = (key, value) => {
 		const newProduct = { ...product };
 		newProduct[key] = value;
-		newProduct.gross_profit = newProduct.price - newProduct.cost;
+		newProduct.gross_profit = newProduct.price - newProduct.total_cost;
 		newProduct.gross_rate = newProduct.gross_profit / newProduct.price;
 
 		setProduct(newProduct);
@@ -119,14 +119,14 @@ const ProductAdd = () => {
 							/>
 						</div>
 						<div className="mb-5">
-							<label htmlFor="cost" className="mb-3 block text-base font-medium text-[#07074D]">
+							<label htmlFor="total_cost" className="mb-3 block text-base font-medium text-[#07074D]">
 								原価
 							</label>
 							<input
 								type="number"
-								name="cost"
-								id="cost"
-								onChange={(e) => handleChange("cost", e.target.value)}
+								name="total_cost"
+								id="total_cost"
+								onChange={(e) => handleChange("total_cost", e.target.value)}
 								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>

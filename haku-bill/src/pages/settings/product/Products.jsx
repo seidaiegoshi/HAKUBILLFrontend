@@ -131,9 +131,9 @@ const Products = () => {
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
-													onClick={() => handleSortClick("cost")}>
+													onClick={() => handleSortClick("total_cost")}>
 													原価
-													{sortColumn === "cost" && (
+													{sortColumn === "total_cost" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -190,7 +190,7 @@ const Products = () => {
 														{value.unit}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														{Number(value.cost).toLocaleString("jp-JP") + "円"}
+														{Number(value.total_cost).toLocaleString("jp-JP") + "円"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{Number(value.price).toLocaleString("jp-JP") + "円"}
