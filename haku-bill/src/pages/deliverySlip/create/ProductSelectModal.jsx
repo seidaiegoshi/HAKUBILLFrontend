@@ -31,7 +31,7 @@ const ProductSelectModal = (props) => {
 			product_name: categories[selectedCategory].products[index].name,
 			unit: categories[selectedCategory].products[index].unit,
 			price: categories[selectedCategory].products[index].price,
-			cost: categories[selectedCategory].products[index].cost,
+			total_cost: categories[selectedCategory].products[index].total_cost,
 		});
 		closeModal();
 	};
@@ -54,7 +54,7 @@ const ProductSelectModal = (props) => {
 			product_name: customerProducts[index].name,
 			unit: customerProducts[index].unit,
 			price: customerProducts[index].price,
-			cost: customerProducts[index].cost,
+			total_cost: customerProducts[index].total_cost,
 		});
 		closeModal();
 	};

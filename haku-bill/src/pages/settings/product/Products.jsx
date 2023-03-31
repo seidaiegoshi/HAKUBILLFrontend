@@ -32,8 +32,8 @@ const Products = () => {
 
 	const navigate = useNavigate();
 
-	const handleEditClick = (id) => {
-		navigate(`/setting/product/${id}/edit`);
+	const handleEditClick = (productId) => {
+		navigate(`/setting/product/${productId}/edit`);
 	};
 
 	const handleDeleteClick = (productId) => {

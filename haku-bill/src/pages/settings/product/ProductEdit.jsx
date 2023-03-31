@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
+import TextInput from "@/components/Atoms/TextInput";
 
 const ProductEdit = () => {
 	const navigate = useNavigate();
-	const { id } = useParams();
+	const { productId } = useParams();
 	const [product, setProduct] = useState({
 		name: "",
 		product_category_id: "",
@@ -19,7 +20,7 @@ const ProductEdit = () => {
 	const [categories, setCategories] = useState([]);
 
 	const fetchProducts = () => {
-		const requestUrl = `/product/${id}`;
+		const requestUrl = `/product/${productId}`;
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -31,7 +32,7 @@ const ProductEdit = () => {
 	};
 
 	const fetchCategories = () => {
-		const requestUrl = "/product/groupByCategories";
+		const requestUrl = "/category";
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -57,7 +58,7 @@ const ProductEdit = () => {
 	};
 
 	const postProduct = () => {
-		const requestUrl = `/product/${id}`;
+		const requestUrl = `/product/${productId}`;
 		const params = {
 			name: product.name,
 			product_category_id: product.product_category_id,
@@ -99,7 +100,7 @@ const ProductEdit = () => {
 								name="category"
 								id="category"
 								value={product.product_category_id}
-								onChange={(e) => handleChange("category_id", e.target.value)}
+								onChange={(e) => handleChange("product_category_id", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
 								<option value="">選択してください</option>
 								{categories.map((category) => (
@@ -113,7 +114,7 @@ const ProductEdit = () => {
 							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
 								商品名
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="name"
 								id="name"
@@ -127,7 +128,7 @@ const ProductEdit = () => {
 							<label htmlFor="Unit" className="mb-3 block text-base font-medium text-[#07074D]">
 								単位
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="Unit"
 								id="Unit"
@@ -141,7 +142,7 @@ const ProductEdit = () => {
 							<label htmlFor="cost" className="mb-3 block text-base font-medium text-[#07074D]">
 								原価
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="total_cost"
 								id="total_cost"
@@ -155,7 +156,7 @@ const ProductEdit = () => {
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								価格
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="price"
 								id="price"
@@ -169,13 +170,13 @@ const ProductEdit = () => {
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								粗利
 							</label>
-							<p>{product.gross_profit}</p>
+							<p>{Math.floor(product.gross_profit)}</p>
 						</div>
 						<div className="mb-5">
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								粗利率
 							</label>
-							<p>{product.gross_rate * 100 + "%"}</p>
+							<p>{Math.floor(product.gross_rate * 100) + "%"}</p>
 						</div>
 
 						<div>

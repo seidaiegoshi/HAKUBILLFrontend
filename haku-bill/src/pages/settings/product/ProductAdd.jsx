@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
+import TextInput from "@/components/Atoms/TextInput";
 
 const ProductAdd = () => {
 	const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ProductAdd = () => {
 	const [categories, setCategories] = useState([]);
 
 	const fetchCategories = () => {
-		const requestUrl = "/product/groupByCategories";
+		const requestUrl = "/category";
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -49,7 +50,7 @@ const ProductAdd = () => {
 		params.append("name", product.name);
 		params.append("product_category_id", product.category_id);
 		params.append("unit", product.unit);
-		params.append("cost", product.cost);
+		params.append("total_cost", product.total_cost);
 		params.append("price", product.price);
 		params.append("gross_profit", product.gross_profit);
 		params.append("gross_rate", product.gross_rate);
@@ -96,7 +97,7 @@ const ProductAdd = () => {
 							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
 								商品名
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="name"
 								id="name"
@@ -109,7 +110,7 @@ const ProductAdd = () => {
 							<label htmlFor="Unit" className="mb-3 block text-base font-medium text-[#07074D]">
 								単位
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="Unit"
 								id="Unit"
@@ -122,12 +123,12 @@ const ProductAdd = () => {
 							<label htmlFor="total_cost" className="mb-3 block text-base font-medium text-[#07074D]">
 								原価
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="total_cost"
 								id="total_cost"
 								onChange={(e) => handleChange("total_cost", e.target.value)}
-								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
+								placeholder="材料費"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
@@ -135,7 +136,7 @@ const ProductAdd = () => {
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								価格
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="price"
 								id="price"

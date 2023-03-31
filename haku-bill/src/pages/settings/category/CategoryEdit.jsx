@@ -30,7 +30,7 @@ const CategoryEdit = () => {
 	const handleChange = (key, value) => {
 		const newCategory = { ...category };
 		newCategory[key] = value;
-		newCategory.gross_profit = newCategory.price - newCategory.cost;
+		newCategory.gross_profit = newCategory.price - newCategory.total_cost;
 		newCategory.gross_rate = newCategory.gross_profit / newCategory.price;
 
 		setProduct(newCategory);
