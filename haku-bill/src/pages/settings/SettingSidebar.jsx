@@ -1,6 +1,7 @@
 import React from "react";
 import LinkButton from "@/components/Atoms/LinkButton";
 import { BsBox, BsBoxes, BsBuildingDown } from "react-icons/bs";
+import { MdMenuBook } from "react-icons/md";
 
 const SettingSidebar = () => {
 	return (
@@ -10,6 +11,7 @@ const SettingSidebar = () => {
 					<nav>
 						<LinkButton to={"/setting/product"} text={"商品"} svg={<BsBox />} />
 						<LinkButton to={"/setting/category"} text={"商品カテゴリ"} svg={<BsBoxes />} />
+						{/* <LinkButton to={"/setting/recipe"} text={"レシピ"} svg={<MdMenuBook />} /> */}
 						<LinkButton to={"/setting/fixed_cost"} text={"固定費"} svg={<BsBuildingDown />} />
 						<LinkButton
 							to={"/setting/customer_product"}

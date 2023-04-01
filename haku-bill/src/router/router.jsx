@@ -15,6 +15,7 @@ import DeliverySlipList from "@/pages/deliverySlip/list/DeliverySlipList";
 import CustomerProduct from "@/pages/settings/customer_product/CustomerProduct";
 import CustomerProductEdit from "@/pages/settings/customer_product/CustomerProductEdit";
 import ProductSales from "@/pages/analysis/product_sales/ProductSales";
+import RecipeList from "@/pages/settings/recipe/RecipeList";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
@@ -30,7 +31,9 @@ const routes = createRoutes(
 
 		<Route path="/setting/product" element={<Products />} />
 		<Route path="/setting/product/new" element={<ProductAdd />} />
-		<Route path="/setting/product/:id/edit" element={<ProductEdit />} />
+		<Route path="/setting/product/:productId/edit" element={<ProductEdit />} />
+
+		<Route path="/setting/recipe" element={<RecipeList />} />
 
 		<Route path="/setting/category" element={<ProductCategory />} />
 		<Route path="/setting/category/new" element={<CategoryAdd />} />
