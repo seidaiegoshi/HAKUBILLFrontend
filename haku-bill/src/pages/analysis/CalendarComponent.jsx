@@ -19,9 +19,11 @@ import "react-date-range/dist/styles.css"; // デフォルトのスタイル
 import "react-date-range/dist/theme/default.css"; // テーマ
 
 const CalendarComponent = (props) => {
+	const now = new Date();
+
 	const [range, setRange] = useState({
-		startDate: new Date(),
-		endDate: new Date(),
+		startDate: startOfMonth(now),
+		endDate: endOfMonth(now),
 		key: "selection",
 	});
 

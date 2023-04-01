@@ -23,6 +23,7 @@ const DailyProfit = () => {
 	const [endDate, setEndDate] = useState(format(endOfMonth(now), "yyyy-MM-dd"));
 	const [fixedCostDay, setFixedCostDay] = useState(null);
 	const [fixedCostGraph, setFixedCostGraph] = useState(null);
+	const [yRangeState, setYRangeState] = useState(null);
 
 	const handleChangeDate = (startDate, endDate) => {
 		setStartDate(startDate);
@@ -35,7 +36,14 @@ const DailyProfit = () => {
 			.then((response) => {
 				const filledData = fillMissingDates(cumulativeData(response.data));
 				const daysDiff = differenceInDays(new Date(endDate), new Date(startDate)) + 1;
-				setFixedCostGraph(daysDiff * fixedCostDay);
+				const currentFixedCostGraph = Math.floor(daysDiff * fixedCostDay);
+				setFixedCostGraph(currentFixedCostGraph);
+
+				const maxDailyProfit = Math.max(...filledData.map((data) => data.daily_profit));
+				const maxYRange = Math.max(maxDailyProfit, currentFixedCostGraph);
+				setYRangeState(maxYRange + 1000);
+				console.log(maxYRange);
+
 				setGraphData(filledData);
 			})
 			.catch((error) => {
@@ -121,7 +129,7 @@ const DailyProfit = () => {
 									}}>
 									<CartesianGrid strokeDasharray="3 3" />
 									<XAxis dataKey="publish_date" />
-									<YAxis domain={[0, "dataMax + 1000"]} />
+									<YAxis domain={[0, yRangeState]} />
 									<Tooltip />
 									<Legend />
 									<ReferenceLine
