@@ -96,7 +96,6 @@ const DailyProfit = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchProfit(startDate, endDate);
 		if (fixedCostDay !== null) {
 			fetchProfit(startDate, endDate, fixedCostDay);
 		}
