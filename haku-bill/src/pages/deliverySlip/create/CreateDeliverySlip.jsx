@@ -6,7 +6,7 @@ import ProductSelectModal from "@/pages/deliverySlip/create/ProductSelectModal";
 import axios from "@/libs/axios";
 import { format } from "date-fns";
 import { useReactToPrint } from "react-to-print";
-import PrintComponent from "@/pages/deliverySlip/create/PrintComponent";
+import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import DeliverySlipSidebar from "@/pages/deliverySlip/DeliverySlipSidebar";
 
 const CreateDeliverySlip = () => {

@@ -4,35 +4,13 @@ import Header from "@/components/Header";
 import SearchDelivery from "@/pages/deliverySlip/list/SearchDelivery";
 import axios from "@/libs/axios";
 import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
-import PrintComponent from "@/pages/deliverySlip/create/PrintComponent";
+import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import { useReactToPrint } from "react-to-print";
 import DeliverySlipListItems from "./DeliverySlipListItems";
 import Pagination from "@/pages/deliverySlip/list/Pagination";
 
 const DeliverySlipList = () => {
-	const defaultContent = {
-		product_id: null,
-		product_name: "",
-		unit: "",
-		price: 0,
-		quantity: 0,
-		total_cost: 0,
-		gross_profit: 0,
-		subtotal: 0,
-		subtotal_gross_profit: 0,
-	};
-
-	const [deliverySlips, setDeliverySlips] = useState([
-		{
-			customer_id: null,
-			id: null,
-			customer_name: "",
-			customer_address: "",
-			publish_date: new Date().toISOString(),
-			contents: [defaultContent],
-			total_price: 0,
-		},
-	]);
+	const [deliverySlips, setDeliverySlips] = useState([]);
 	const [preview, setPreview] = useState(null);
 	const [searchWords, setSearchWords] = useState({
 		dateFrom: "",
@@ -56,7 +34,11 @@ const DeliverySlipList = () => {
 			.get(requestUrl, { params })
 			.then((response) => {
 				console.log(response.data);
-				setDeliverySlips(response.data.data);
+				if (response.data.current_page === 1) {
+					setDeliverySlips(response.data.data);
+				} else {
+					setDeliverySlips((prevDeliverySlips) => [...prevDeliverySlips, ...response.data.data]);
+				}
 				setCurrentPage(response.data.current_page);
 				setTotalPages(response.data.last_page);
 				setPreview(response.data.data[0]);
@@ -66,9 +48,15 @@ const DeliverySlipList = () => {
 			});
 	};
 
+	const loadMoreDeliverySlips = () => {
+		if (currentPage < totalPages) {
+			onSearch({ ...searchWords, page: currentPage + 1 });
+		}
+	};
+
 	useEffect(() => {
 		onSearch({ ...searchWords, page: currentPage });
-	}, [currentPage]);
+	}, []);
 
 	const componentRef = useRef();
 	const handlePrint = useReactToPrint({
@@ -86,26 +74,26 @@ const DeliverySlipList = () => {
 					<div className="sticky top-0 bg-white">
 						<SearchDelivery search={onSearch} searchWords={searchWords} setSearchWords={setSearchWords} />
 					</div>
-					<div className="flex">
-						<div className="flex-none flex flex-col">
-							<Pagination
-								currentPage={currentPage}
-								totalPages={totalPages}
-								onPageChange={(page) => onSearch({ ...searchWords, page })}
-							/>
-							<div className="flex">
-								<DeliverySlipListItems deliverySlips={deliverySlips} setPreview={setPreview} />
+					{deliverySlips.length > 0 ? (
+						<div className="flex">
+							<div className="flex-none flex flex-col">
+								<div className="flex">
+									<DeliverySlipListItems
+										deliverySlips={deliverySlips}
+										setPreview={setPreview}
+										loadMoreDeliverySlips={loadMoreDeliverySlips}
+										currentPage={currentPage}
+										totalPages={totalPages}
+									/>
+								</div>
 							</div>
-							<Pagination
-								currentPage={currentPage}
-								totalPages={totalPages}
-								onPageChange={(page) => onSearch({ ...searchWords, page })}
-							/>
+							<div className="m-4">
+								{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
+							</div>
 						</div>
-						<div className="m-4">
-							{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
-						</div>
-					</div>
+					) : (
+						<div className="m-auto">検索条件に当てはまる納品書はありません</div>
+					)}
 				</div>
 			</div>
 		</>
