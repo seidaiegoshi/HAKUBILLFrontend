@@ -6,9 +6,10 @@ import axios from "@/libs/axios";
 import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
 import PrintComponent from "@/pages/deliverySlip/create/PrintComponent";
 import { useReactToPrint } from "react-to-print";
+import DeliverySlipListItems from "./DeliverySlipListItems";
+import Pagination from "@/pages/deliverySlip/list/Pagination";
 
 const DeliverySlipList = () => {
-	const currentDate = new Date();
 	const defaultContent = {
 		product_id: null,
 		product_name: "",
@@ -34,14 +35,16 @@ const DeliverySlipList = () => {
 	]);
 	const [preview, setPreview] = useState(null);
 	const [searchWords, setSearchWords] = useState({
-		dateFrom: format(startOfMonth(currentDate), "yyyy-MM-dd"),
-		dateTo: format(endOfMonth(currentDate), "yyyy-MM-dd"),
+		dateFrom: "",
+		dateTo: "",
 		word: "",
 	});
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 
-	const onSearch = ({ dateFrom, dateTo, word }) => {
+	const onSearch = ({ dateFrom, dateTo, word, page }) => {
 		const requestUrl = "/delivery_slip";
-		const params = {};
+		const params = { page };
 		if (dateFrom !== "" && dateTo !== "") {
 			params.dateFrom = dateFrom;
 			params.dateTo = dateTo;
@@ -52,8 +55,11 @@ const DeliverySlipList = () => {
 		axios
 			.get(requestUrl, { params })
 			.then((response) => {
-				setDeliverySlips(response.data);
-				setPreview(response.data[0]);
+				console.log(response.data);
+				setDeliverySlips(response.data.data);
+				setCurrentPage(response.data.current_page);
+				setTotalPages(response.data.last_page);
+				setPreview(response.data.data[0]);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -61,8 +67,8 @@ const DeliverySlipList = () => {
 	};
 
 	useEffect(() => {
-		onSearch(searchWords);
-	}, []);
+		onSearch({ ...searchWords, page: currentPage });
+	}, [currentPage]);
 
 	const componentRef = useRef();
 	const handlePrint = useReactToPrint({
@@ -73,40 +79,31 @@ const DeliverySlipList = () => {
 		<>
 			<Header />
 			<div className="flex">
-				<div className="flex-none">
+				<div className="flex-none border-r-2">
 					<DeliverySlipSidebar />
 				</div>
-				<div className="flex-initial w-full ">
+				<div className="flex-initial w-full">
 					<div className="sticky top-0 bg-white">
 						<SearchDelivery search={onSearch} searchWords={searchWords} setSearchWords={setSearchWords} />
 					</div>
 					<div className="flex">
-						<div className="flex-none  border-1">
-							<ul className="mt-3 p-3 space-y-2 h-screen overflow-y-auto">
-								{deliverySlips.map((delivery) => (
-									<li
-										key={delivery.id}
-										className="mb-2 w-[200px]"
-										onClick={() => {
-											setPreview(delivery);
-										}}>
-										<div className="bg-white py-1 px-3 rounded shadow border-1 cursor-pointer">
-											<p className="text-sm text-gray-500">
-												{format(parseISO(delivery.publish_date), "yyyy/M/d")}【{delivery.id}】
-											</p>
-											<p className="text-sm font-semibold">{delivery.customer_name}</p>
-											<div className="flex flex-row-reverse">
-												<p className="text-sm  right-0">{delivery.total_price}円</p>
-											</div>
-										</div>
-									</li>
-								))}
-							</ul>
-						</div>
-						<div>
-							<div className="m-4">
-								{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
+						<div className="flex-none flex flex-col">
+							<Pagination
+								currentPage={currentPage}
+								totalPages={totalPages}
+								onPageChange={(page) => onSearch({ ...searchWords, page })}
+							/>
+							<div className="flex">
+								<DeliverySlipListItems deliverySlips={deliverySlips} setPreview={setPreview} />
 							</div>
+							<Pagination
+								currentPage={currentPage}
+								totalPages={totalPages}
+								onPageChange={(page) => onSearch({ ...searchWords, page })}
+							/>
+						</div>
+						<div className="m-4">
+							{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
 						</div>
 					</div>
 				</div>
