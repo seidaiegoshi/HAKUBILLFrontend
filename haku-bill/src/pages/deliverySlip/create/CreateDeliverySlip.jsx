@@ -9,7 +9,7 @@ import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import DeliverySlipSidebar from "@/pages/deliverySlip/DeliverySlipSidebar";
 import CustomerSearchModal from "./CustomerSearchModal";
 import DeliverySlipTable from "./DeliverySlipTable";
-
+import Button from "@/components/Atoms/Button";
 const CreateDeliverySlip = () => {
 	const [searchWord, setSearchWord] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
@@ -180,9 +180,9 @@ const CreateDeliverySlip = () => {
 					<div className="flex flex-col">
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
 							<div className="mb-4 flex items-center">
-								<button onClick={showCustomerSelectModal} className="mr-4">
+								<Button onClick={showCustomerSelectModal} className="mr-4">
 									取引先選択
-								</button>
+								</Button>
 								{selectedCustomerName ? (
 									<span>{selectedCustomerName}</span>
 								) : (
@@ -193,10 +193,11 @@ const CreateDeliverySlip = () => {
 								deliverySlip={deliverySlip}
 								handleChange={handleChange}
 								showProductSelectModal={showProductSelectModal}
+								addRow={addRow}
 							/>
 						</div>
 					</div>
-					<div className="m-4">
+					<div className="m-4 flex justify-center">
 						<PrintComponent deliverySlipData={deliverySlip} ref={componentRef} />
 					</div>
 				</div>

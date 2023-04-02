@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const Material = ({ material, onMaterialUpdate, onMaterialDelete }) => {
 	const [editMode, setEditMode] = useState(false);
@@ -33,12 +34,10 @@ const Material = ({ material, onMaterialUpdate, onMaterialDelete }) => {
 							})
 						}
 					/>
-					<button onClick={handleUpdate} className="bg-blue-500 text-white rounded p-2">
-						更新
-					</button>
-					<button onClick={() => setEditMode(false)} className="bg-red-500 text-white rounded p-2">
+					<Button onClick={handleUpdate}>更新</Button>
+					<Button onClick={() => setEditMode(false)} className="bg-red-500 text-white">
 						キャンセル
-					</button>
+					</Button>
 				</>
 			) : (
 				<>
@@ -46,12 +45,10 @@ const Material = ({ material, onMaterialUpdate, onMaterialDelete }) => {
 					<span className="text-gray-500">{material.quantity}</span>
 					<span className="text-gray-500">{material.material.unit}</span>
 					<span className="text-gray-500">{material.material.yield}</span>
-					<button onClick={() => setEditMode(true)} className="bg-gray-200 rounded p-2">
-						編集
-					</button>
-					<button onClick={handleDelete} className="bg-red-500 text-white rounded p-2">
+					<Button onClick={() => setEditMode(true)}>編集</Button>
+					<Button onClick={handleDelete} className="bg-red-500 text-white">
 						削除
-					</button>
+					</Button>
 				</>
 			)}
 		</div>

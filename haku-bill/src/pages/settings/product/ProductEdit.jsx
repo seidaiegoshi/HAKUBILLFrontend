@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
 import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const ProductEdit = () => {
 	const navigate = useNavigate();
@@ -180,11 +181,7 @@ const ProductEdit = () => {
 						</div>
 
 						<div>
-							<button
-								onClick={postProduct}
-								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								商品情報を更新
-							</button>
+							<Button onClick={postProduct}> 商品情報を更新</Button>
 						</div>
 					</div>
 				</div>

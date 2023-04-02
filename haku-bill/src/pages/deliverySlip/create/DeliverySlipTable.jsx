@@ -1,5 +1,6 @@
 import React from "react";
 import ContentRow from "./ContentRow";
+import Button from "@/components/Atoms/Button";
 
 const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal, addRow }) => {
 	return (
@@ -38,11 +39,9 @@ const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal,
 					</tbody>
 				</table>
 			</div>
-			<button
-				onClick={addRow}
-				className="block uppercase mx-auto mt-3 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
-				追加
-			</button>
+			<div className="mt-3 flex justify-center">
+				<Button onClick={addRow}> 追加</Button>
+			</div>
 		</div>
 	);
 };

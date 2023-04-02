@@ -1,5 +1,6 @@
 import React from "react";
 import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const ContentRow = ({ item, index, handleChange, showProductSelectModal }) => {
 	return (
@@ -12,11 +13,11 @@ const ContentRow = ({ item, index, handleChange, showProductSelectModal }) => {
 						value={item.product_name}
 						onChange={(e) => handleChange(index, { product_name: e.target.value })}
 					/>
-					<button
+					<Button
 						onClick={() => showProductSelectModal(index)}
 						className="block uppercase mx-1 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  px-4 rounded">
 						選択する
-					</button>
+					</Button>
 				</div>
 			</td>
 			{/* 単位 */}

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
+import Button from "@/components/Atoms/Button";
 
 const CustomerProduct = () => {
 	const [searchWords, setSearchWords] = useState({ customer: "", product: "" });
@@ -159,19 +160,14 @@ const CustomerProduct = () => {
 											{format(parseISO(customerPrice.updated_at), "yyyy-MM-dd")}
 										</td>
 										<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-											<button
-												onClick={() => handleEditClick(customerPrice.id)}
-												className="bg-gray-100 hover:bg-gray-200 text-base  py-2 px-4
-															rounded-lg">
-												編集
-											</button>
+											<Button onClick={() => handleEditClick(customerPrice.id)}>編集</Button>
 										</td>
 										<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-											<button
-												className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"
+											<Button
+												className="bg-red-500 hover:bg-red-600 text-white "
 												onClick={() => handleDeleteClick(customerPrice.id)}>
 												削除
-											</button>
+											</Button>
 										</td>
 									</tr>
 								))}

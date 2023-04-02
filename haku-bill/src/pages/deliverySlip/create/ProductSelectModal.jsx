@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ListBox from "@/pages/deliverySlip/create/ListBlock";
 import axios from "@/libs/axios.js";
+import Button from "@/components/Atoms/Button";
 
 const ProductSelectModal = (props) => {
 	const [categories, setCategories] = useState([]);
@@ -88,11 +89,7 @@ const ProductSelectModal = (props) => {
 				className="fixed h-screen w-screen flex justify-center items-center top-0 left-0  bg-slate-900/50 z-50">
 				<div id="modalContent" className="bg-white p-5 rounded-sm">
 					<div className="flex justify-end w-full">
-						<button
-							onClick={closeModal}
-							className=" uppercase m-2 shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">
-							閉じる
-						</button>
+						<Button onClick={closeModal}>閉じる</Button>
 					</div>
 
 					<div className="p-5">

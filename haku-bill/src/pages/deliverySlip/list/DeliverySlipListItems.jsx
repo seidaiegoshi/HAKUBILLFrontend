@@ -1,5 +1,6 @@
 import React from "react";
 import { format, parseISO } from "date-fns";
+import Button from "@/components/Atoms/Button";
 
 const DeliverySlipListItems = ({
 	deliverySlips,
@@ -31,13 +32,7 @@ const DeliverySlipListItems = ({
 							</div>
 						</li>
 					))}
-					{currentPage < totalPages && (
-						<button
-							onClick={() => loadMoreDeliverySlips()}
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 mx-auto">
-							もっと表示
-						</button>
-					)}
+					{currentPage < totalPages && <Button onClick={() => loadMoreDeliverySlips()}>もっと表示</Button>}
 				</ul>
 			</div>
 			<p className="ml-4">表示件数: {deliverySlips.length}</p>

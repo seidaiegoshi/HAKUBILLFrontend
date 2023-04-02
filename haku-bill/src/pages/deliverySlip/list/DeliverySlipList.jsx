@@ -7,7 +7,6 @@ import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
 import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import { useReactToPrint } from "react-to-print";
 import DeliverySlipListItems from "./DeliverySlipListItems";
-import Pagination from "@/pages/deliverySlip/list/Pagination";
 
 const DeliverySlipList = () => {
 	const [deliverySlips, setDeliverySlips] = useState([]);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Button from "@/components/Atoms/Button";
 
 const CategoryAdd = () => {
 	const navigate = useNavigate();
@@ -55,11 +56,7 @@ const CategoryAdd = () => {
 						</div>
 
 						<div>
-							<button
-								onClick={postCategory}
-								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								登録
-							</button>
+							<Button onClick={postCategory}>登録</Button>
 						</div>
 					</div>
 				</div>

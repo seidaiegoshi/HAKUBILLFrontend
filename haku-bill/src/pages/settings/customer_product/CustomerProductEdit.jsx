@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Button from "@/components/Atoms/Button";
 
 const CustomerProductEdit = () => {
 	const navigate = useNavigate();
@@ -93,11 +94,7 @@ const CustomerProductEdit = () => {
 						</div>
 
 						<div>
-							<button
-								onClick={patchFixedCost}
-								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								更新
-							</button>
+							<Button onClick={patchFixedCost}>更新</Button>
 						</div>
 					</div>
 				</div>

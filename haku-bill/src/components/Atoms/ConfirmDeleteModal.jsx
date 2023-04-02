@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@/components/Atoms/Button";
 
 const ConfirmDeleteModal = (props) => {
 	if (!props.isOpen) {
@@ -12,16 +13,10 @@ const ConfirmDeleteModal = (props) => {
 					<h2 className="text-xl font-bold">削除確認</h2>
 					<p className="mt-2">本当に削除しますか？</p>
 					<div className="mt-4">
-						<button
-							className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg mr-2"
-							onClick={props.onDelete}>
+						<Button className="bg-red-500 hover:bg-red-600 text-white" onClick={props.onDelete}>
 							削除
-						</button>
-						<button
-							className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-lg"
-							onClick={props.onClose}>
-							キャンセル
-						</button>
+						</Button>
+						<Button onClick={props.onClose}>キャンセル</Button>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 function SearchDelivery(props) {
 	const [searchWords, setSearchWords] = useState(props.searchWords);
@@ -34,11 +35,7 @@ function SearchDelivery(props) {
 					placeholder={"取引先名"}
 					onChange={handleChangeSearchWords("word")}
 				/>
-				<button
-					type="submit"
-					className="block uppercase mx-4 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  py-3 px-10 rounded">
-					検索
-				</button>
+				<Button type="submit"> 検索</Button>
 			</div>
 		</form>
 	);

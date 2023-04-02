@@ -1,5 +1,5 @@
 import React from "react";
-import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const CustomerSearchModal = ({
 	searchWord,
@@ -44,9 +44,9 @@ const CustomerSearchModal = ({
 							</li>
 						))}
 					</ul>
-					<button onClick={closeModal} className="mt-4">
+					<Button onClick={closeModal} className="mt-4">
 						キャンセル
-					</button>
+					</Button>
 				</div>
 			</div>
 			<div className="fixed inset-0 bg-black opacity-50 z-40" onClick={closeModal}></div>

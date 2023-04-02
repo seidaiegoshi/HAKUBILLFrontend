@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const AddMaterial = ({ onMaterialCreate }) => {
 	const [newMaterial, setNewMaterial] = useState({ name: "", quantity: 0 });
@@ -26,7 +27,7 @@ const AddMaterial = ({ onMaterialCreate }) => {
 				onChange={(e) => setNewMaterial({ ...newMaterial, quantity: parseFloat(e.target.value) })}
 				required
 			/>
-			<button type="submit">材料を追加</button>
+			<Button type="submit">材料を追加</Button>
 		</form>
 	);
 };
