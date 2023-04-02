@@ -135,10 +135,8 @@ const ProductSelectModal = (props) => {
 												<tbody className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg ">
 													{showCustomerProducts
 														? customerProducts.map((product, index) => (
-																<tr key={product.id}>
-																	<td
-																		onClick={() => handleClickCustomerProduct(index)}
-																		className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
+																<tr key={product.id} onClick={() => handleClickCustomerProduct(index)}>
+																	<td className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
 																		{product.name}
 																	</td>
 																	<td className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
@@ -150,10 +148,8 @@ const ProductSelectModal = (props) => {
 																</tr>
 														  ))
 														: categories[selectedCategory].products.map((product, index) => (
-																<tr key={product.id}>
-																	<td
-																		onClick={() => handleClickProduct(index)}
-																		className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
+																<tr key={product.id} onClick={() => handleClickProduct(index)}>
+																	<td className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
 																		{product.name}
 																	</td>
 																	<td className="w-full px-4 py-2 cursor-pointer border-b border-gray-200 rounded-t-lg ">
