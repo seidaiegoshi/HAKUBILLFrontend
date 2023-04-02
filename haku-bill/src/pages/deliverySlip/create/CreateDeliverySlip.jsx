@@ -7,14 +7,15 @@ import { format } from "date-fns";
 import { useReactToPrint } from "react-to-print";
 import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import DeliverySlipSidebar from "@/pages/deliverySlip/DeliverySlipSidebar";
-import CustomerSearch from "./CustomerSearch";
+import CustomerSearchModal from "./CustomerSearchModal";
 import DeliverySlipTable from "./DeliverySlipTable";
 
 const CreateDeliverySlip = () => {
 	const [searchWord, setSearchWord] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [displayResult, setDisplayResult] = useState(false);
-
+	const [customerModal, setCustomerModal] = useState(false);
+	const [selectedCustomerName, setSelectedCustomerName] = useState("");
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
 	const [rowIndex, setRowIndex] = useState(null);
 
@@ -92,7 +93,9 @@ const CreateDeliverySlip = () => {
 		newDeliverySlip.customer_address = customer.address;
 		setSearchWord(customer.name);
 		setDeliverySlip(newDeliverySlip);
+		setSelectedCustomerName(customer.name);
 		setDisplayResult(false);
+		setCustomerModal(false);
 	};
 
 	const showProductSelectModal = (index) => {
@@ -161,6 +164,10 @@ const CreateDeliverySlip = () => {
 		content: () => componentRef.current,
 	});
 
+	const showCustomerSelectModal = () => {
+		setCustomerModal(true);
+	};
+
 	return (
 		<>
 			<Header />
@@ -172,20 +179,16 @@ const CreateDeliverySlip = () => {
 				<div className="flex-initial w-full">
 					<div className="flex flex-col">
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-							<CustomerSearch
-								searchWord={searchWord}
-								displayResult={displayResult}
-								suggestions={suggestions}
-								handleChangeCustomerInput={handleChangeCustomerInput}
-								handleClickSuggestion={handleClickSuggestion}
-							/>
-							<ProductSelectModal
-								showFlag={productModal}
-								setModal={setProductModal}
-								setProduct={handleChange}
-								rowIndex={rowIndex}
-								customerId={deliverySlip.customer_id}
-							/>
+							<div className="mb-4 flex items-center">
+								<button onClick={showCustomerSelectModal} className="mr-4">
+									取引先選択
+								</button>
+								{selectedCustomerName ? (
+									<span>{selectedCustomerName}</span>
+								) : (
+									<span className="text-red-500">取引先を選択してください</span>
+								)}
+							</div>
 							<DeliverySlipTable
 								deliverySlip={deliverySlip}
 								handleChange={handleChange}
@@ -198,6 +201,23 @@ const CreateDeliverySlip = () => {
 					</div>
 				</div>
 			</div>
+			<ProductSelectModal
+				showFlag={productModal}
+				setModal={setProductModal}
+				setProduct={handleChange}
+				rowIndex={rowIndex}
+				customerId={deliverySlip.customer_id}
+			/>
+			<CustomerSearchModal
+				searchWord={searchWord}
+				displayResult={displayResult}
+				suggestions={suggestions}
+				handleChangeCustomerInput={handleChangeCustomerInput}
+				handleClickSuggestion={handleClickSuggestion}
+				showFlag={customerModal}
+				setModal={setCustomerModal}
+				customers={suggestions}
+			/>
 		</>
 	);
 };

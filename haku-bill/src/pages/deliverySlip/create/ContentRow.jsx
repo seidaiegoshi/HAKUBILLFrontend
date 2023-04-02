@@ -14,7 +14,7 @@ const ContentRow = ({ item, index, handleChange, showProductSelectModal }) => {
 					/>
 					<button
 						onClick={() => showProductSelectModal(index)}
-						className="justify-evenly block uppercase mx-1 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  px-4 rounded">
+						className="block uppercase mx-1 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  px-4 rounded">
 						選択する
 					</button>
 				</div>
