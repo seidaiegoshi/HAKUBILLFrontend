@@ -167,6 +167,10 @@ const CreateDeliverySlip = () => {
 	const showCustomerSelectModal = () => {
 		setCustomerModal(true);
 	};
+	const removeRow = (index) => {
+		const newContents = deliverySlip.contents.filter((_, i) => i !== index);
+		setDeliverySlip({ ...deliverySlip, contents: newContents });
+	};
 
 	return (
 		<>
@@ -194,6 +198,7 @@ const CreateDeliverySlip = () => {
 								handleChange={handleChange}
 								showProductSelectModal={showProductSelectModal}
 								addRow={addRow}
+								removeRow={removeRow}
 							/>
 						</div>
 					</div>
