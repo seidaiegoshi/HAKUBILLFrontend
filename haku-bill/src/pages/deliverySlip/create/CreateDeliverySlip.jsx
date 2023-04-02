@@ -126,7 +126,6 @@ const CreateDeliverySlip = () => {
 	const postDeliverySlip = async () => {
 		const requestUrl = "/delivery_slip";
 		// const param = new FormData();
-		let deliverySlipId = null;
 		const data = deliverySlip.contents;
 		console.log(deliverySlip);
 		const param = {
@@ -142,7 +141,6 @@ const CreateDeliverySlip = () => {
 			.post(requestUrl, param)
 			.then((response) => {
 				console.log(response.data);
-				deliverySlipId = response.data.id;
 			})
 			.catch((e) => {
 				console.log(e);
@@ -175,7 +173,7 @@ const CreateDeliverySlip = () => {
 	return (
 		<>
 			<Header />
-			<SideButton register={postDeliverySlip} print={handlePrint} />
+			<SideButton postDeliverySlip={postDeliverySlip} handlePrint={handlePrint} />
 			<div className="flex">
 				<div className="flex-none">
 					<DeliverySlipSidebar />
@@ -190,7 +188,7 @@ const CreateDeliverySlip = () => {
 								{selectedCustomerName ? (
 									<span>{selectedCustomerName}</span>
 								) : (
-									<span className="text-red-500">取引先を選択してください</span>
+									<span className="text-red-500">取引先を選択してください。</span>
 								)}
 							</div>
 							<DeliverySlipTable
