@@ -19,7 +19,11 @@ const SideButton = ({ postDeliverySlip, handlePrint }) => {
 				className="flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 text-gray-700 hover:bg-gray-100 ">
 				<HiOutlinePrinter />
 
-				<small className="text-xs font-medium">印刷</small>
+				<small className="text-xs font-medium text-center">
+					登録
+					<br />
+					印刷
+				</small>
 			</div>
 		</nav>
 	);

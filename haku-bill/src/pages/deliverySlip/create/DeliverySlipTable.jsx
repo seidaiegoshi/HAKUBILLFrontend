@@ -4,7 +4,7 @@ import Button from "@/components/Atoms/Button";
 
 const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal, addRow, removeRow }) => {
 	return (
-		<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+		<div className="py-2 inline-block min-w-full">
 			<div className="overflow-hidden">
 				<table className="min-w-full">
 					<thead className="bg-white border-b-2">

@@ -124,9 +124,13 @@ const CreateDeliverySlip = () => {
 	};
 
 	const postDeliverySlip = async () => {
+		if (!deliverySlip.customer_id || !deliverySlip.contents.some((content) => content.product_id)) {
+			alert("取引先と商品は必ず選択してください。");
+			return;
+		}
+
 		const requestUrl = "/delivery_slip";
 		const data = deliverySlip.contents;
-		console.log(deliverySlip);
 		const param = {
 			customer_id: deliverySlip.customer_id,
 			customer_name: deliverySlip.customer_name,
@@ -144,7 +148,7 @@ const CreateDeliverySlip = () => {
 			.catch((e) => {
 				console.log(e);
 			})
-			.finally();
+			.finally(alert("登録しました"));
 	};
 
 	const addRow = () => {
@@ -161,6 +165,15 @@ const CreateDeliverySlip = () => {
 		content: () => componentRef.current,
 	});
 
+	const printDeliverySlip = () => {
+		if (!deliverySlip.customer_id || !deliverySlip.contents.some((content) => content.product_id)) {
+			alert("取引先と商品は必ず選択してください。");
+			return;
+		}
+		postDeliverySlip();
+		handlePrint();
+	};
+
 	const showCustomerSelectModal = () => {
 		setCustomerModal(true);
 	};
@@ -172,14 +185,14 @@ const CreateDeliverySlip = () => {
 	return (
 		<>
 			<Header />
-			<SideButton postDeliverySlip={postDeliverySlip} handlePrint={handlePrint} />
+			<SideButton postDeliverySlip={postDeliverySlip} handlePrint={printDeliverySlip} />
 			<div className="flex">
 				<div className="flex-none">
 					<DeliverySlipSidebar />
 				</div>
-				<div className="flex-initial w-full">
+				<div className="flex-grow">
 					<div className="flex flex-col">
-						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+						<div className="overflow-x-auto">
 							<div className="mb-4 flex items-center">
 								<Button onClick={showCustomerSelectModal} className="mr-4">
 									取引先選択
@@ -199,7 +212,7 @@ const CreateDeliverySlip = () => {
 							/>
 						</div>
 					</div>
-					<div className="m-4 flex justify-center">
+					<div className="flex justify-center pt-5">
 						<PrintComponent deliverySlipData={deliverySlip} ref={componentRef} />
 					</div>
 				</div>
