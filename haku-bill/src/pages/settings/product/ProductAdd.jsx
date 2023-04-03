@@ -55,6 +55,7 @@ const ProductAdd = () => {
 		params.append("price", product.price);
 		params.append("gross_profit", product.gross_profit);
 		params.append("gross_rate", product.gross_rate);
+		params.append("is_product", 1);
 		axios
 			.post(requestUrl, params)
 			.then((response) => {
