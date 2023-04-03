@@ -12,7 +12,7 @@ const PrintComponent = React.forwardRef((props, ref) => {
 
 	return (
 		<>
-			<div>
+			<div css={previewStyle}>
 				<div ref={ref} css={printStyles}>
 					<div className="h-1/2 p-6 pt-8">
 						<div className="relative mb-8">
@@ -131,24 +131,30 @@ const PrintComponent = React.forwardRef((props, ref) => {
 	);
 });
 
-const printStyles = css`
+const previewStyle = css`
 	transform: scale(0.7);
 	transform-origin: top left;
 	width: 210mm;
-	height: 297mm;
+	height: 288mm;
 	box-sizing: border-box;
 	background-color: white;
 	padding: 16px;
 	margin-bottom: 16px;
 	border: solid 2px #ccc;
+`;
+
+const printStyles = css`
+	height: 288mm;
 
 	@media print {
-		transform: scale(1);
-		width: 210mm;
-		height: 297mm;
-		margin: 0 auto;
-		page-break-after: always;
-		overflow: hidden;
+		html,
+		body {
+			height: 100vh; /* Use 100% here to support printing more than a single page*/
+			margin: 0 !important;
+			padding: 0 !important;
+			overflow: hidden;
+		}
+		height: 288mm;
 	}
 `;
 
