@@ -101,6 +101,10 @@ const DailyProfit = () => {
 		}
 	}, [startDate, endDate, fixedCostDay]);
 
+	const numberWithCommas = (x) => {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	};
+
 	return (
 		<>
 			<Header />
@@ -128,12 +132,12 @@ const DailyProfit = () => {
 									}}>
 									<CartesianGrid strokeDasharray="3 3" />
 									<XAxis dataKey="publish_date" />
-									<YAxis domain={[0, yRangeState]} />
+									<YAxis domain={[0, yRangeState]} tickFormatter={numberWithCommas} />
 									<Tooltip />
 									<Legend />
 									<ReferenceLine
 										y={fixedCostGraph}
-										label={"固定費" + Math.floor(fixedCostGraph)}
+										label={"固定費" + numberWithCommas(Math.floor(fixedCostGraph))}
 										stroke="red"
 									/>
 									<Line dataKey="daily_profit" name="累積粗利" stroke="#8884d8" />
