@@ -13,7 +13,6 @@ import Button from "@/components/Atoms/Button";
 const CreateDeliverySlip = () => {
 	const [searchWord, setSearchWord] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
-	const [displayResult, setDisplayResult] = useState(false);
 	const [customerModal, setCustomerModal] = useState(false);
 	const [selectedCustomerName, setSelectedCustomerName] = useState("");
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
@@ -36,6 +35,7 @@ const CreateDeliverySlip = () => {
 		id: null,
 		customer_name: "",
 		customer_address: "",
+		customer_post_code: "",
 		publish_date: format(new Date(), "yyyy-M-d"),
 		contents: [defaultContent],
 		total_price: 0,
@@ -69,6 +69,7 @@ const CreateDeliverySlip = () => {
 		await axios
 			.get(requestUrl, { params })
 			.then((response) => {
+				console.log(response.data);
 				res = response.data;
 			})
 			.catch((e) => {
@@ -80,7 +81,6 @@ const CreateDeliverySlip = () => {
 	const handleChangeCustomerInput = (e) => {
 		const input = e.target.value;
 		setSearchWord(input);
-		setDisplayResult(true);
 		getCustomerList(input).then((res) => {
 			setSuggestions(res);
 		});
@@ -91,10 +91,10 @@ const CreateDeliverySlip = () => {
 		newDeliverySlip.customer_id = customer.id;
 		newDeliverySlip.customer_name = customer.name;
 		newDeliverySlip.customer_address = customer.address;
+		newDeliverySlip.customer_post_code = customer.post_code;
 		setSearchWord(customer.name);
 		setDeliverySlip(newDeliverySlip);
 		setSelectedCustomerName(customer.name);
-		setDisplayResult(false);
 		setCustomerModal(false);
 	};
 
@@ -125,7 +125,6 @@ const CreateDeliverySlip = () => {
 
 	const postDeliverySlip = async () => {
 		const requestUrl = "/delivery_slip";
-		// const param = new FormData();
 		const data = deliverySlip.contents;
 		console.log(deliverySlip);
 		const param = {
@@ -214,13 +213,11 @@ const CreateDeliverySlip = () => {
 			/>
 			<CustomerSearchModal
 				searchWord={searchWord}
-				displayResult={displayResult}
 				suggestions={suggestions}
 				handleChangeCustomerInput={handleChangeCustomerInput}
 				handleClickSuggestion={handleClickSuggestion}
 				showFlag={customerModal}
 				setModal={setCustomerModal}
-				customers={suggestions}
 			/>
 		</>
 	);

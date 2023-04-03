@@ -3,13 +3,11 @@ import Button from "@/components/Atoms/Button";
 
 const CustomerSearchModal = ({
 	searchWord,
-	displayResult,
 	suggestions,
 	handleChangeCustomerInput,
 	handleClickSuggestion,
 	showFlag,
 	setModal,
-	customers,
 }) => {
 	if (!showFlag) {
 		return null;
@@ -19,9 +17,6 @@ const CustomerSearchModal = ({
 		setModal(false);
 	};
 
-	const filteredCustomers = customers.filter((customer) =>
-		customer.name.toLowerCase().includes(searchWord.toLowerCase())
-	);
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center z-50">
