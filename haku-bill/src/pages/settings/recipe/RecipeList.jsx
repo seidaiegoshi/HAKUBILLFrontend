@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
-import Recipe from "@/pages/settings/recipe/Recipe";
 import AddMaterial from "./AddMaterial";
+import MaterialList from "./MaterialList";
+
 import {
 	fetchProducts,
 	fetchMaterials,
@@ -17,17 +18,18 @@ const RecipeList = () => {
 	const [product, setProduct] = useState("");
 
 	const handleMaterialCreate = async (newMaterial) => {
-		const createdMaterial = await createMaterial(productId, newMaterial);
+		const createdMaterial = await createMaterial(product.id, newMaterial);
 		setMaterials([...materials, createdMaterial]);
 	};
 
 	const handleMaterialUpdate = async (updatedMaterial) => {
-		const newMaterial = await updateMaterial(productId, updatedMaterial);
+		const newMaterial = await updateMaterial(product.id, updatedMaterial);
 		setMaterials(materials.map((material) => (material.id === newMaterial.id ? newMaterial : material)));
 	};
 
 	const handleMaterialDelete = async (materialId) => {
-		await deleteMaterial(productId, materialId);
+		console.log("test");
+		await deleteMaterial(product.id, materialId);
 		setMaterials(materials.filter((material) => material.id !== materialId));
 	};
 
@@ -35,6 +37,7 @@ const RecipeList = () => {
 		const fetchData = async () => {
 			const productsData = await fetchProducts();
 			const materialsData = await fetchMaterials(productsData[0].id);
+			console.log(materialsData);
 			setProduct(productsData[0]);
 			setProducts(productsData);
 			setMaterials(materialsData);
@@ -83,7 +86,7 @@ const RecipeList = () => {
 						</div>
 						<div>
 							<div className="m-4">
-								<Recipe
+								<MaterialList
 									product={product}
 									materials={materials}
 									onMaterialUpdate={handleMaterialUpdate}
