@@ -18,11 +18,12 @@ const CustomerProductEdit = () => {
 	});
 
 	const fetchFixedCosts = () => {
-		const requestUrl = `/customer/customer_price/${id}}`;
+		const requestUrl = `/customer_price/${id}}`;
 
 		axios
 			.get(requestUrl)
 			.then((response) => {
+				console.log(response.data);
 				setCustomerPrice(response.data);
 			})
 			.catch((error) => {
@@ -41,7 +42,7 @@ const CustomerProductEdit = () => {
 	};
 
 	const patchFixedCost = () => {
-		const requestUrl = `/customer/customer_price/${id}`;
+		const requestUrl = `/customer_price/${id}`;
 		axios
 			.patch(requestUrl, {
 				price: customerPrice.price,

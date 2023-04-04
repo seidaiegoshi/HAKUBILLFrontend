@@ -17,7 +17,7 @@ const CustomerProduct = () => {
 	const [deleteCustomerPriceId, setDeleteCustomerPriceId] = useState(null);
 
 	function onSearch({ customer, product }) {
-		const requestUrl = "/customer/customer_price";
+		const requestUrl = "/customer_price";
 
 		const params = {};
 		if (customer !== "") {
