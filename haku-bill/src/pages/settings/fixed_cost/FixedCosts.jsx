@@ -1,24 +1,25 @@
-import axios from "../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
-import SettingSidebar from "./SettingSidebar";
-import Header from "../../components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
+import { parseISO, format } from "date-fns";
+import Button from "@/components/Atoms/Button";
 
-const Category = () => {
-	const [categories, setCategories] = useState([]);
+const FixedCosts = () => {
+	const [fixedCosts, setFixedCosts] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
 	const [sortColumn, setSortColumn] = useState("created_at");
 	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-	const [deleteCategoryId, setDeleteCategory] = useState(null);
+	const [deleteFixedCostId, setDeleteFixedCostId] = useState(null);
 
-	const fetchCategories = () => {
-		const requestUrl = "/category";
+	const fetchFixedCosts = () => {
+		const requestUrl = "/fixed_cost";
 		axios
 			.get(requestUrl)
 			.then((response) => {
-				const newCategories = response.data;
-				setCategories(newCategories);
+				setFixedCosts(response.data);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -26,17 +27,17 @@ const Category = () => {
 	};
 
 	useEffect(() => {
-		fetchCategories();
+		fetchFixedCosts();
 	}, []);
 
 	const navigate = useNavigate();
 
 	const handleEditClick = (id) => {
-		navigate(`/setting/category/${id}/edit`);
+		navigate(`/setting/fixed_cost/${id}/edit`);
 	};
 
-	const handleDeleteClick = (categoryId) => {
-		setDeleteCategory(categoryId);
+	const handleDeleteClick = (fixedCostId) => {
+		setDeleteFixedCostId(fixedCostId);
 		setDeleteModalOpen(true);
 	};
 
@@ -45,12 +46,12 @@ const Category = () => {
 	};
 
 	const handleDeleteConfirm = () => {
-		const requestUrl = `/category/${deleteCategoryId}`;
+		const requestUrl = `/fixed_cost/${deleteFixedCostId}`;
 		axios
 			.delete(requestUrl)
 			.then((response) => {
 				setDeleteModalOpen(false);
-				fetchCategories();
+				fetchFixedCosts();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -66,7 +67,7 @@ const Category = () => {
 		}
 	};
 
-	const sortedCategories = [...categories].sort((a, b) => {
+	const sortedFixedCosts = [...fixedCosts].sort((a, b) => {
 		if (sortOrder === "asc") {
 			return a[sortColumn] > b[sortColumn] ? 1 : -1;
 		} else {
@@ -89,12 +90,12 @@ const Category = () => {
 				<div className="flex-initial">
 					<div className="flex flex-col">
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-							<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+							<div className="p-2 inline-block min-w-full">
 								<div className="overflow-hidden">
 									<Link
-										to="/setting/category/new"
+										to="/setting/fixed_cost/new"
 										className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-										カテゴリを追加
+										固定費を追加
 									</Link>
 									<table className="min-w-full">
 										<thead className="bg-white border-b">
@@ -103,14 +104,26 @@ const Category = () => {
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
 													onClick={() => handleSortClick("name")}>
-													カテゴリ名
+													名前
+													{sortColumn === "name" && (
+														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+													)}
+												</th>
+												<th
+													scope="col"
+													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+													onClick={() => handleSortClick("price")}>
+													金額
+													{sortColumn === "price" && (
+														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+													)}
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-													onClick={() => handleSortClick("created_at")}>
+													onClick={() => handleSortClick("updated_at")}>
 													更新日
-													{sortColumn === "created_at" && (
+													{sortColumn === "updated_at" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -119,25 +132,26 @@ const Category = () => {
 											</tr>
 										</thead>
 										<tbody>
-											{sortedCategories.map((value) => (
+											{sortedFixedCosts.map((value) => (
 												<tr key={value.id} className="bg-white border-b">
 													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 														{value.name}
 													</td>
-													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														<button
-															onClick={() => handleEditClick(value.id)}
-															className="bg-gray-100 hover:bg-gray-200 text-base  py-2 px-4
-															rounded-lg">
-															編集
-														</button>
+													<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+														{Number(value.price).toLocaleString("jp-JP") + "円"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														<button
-															className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"
+														{format(parseISO(value.updated_at), "yyyy-MM-dd")}
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+														<Button onClick={() => handleEditClick(value.id)}>編集</Button>
+													</td>
+													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+														<Button
+															className="bg-red-500 hover:bg-red-600 text-white "
 															onClick={() => handleDeleteClick(value.id)}>
 															削除
-														</button>
+														</Button>
 													</td>
 												</tr>
 											))}
@@ -153,4 +167,4 @@ const Category = () => {
 	);
 };
 
-export default Category;
+export default FixedCosts;

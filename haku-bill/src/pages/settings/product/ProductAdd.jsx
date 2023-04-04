@@ -1,8 +1,10 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import SettingSidebar from "./SettingSidebar";
+import Header from "@/components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const ProductAdd = () => {
 	const navigate = useNavigate();
@@ -10,9 +12,8 @@ const ProductAdd = () => {
 		name: "",
 		category_id: null,
 		unit: "",
-		cost: null,
+		total_cost: null,
 		price: null,
-		tax_class: null,
 		gross_profit: null,
 		gross_rate: null,
 	});
@@ -20,7 +21,7 @@ const ProductAdd = () => {
 	const [categories, setCategories] = useState([]);
 
 	const fetchCategories = () => {
-		const requestUrl = "/product/groupByCategories";
+		const requestUrl = "/category";
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -38,7 +39,7 @@ const ProductAdd = () => {
 	const handleChange = (key, value) => {
 		const newProduct = { ...product };
 		newProduct[key] = value;
-		newProduct.gross_profit = newProduct.price - newProduct.cost;
+		newProduct.gross_profit = newProduct.price - newProduct.total_cost;
 		newProduct.gross_rate = newProduct.gross_profit / newProduct.price;
 
 		setProduct(newProduct);
@@ -50,11 +51,11 @@ const ProductAdd = () => {
 		params.append("name", product.name);
 		params.append("product_category_id", product.category_id);
 		params.append("unit", product.unit);
-		params.append("cost", product.cost);
+		params.append("total_cost", product.total_cost);
 		params.append("price", product.price);
-		params.append("tax_class", product.tax_class);
 		params.append("gross_profit", product.gross_profit);
 		params.append("gross_rate", product.gross_rate);
+		params.append("is_product", 1);
 		axios
 			.post(requestUrl, params)
 			.then((response) => {
@@ -98,7 +99,7 @@ const ProductAdd = () => {
 							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
 								商品名
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="name"
 								id="name"
@@ -111,7 +112,7 @@ const ProductAdd = () => {
 							<label htmlFor="Unit" className="mb-3 block text-base font-medium text-[#07074D]">
 								単位
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="Unit"
 								id="Unit"
@@ -121,15 +122,15 @@ const ProductAdd = () => {
 							/>
 						</div>
 						<div className="mb-5">
-							<label htmlFor="cost" className="mb-3 block text-base font-medium text-[#07074D]">
+							<label htmlFor="total_cost" className="mb-3 block text-base font-medium text-[#07074D]">
 								原価
 							</label>
-							<input
+							<TextInput
 								type="number"
-								name="cost"
-								id="cost"
-								onChange={(e) => handleChange("cost", e.target.value)}
-								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
+								name="total_cost"
+								id="total_cost"
+								onChange={(e) => handleChange("total_cost", e.target.value)}
+								placeholder="材料費"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
@@ -137,25 +138,12 @@ const ProductAdd = () => {
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								価格
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="price"
 								id="price"
 								placeholder="販売価格(デフォルト)"
 								onChange={(e) => handleChange("price", e.target.value)}
-								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-							/>
-						</div>
-						<div className="mb-5">
-							<label htmlFor="Tax_class" className="mb-3 block text-base font-medium text-[#07074D]">
-								税区分
-							</label>
-							<input
-								type="number"
-								name="Tax_class"
-								id="Tax_class"
-								placeholder="税区分"
-								onChange={(e) => handleChange("tax_class", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
 						</div>
@@ -173,11 +161,7 @@ const ProductAdd = () => {
 						</div>
 
 						<div>
-							<button
-								onClick={postProduct}
-								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								登録
-							</button>
+							<Button onClick={postProduct}> 登録</Button>
 						</div>
 					</div>
 				</div>

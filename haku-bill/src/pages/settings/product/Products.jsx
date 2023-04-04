@@ -1,10 +1,11 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
-import SettingSidebar from "./SettingSidebar";
-import Header from "./../../components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import Header from "@/components/Header";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmDeleteModal from "../../components/Atoms/ConfirmDeleteModal";
+import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
+import Button from "@/components/Atoms/Button";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -32,8 +33,8 @@ const Products = () => {
 
 	const navigate = useNavigate();
 
-	const handleEditClick = (id) => {
-		navigate(`/setting/product/${id}/edit`);
+	const handleEditClick = (productId) => {
+		navigate(`/setting/product/${productId}/edit`);
 	};
 
 	const handleDeleteClick = (productId) => {
@@ -91,7 +92,7 @@ const Products = () => {
 				<div className="flex-initial">
 					<div className="flex flex-col">
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-							<div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+							<div className="p-2 inline-block min-w-full ">
 								<div className="overflow-hidden">
 									<Link
 										to="/setting/product/new"
@@ -131,9 +132,9 @@ const Products = () => {
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
-													onClick={() => handleSortClick("cost")}>
+													onClick={() => handleSortClick("total_cost")}>
 													原価
-													{sortColumn === "cost" && (
+													{sortColumn === "total_cost" && (
 														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
 													)}
 												</th>
@@ -190,7 +191,7 @@ const Products = () => {
 														{value.unit}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														{Number(value.cost).toLocaleString("jp-JP") + "円"}
+														{Number(value.total_cost).toLocaleString("jp-JP") + "円"}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
 														{Number(value.price).toLocaleString("jp-JP") + "円"}
@@ -205,19 +206,14 @@ const Products = () => {
 														{format(parseISO(value.updated_at), "yyyy-MM-dd")}
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														<button
-															onClick={() => handleEditClick(value.id)}
-															className="bg-gray-100 hover:bg-gray-200 text-base  py-2 px-4
-															rounded-lg">
-															編集
-														</button>
+														<Button onClick={() => handleEditClick(value.id)}>編集</Button>
 													</td>
 													<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-														<button
-															className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"
+														<Button
+															className="bg-red-500 hover:bg-red-600 text-white"
 															onClick={() => handleDeleteClick(value.id)}>
 															削除
-														</button>
+														</Button>
 													</td>
 												</tr>
 											))}

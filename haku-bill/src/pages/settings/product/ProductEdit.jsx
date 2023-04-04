@@ -1,26 +1,27 @@
-import axios from "./../../libs/axios";
+import axios from "@/libs/axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import SettingSidebar from "./SettingSidebar";
+import Header from "@/components/Header";
+import SettingSidebar from "@/pages/settings/SettingSidebar";
+import TextInput from "@/components/Atoms/TextInput";
+import Button from "@/components/Atoms/Button";
 
 const ProductEdit = () => {
 	const navigate = useNavigate();
-	const { id } = useParams();
+	const { productId } = useParams();
 	const [product, setProduct] = useState({
 		name: "",
 		product_category_id: "",
 		unit: "",
-		cost: "",
+		total_cost: "",
 		price: "",
-		tax_class: "",
 		gross_profit: "",
 		gross_rate: "",
 	});
 	const [categories, setCategories] = useState([]);
 
 	const fetchProducts = () => {
-		const requestUrl = `/product/${id}`;
+		const requestUrl = `/product/${productId}`;
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -32,7 +33,7 @@ const ProductEdit = () => {
 	};
 
 	const fetchCategories = () => {
-		const requestUrl = "/product/groupByCategories";
+		const requestUrl = "/category";
 		axios
 			.get(requestUrl)
 			.then((response) => {
@@ -51,25 +52,27 @@ const ProductEdit = () => {
 	const handleChange = (key, value) => {
 		const newProduct = { ...product };
 		newProduct[key] = value;
-		newProduct.gross_profit = newProduct.price - newProduct.cost;
+		newProduct.gross_profit = newProduct.price - newProduct.total_cost;
 		newProduct.gross_rate = newProduct.gross_profit / newProduct.price;
 
 		setProduct(newProduct);
 	};
 
 	const postProduct = () => {
-		const requestUrl = "/product";
-		const params = new FormData();
-		params.append("name", product.name);
-		params.append("product_category_id", product.category_id);
-		params.append("unit", product.unit);
-		params.append("cost", product.cost);
-		params.append("price", product.price);
-		params.append("tax_class", product.tax_class);
-		params.append("gross_profit", product.gross_profit);
-		params.append("gross_rate", product.gross_rate);
+		const requestUrl = `/product/${productId}`;
+		const params = {
+			name: product.name,
+			product_category_id: product.product_category_id,
+			unit: product.unit,
+			total_cost: product.total_cost,
+			price: product.price,
+			tax_class: product.tax_class,
+			gross_profit: product.gross_profit,
+			gross_rate: product.gross_rate,
+		};
+		console.log(params);
 		axios
-			.post(requestUrl, params)
+			.patch(requestUrl, params)
 			.then((response) => {
 				console.log(response);
 				navigate("/setting/product");
@@ -98,7 +101,7 @@ const ProductEdit = () => {
 								name="category"
 								id="category"
 								value={product.product_category_id}
-								onChange={(e) => handleChange("category_id", e.target.value)}
+								onChange={(e) => handleChange("product_category_id", e.target.value)}
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
 								<option value="">選択してください</option>
 								{categories.map((category) => (
@@ -112,7 +115,7 @@ const ProductEdit = () => {
 							<label htmlFor="name" className="mb-3 block text-base font-medium text-[#07074D]">
 								商品名
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="name"
 								id="name"
@@ -126,7 +129,7 @@ const ProductEdit = () => {
 							<label htmlFor="Unit" className="mb-3 block text-base font-medium text-[#07074D]">
 								単位
 							</label>
-							<input
+							<TextInput
 								type="text"
 								name="Unit"
 								id="Unit"
@@ -140,12 +143,12 @@ const ProductEdit = () => {
 							<label htmlFor="cost" className="mb-3 block text-base font-medium text-[#07074D]">
 								原価
 							</label>
-							<input
+							<TextInput
 								type="number"
-								name="cost"
-								id="cost"
-								value={product.cost}
-								onChange={(e) => handleChange("cost", e.target.value)}
+								name="total_cost"
+								id="total_cost"
+								value={product.total_cost}
+								onChange={(e) => handleChange("total_cost", e.target.value)}
 								placeholder="1商品あたりに必要な製造コスト(経費、人件費などは除く)"
 								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 							/>
@@ -154,7 +157,7 @@ const ProductEdit = () => {
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								価格
 							</label>
-							<input
+							<TextInput
 								type="number"
 								name="price"
 								id="price"
@@ -165,38 +168,20 @@ const ProductEdit = () => {
 							/>
 						</div>
 						<div className="mb-5">
-							<label htmlFor="Tax_class" className="mb-3 block text-base font-medium text-[#07074D]">
-								税区分
-							</label>
-							<input
-								type="number"
-								name="Tax_class"
-								id="Tax_class"
-								value={product.tax_class}
-								placeholder="税区分"
-								onChange={(e) => handleChange("tax_class", e.target.value)}
-								className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-							/>
-						</div>
-						<div className="mb-5">
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								粗利
 							</label>
-							<p>{product.gross_profit}</p>
+							<p>{Math.floor(product.gross_profit)}</p>
 						</div>
 						<div className="mb-5">
 							<label htmlFor="price" className="mb-3 block text-base font-medium text-[#07074D]">
 								粗利率
 							</label>
-							<p>{product.gross_rate * 100 + "%"}</p>
+							<p>{Math.floor(product.gross_rate * 100) + "%"}</p>
 						</div>
 
 						<div>
-							<button
-								onClick={postProduct}
-								className="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
-								商品情報を更新
-							</button>
+							<Button onClick={postProduct}> 商品情報を更新</Button>
 						</div>
 					</div>
 				</div>
