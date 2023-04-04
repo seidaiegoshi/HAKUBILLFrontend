@@ -136,30 +136,45 @@ const CreateDeliverySlip = () => {
 		if (checkValidation()) {
 			return;
 		}
-		// console.log(deliverySlip.contents);
-
-		const requestUrl = "/delivery_slip";
 		const data = deliverySlip.contents;
 		const param = {
 			customer_id: deliverySlip.customer_id,
 			customer_name: deliverySlip.customer_name,
 			customer_address: deliverySlip.customer_address,
+			customer_post_code: deliverySlip.customer_post_code,
 			publish_date: deliverySlip.publish_date,
 			contents: data,
 			total_price: deliverySlip.total_price,
 		};
-
-		axios
-			.post(requestUrl, param)
-			.then((response) => {
-				// console.log(response.data);
-				alert("登録しました");
-				setPosted(true);
-			})
-			.catch((e) => {
-				console.log(e);
-			})
-			.finally();
+		if (!posted) {
+			const requestUrl = "/delivery_slip";
+			axios
+				.post(requestUrl, param)
+				.then((response) => {
+					console.log(response.data.id);
+					setDeliverySlip((prevDeliverySlip) => ({
+						...prevDeliverySlip,
+						id: response.data.id,
+					}));
+					alert("登録しました");
+					setPosted(true);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		} else {
+			const requestUrl = `/delivery_slip/${deliverySlip.id}`;
+			axios
+				.patch(requestUrl, param)
+				.then((response) => {
+					console.log(response.data);
+					alert("更新しました");
+					setPosted(true);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		}
 	};
 
 	const addRow = () => {

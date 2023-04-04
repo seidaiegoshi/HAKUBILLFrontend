@@ -10,12 +10,10 @@ const SideButton = ({ postDeliverySlip, handlePrint, posted }) => {
 				to="/delivery-slip/new"
 				onClick={postDeliverySlip}
 				className={
-					posted
-						? "flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 hover:bg-gray-100 cursor-pointer text-gray-700"
-						: "flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 hover:bg-gray-100 cursor-pointer  text-blue-700"
+					"flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 hover:bg-gray-100 cursor-pointer text-gray-700"
 				}>
 				<BsFileEarmarkPlus />
-				<small className="text-center text-xs font-medium"> {posted ? "登録済" : "登録"} </small>
+				<small className="text-center text-xs font-medium"> {posted ? "更新" : "登録"} </small>
 			</Link>
 
 			<div
