@@ -5,7 +5,8 @@ const LinkButton = (props) => {
 	const location = useLocation();
 
 	useEffect(() => {
-		setActive(location.pathname.includes(props.to));
+		const regexPattern = new RegExp(`^${props.to}(?!\_price)(/|$)`, "i");
+		setActive(regexPattern.test(location.pathname));
 	}, [location, props.to]);
 
 	return (
