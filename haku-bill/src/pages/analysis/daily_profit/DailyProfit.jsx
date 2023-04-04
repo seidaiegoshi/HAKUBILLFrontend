@@ -42,7 +42,7 @@ const DailyProfit = () => {
 				const maxDailyProfit = Math.max(...filledData.map((data) => data.daily_profit));
 				const maxYRange = Math.max(maxDailyProfit, currentFixedCostGraph);
 				setYRangeState(maxYRange + 1000);
-				console.log(maxYRange);
+				// console.log(maxYRange);
 
 				setGraphData(filledData);
 			})

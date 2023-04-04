@@ -34,7 +34,7 @@ const DeliverySlipList = () => {
 		axios
 			.get(requestUrl, { params })
 			.then((response) => {
-				console.log(response.data);
+				// console.log(response.data);
 				if (response.data.current_page === 1) {
 					setDeliverySlips(response.data.data);
 				} else {

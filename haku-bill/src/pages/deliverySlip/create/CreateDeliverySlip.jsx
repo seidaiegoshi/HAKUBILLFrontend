@@ -79,7 +79,7 @@ const CreateDeliverySlip = () => {
 		await axios
 			.get(requestUrl, { params })
 			.then((response) => {
-				console.log(response.data);
+				// console.log(response.data);
 				res = response.data;
 			})
 			.catch((e) => {
@@ -136,7 +136,7 @@ const CreateDeliverySlip = () => {
 		if (checkValidation()) {
 			return;
 		}
-		console.log(deliverySlip.contents);
+		// console.log(deliverySlip.contents);
 
 		const requestUrl = "/delivery_slip";
 		const data = deliverySlip.contents;
@@ -152,7 +152,7 @@ const CreateDeliverySlip = () => {
 		axios
 			.post(requestUrl, param)
 			.then((response) => {
-				console.log(response.data);
+				// console.log(response.data);
 				alert("登録しました");
 				setPosted(true);
 			})
