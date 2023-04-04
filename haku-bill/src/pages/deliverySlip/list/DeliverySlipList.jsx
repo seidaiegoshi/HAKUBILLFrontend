@@ -7,10 +7,12 @@ import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
 import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import { useReactToPrint } from "react-to-print";
 import DeliverySlipListItems from "./DeliverySlipListItems";
+import Button from "@/components/Atoms/BUtton";
+import { useNavigate } from "react-router-dom";
 
 const DeliverySlipList = () => {
 	const [deliverySlips, setDeliverySlips] = useState([]);
-	const [preview, setPreview] = useState(null);
+	const [selectedDeliverySlip, setSelectedDeliverySlip] = useState(null);
 	const [searchWords, setSearchWords] = useState({
 		dateFrom: "",
 		dateTo: "",
@@ -18,7 +20,7 @@ const DeliverySlipList = () => {
 	});
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-
+	const navigate = useNavigate();
 	const onSearch = ({ dateFrom, dateTo, word, page }) => {
 		const requestUrl = "/delivery_slip";
 		const params = { page };
@@ -40,7 +42,7 @@ const DeliverySlipList = () => {
 				}
 				setCurrentPage(response.data.current_page);
 				setTotalPages(response.data.last_page);
-				setPreview(response.data.data[0]);
+				setSelectedDeliverySlip(response.data.data[0]);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -62,6 +64,9 @@ const DeliverySlipList = () => {
 		content: () => componentRef.current,
 	});
 
+	const handleDuplicate = () => {
+		navigate("/delivery-slip/new", { state: { deliverySlip: selectedDeliverySlip } });
+	};
 	return (
 		<>
 			<Header />
@@ -79,7 +84,7 @@ const DeliverySlipList = () => {
 								<div className="flex">
 									<DeliverySlipListItems
 										deliverySlips={deliverySlips}
-										setPreview={setPreview}
+										setSelectedDeliverySlip={setSelectedDeliverySlip}
 										loadMoreDeliverySlips={loadMoreDeliverySlips}
 										currentPage={currentPage}
 										totalPages={totalPages}
@@ -87,7 +92,12 @@ const DeliverySlipList = () => {
 								</div>
 							</div>
 							<div className="m-4">
-								{preview && <PrintComponent deliverySlipData={preview} ref={componentRef} />}
+								{selectedDeliverySlip && (
+									<>
+										<Button onClick={handleDuplicate}>複製</Button>
+										<PrintComponent deliverySlipData={selectedDeliverySlip} ref={componentRef} />
+									</>
+								)}
 							</div>
 						</div>
 					) : (

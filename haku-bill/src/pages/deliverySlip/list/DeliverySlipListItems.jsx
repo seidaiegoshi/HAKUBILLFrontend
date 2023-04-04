@@ -4,7 +4,7 @@ import Button from "@/components/Atoms/Button";
 
 const DeliverySlipListItems = ({
 	deliverySlips,
-	setPreview,
+	setSelectedDeliverySlip,
 	loadMoreDeliverySlips,
 	currentPage,
 	totalPages,
@@ -19,7 +19,7 @@ const DeliverySlipListItems = ({
 							key={delivery.id}
 							className="mb-2 w-[200px]"
 							onClick={() => {
-								setPreview(delivery);
+								setSelectedDeliverySlip(delivery);
 							}}>
 							<div className="bg-white py-1 px-3 rounded shadow border-1 cursor-pointer">
 								<p className="text-sm text-gray-500">

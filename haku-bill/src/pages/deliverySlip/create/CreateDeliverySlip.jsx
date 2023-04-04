@@ -10,13 +10,18 @@ import DeliverySlipSidebar from "@/pages/deliverySlip/DeliverySlipSidebar";
 import CustomerSearchModal from "./CustomerSearchModal";
 import DeliverySlipTable from "./DeliverySlipTable";
 import Button from "@/components/Atoms/Button";
+import { useLocation } from "react-router-dom";
+
 const CreateDeliverySlip = () => {
 	const [searchWord, setSearchWord] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [customerModal, setCustomerModal] = useState(false);
-	const [selectedCustomerName, setSelectedCustomerName] = useState("");
 	const [productModal, setProductModal] = useState(false); //modalの状態管理
 	const [rowIndex, setRowIndex] = useState(null);
+	const [posted, setPosted] = useState(false);
+
+	const location = useLocation();
+	const loadedDeliverySlip = location.state?.deliverySlip;
 
 	const defaultContent = {
 		product_id: null,
@@ -30,16 +35,21 @@ const CreateDeliverySlip = () => {
 		subtotal_gross_profit: 0,
 	};
 
-	const [deliverySlip, setDeliverySlip] = useState({
-		customer_id: null,
-		id: null,
-		customer_name: "",
-		customer_address: "",
-		customer_post_code: "",
-		publish_date: format(new Date(), "yyyy-M-d"),
-		contents: [defaultContent],
-		total_price: 0,
-	});
+	let defaultDeliverySlip;
+	loadedDeliverySlip
+		? (defaultDeliverySlip = loadedDeliverySlip)
+		: (defaultDeliverySlip = {
+				customer_id: null,
+				id: null,
+				customer_name: "",
+				customer_address: "",
+				customer_post_code: "",
+				publish_date: format(new Date(), "yyyy-M-d"),
+				contents: [defaultContent],
+				total_price: 0,
+		  });
+
+	const [deliverySlip, setDeliverySlip] = useState(defaultDeliverySlip);
 
 	const fetchDeliverySlipId = () => {
 		const requestUrl = "/delivery_slip/create";
@@ -94,7 +104,6 @@ const CreateDeliverySlip = () => {
 		newDeliverySlip.customer_post_code = customer.post_code;
 		setSearchWord(customer.name);
 		setDeliverySlip(newDeliverySlip);
-		setSelectedCustomerName(customer.name);
 		setCustomerModal(false);
 	};
 
@@ -123,11 +132,11 @@ const CreateDeliverySlip = () => {
 		setDeliverySlip(newDeliverySlip);
 	};
 
-	const postDeliverySlip = async () => {
-		if (!deliverySlip.customer_id || !deliverySlip.contents.some((content) => content.product_id)) {
-			alert("取引先と商品は必ず選択してください。");
+	const postDeliverySlip = () => {
+		if (checkValidation()) {
 			return;
 		}
+		console.log(deliverySlip.contents);
 
 		const requestUrl = "/delivery_slip";
 		const data = deliverySlip.contents;
@@ -140,15 +149,17 @@ const CreateDeliverySlip = () => {
 			total_price: deliverySlip.total_price,
 		};
 
-		await axios
+		axios
 			.post(requestUrl, param)
 			.then((response) => {
 				console.log(response.data);
+				alert("登録しました");
+				setPosted(true);
 			})
 			.catch((e) => {
 				console.log(e);
 			})
-			.finally(alert("登録しました"));
+			.finally();
 	};
 
 	const addRow = () => {
@@ -166,11 +177,9 @@ const CreateDeliverySlip = () => {
 	});
 
 	const printDeliverySlip = () => {
-		if (!deliverySlip.customer_id || !deliverySlip.contents.some((content) => content.product_id)) {
-			alert("取引先と商品は必ず選択してください。");
+		if (checkValidation()) {
 			return;
 		}
-		postDeliverySlip();
 		handlePrint();
 	};
 
@@ -182,10 +191,26 @@ const CreateDeliverySlip = () => {
 		setDeliverySlip({ ...deliverySlip, contents: newContents });
 	};
 
+	const checkValidation = () => {
+		if (!deliverySlip.customer_id) {
+			alert("取引先を選択してください。");
+			return true;
+		}
+		if (!deliverySlip.contents.some((content) => content.product_id)) {
+			alert("商品を設定してください。");
+			return true;
+		}
+		if (deliverySlip.contents.some((content) => content.product_name === "")) {
+			alert("商品名が空です");
+			return true;
+		}
+		return false;
+	};
+
 	return (
 		<>
 			<Header />
-			<SideButton postDeliverySlip={postDeliverySlip} handlePrint={printDeliverySlip} />
+			<SideButton postDeliverySlip={postDeliverySlip} handlePrint={printDeliverySlip} posted={posted} />
 			<div className="flex">
 				<div className="flex-none">
 					<DeliverySlipSidebar />
@@ -197,8 +222,8 @@ const CreateDeliverySlip = () => {
 								<Button onClick={showCustomerSelectModal} className="mr-4">
 									取引先選択
 								</Button>
-								{selectedCustomerName ? (
-									<span>{selectedCustomerName}</span>
+								{deliverySlip.customer_name ? (
+									<span>{deliverySlip.customer_name}</span>
 								) : (
 									<span className="text-red-500">取引先を選択してください。</span>
 								)}
