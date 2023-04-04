@@ -49,7 +49,7 @@ const ProductSales = () => {
 
 		const maxProfitRate = Math.max(...dataWithRate.map((data) => data.profit_rate));
 		const maxQuantityRate = Math.max(...dataWithRate.map((data) => data.quantity_rate));
-		const maxValue = Math.max(maxProfitRate, maxQuantityRate);
+		const maxValue = Math.floor(Math.max(maxProfitRate, maxQuantityRate));
 		setGraphMaxY(maxValue);
 		return dataWithRate;
 	};
