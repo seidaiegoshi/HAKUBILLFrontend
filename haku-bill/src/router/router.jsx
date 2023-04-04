@@ -16,6 +16,9 @@ import CustomerProduct from "@/pages/settings/customer_product/CustomerProduct";
 import CustomerProductEdit from "@/pages/settings/customer_product/CustomerProductEdit";
 import ProductSales from "@/pages/analysis/product_sales/ProductSales";
 import RecipeList from "@/pages/settings/recipe/RecipeList";
+import Customers from "@/pages/settings/customer/Customers";
+import CustomerAdd from "@/pages/settings/customer/CustomerAdd";
+import CustomerEdit from "@/pages/settings/customer/CustomerEdit";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
@@ -32,6 +35,10 @@ const routes = createRoutes(
 		<Route path="/setting/product" element={<Products />} />
 		<Route path="/setting/product/new" element={<ProductAdd />} />
 		<Route path="/setting/product/:productId/edit" element={<ProductEdit />} />
+
+		<Route path="/setting/customer" element={<Customers />} />
+		<Route path="/setting/customer/new" element={<CustomerAdd />} />
+		<Route path="/setting/customer/:customerId/edit" element={<CustomerEdit />} />
 
 		<Route path="/setting/recipe" element={<RecipeList />} />
 
