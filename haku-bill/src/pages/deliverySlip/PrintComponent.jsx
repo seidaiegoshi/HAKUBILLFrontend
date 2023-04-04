@@ -48,7 +48,7 @@ const PrintComponent = React.forwardRef((props, ref) => {
 									<th className="border border-gray-300 bg-gray-100 text-right px-4 font-bold">単位</th>
 									<th className="border border-gray-300 bg-gray-100 text-right px-4 font-bold">単価</th>
 									<th className="border border-gray-300 bg-gray-100 text-right px-4 font-bold">金額</th>
-									<th className="border border-gray-300 bg-gray-100 text-right px-4 font-bold">備考</th>
+									{/* <th className="border border-gray-300 bg-gray-100 text-right px-4 font-bold">備考</th> */}
 								</tr>
 							</thead>
 							<tbody>
@@ -59,7 +59,7 @@ const PrintComponent = React.forwardRef((props, ref) => {
 										<td className="border border-gray-300 text-right px-4 ">{item.unit}</td>
 										<td className="border border-gray-300 text-right px-4 ">{toCommaStyle(item.price)}</td>
 										<td className="border border-gray-300 text-right px-4 ">{toCommaStyle(item.subtotal)}</td>
-										<td className="border border-gray-300 text-right px-4 "></td>
+										{/* <td className="border border-gray-300 text-right px-4 "></td> */}
 									</tr>
 								))}
 							</tbody>
