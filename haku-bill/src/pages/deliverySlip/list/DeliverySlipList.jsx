@@ -7,7 +7,7 @@ import { format, parseISO, startOfMonth, endOfMonth } from "date-fns";
 import PrintComponent from "@/pages/deliverySlip/PrintComponent";
 import { useReactToPrint } from "react-to-print";
 import DeliverySlipListItems from "./DeliverySlipListItems";
-import Button from "@/components/Atoms/BUtton";
+import Button from "@/components/Atoms/Button";
 import { useNavigate } from "react-router-dom";
 
 const DeliverySlipList = () => {
