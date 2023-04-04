@@ -1,15 +1,49 @@
 /** @jsxImportSource @emotion/react */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { format, parse } from "date-fns";
+import axios from "@/libs/axios";
 
 const PrintComponent = React.forwardRef((props, ref) => {
+	const [myCompany, setMyCompany] = useState({
+		name: "",
+		post_code: "",
+		address: "",
+		telephone_number: "",
+		fax_number: "",
+		invoice_number: "",
+	});
 	const deliverySlipData = props.deliverySlipData;
 	const toCommaStyle = (value) => {
 		return Number(value).toLocaleString("jp-JP");
 	};
 
+	const getMyCompany = () => {
+		const requestUrl = "/company/1";
+		axios
+			.get(requestUrl)
+			.then((response) => {
+				const data = response.data;
+				console.log(data);
+				const sanitizedData = {
+					name: data.name || "",
+					post_code: data.post_code || "",
+					address: data.address || "",
+					telephone_number: data.telephone_number || "",
+					fax_number: data.fax_number || "",
+					invoice_number: data.invoice_number || "",
+				};
+				setMyCompany(sanitizedData);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+
+	useEffect(() => {
+		getMyCompany();
+	}, []);
 	return (
 		<>
 			<div css={previewStyle}>
@@ -29,14 +63,27 @@ const PrintComponent = React.forwardRef((props, ref) => {
 								</div>
 							</div>
 						</div>
-						<div className="mb-8">
-							<div className="ml-4">
-								〒{deliverySlipData.customer_post_code}
-								<br />
-								{deliverySlipData.customer_address}
-								<br />
-								<br />
-								{deliverySlipData.customer_name} 御中
+						<div className="flex justify-between">
+							<div className="mb-8">
+								<div className="ml-4">
+									〒{deliverySlipData.customer_post_code}
+									<br />
+									{deliverySlipData.customer_address}
+									<br />
+									<br />
+									{deliverySlipData.customer_name} 御中
+								</div>
+							</div>
+							<div className="mb-8">
+								<div className="ml-4">
+									〒{myCompany.post_code}
+									<br />
+									{myCompany.address}
+									<br />
+									{myCompany.name}
+									<br />
+									登録番号:{myCompany.invoice_number}
+								</div>
 							</div>
 						</div>
 
