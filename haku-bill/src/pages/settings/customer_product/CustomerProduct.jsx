@@ -57,7 +57,7 @@ const CustomerProduct = () => {
 	};
 
 	const handleDeleteConfirm = () => {
-		const requestUrl = `/customer/product/${deleteCustomerPriceId}`;
+		const requestUrl = `/customer_price/${deleteCustomerPriceId}`;
 		axios
 			.delete(requestUrl)
 			.then((response) => {
