@@ -1,13 +1,14 @@
 import React from "react";
 import LinkButton from "@/components/Atoms/LinkButton";
-import { BsBox, BsBoxes, BsBuildingDown, BsFillPeopleFill } from "react-icons/bs";
+import { BsBox, BsBoxes, BsBuildingDown, BsFillPeopleFill, BsBuilding } from "react-icons/bs";
 
 const SettingSidebar = () => {
 	return (
 		<>
-			<aside className="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
+			<aside className="flex flex-col w-64 h-full px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l ">
 				<div className="flex flex-col justify-between flex-1 mt-6">
 					<nav>
+						<LinkButton to={"/setting/company"} text={"会社情報"} svg={<BsBuilding />} />
 						<LinkButton to={"/setting/customer"} text={"取引先"} svg={<BsFillPeopleFill />} />
 						<LinkButton to={"/setting/product"} text={"商品"} svg={<BsBox />} />
 						<LinkButton to={"/setting/category"} text={"商品カテゴリ"} svg={<BsBoxes />} />
@@ -15,7 +16,7 @@ const SettingSidebar = () => {
 						<LinkButton to={"/setting/fixed_cost"} text={"固定費"} svg={<BsBuildingDown />} />
 						<LinkButton
 							to={"/setting/customer_product"}
-							text={"顧客別商品"}
+							text={"取引先別商品"}
 							svg={
 								<svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path

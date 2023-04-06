@@ -19,6 +19,7 @@ import RecipeList from "@/pages/settings/recipe/RecipeList";
 import Customers from "@/pages/settings/customer/Customers";
 import CustomerAdd from "@/pages/settings/customer/CustomerAdd";
 import CustomerEdit from "@/pages/settings/customer/CustomerEdit";
+import Company from "@/pages/settings/company/Company";
 
 const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(element));
 
@@ -52,6 +53,8 @@ const routes = createRoutes(
 
 		<Route path="/setting/customer_product" element={<CustomerProduct />} />
 		<Route path="/setting/customer_product/:id/edit" element={<CustomerProductEdit />} />
+
+		<Route path="/setting/company" element={<Company />} />
 	</Route>
 );
 

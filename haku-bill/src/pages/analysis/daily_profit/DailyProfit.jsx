@@ -5,6 +5,7 @@ import { format, startOfMonth, endOfMonth, eachDayOfInterval, parseISO, differen
 import {
 	LineChart,
 	Line,
+	Label,
 	XAxis,
 	YAxis,
 	CartesianGrid,
@@ -42,7 +43,7 @@ const DailyProfit = () => {
 				const maxDailyProfit = Math.max(...filledData.map((data) => data.daily_profit));
 				const maxYRange = Math.max(maxDailyProfit, currentFixedCostGraph);
 				setYRangeState(maxYRange + 1000);
-				console.log(maxYRange);
+				// console.log(maxYRange);
 
 				setGraphData(filledData);
 			})
@@ -113,7 +114,7 @@ const DailyProfit = () => {
 					<AnalysisSidebar />
 				</div>
 				<div className="flex-initial w-full">
-					<div>DailyProfit</div>
+					{/* <div>DailyProfit</div> */}
 
 					<div>
 						<div>
@@ -128,13 +129,15 @@ const DailyProfit = () => {
 										top: 20,
 										right: 30,
 										left: 20,
-										bottom: 5,
+										bottom: 50,
 									}}>
 									<CartesianGrid strokeDasharray="3 3" />
 									<XAxis dataKey="publish_date" />
-									<YAxis domain={[0, yRangeState]} tickFormatter={numberWithCommas} />
+									<YAxis domain={[0, yRangeState]} tickFormatter={numberWithCommas}>
+										<Label value="粗利" angle={-90} position="insideLeft" offset={-10} />
+									</YAxis>
 									<Tooltip />
-									<Legend />
+									<Legend verticalAlign="top" height={36} />
 									<ReferenceLine
 										y={fixedCostGraph}
 										label={"固定費" + numberWithCommas(Math.floor(fixedCostGraph))}

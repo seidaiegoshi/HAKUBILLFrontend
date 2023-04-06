@@ -2,7 +2,17 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AnalysisSidebar from "@/pages/analysis/AnalysisSidebar";
 import CalendarComponent from "@/pages/analysis/CalendarComponent";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import {
+	ResponsiveContainer,
+	BarChart,
+	Bar,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	Label,
+} from "recharts";
 
 import axios from "@/libs/axios.js";
 import { startOfMonth, endOfMonth, format } from "date-fns";
@@ -10,10 +20,11 @@ import { startOfMonth, endOfMonth, format } from "date-fns";
 const ProductSales = () => {
 	const [salesData, setSalesData] = useState([]);
 	const [sortOrder, setSortOrder] = useState("desc");
-	const [sortColumn, setSortColumn] = useState("created_at");
+	const [sortColumn, setSortColumn] = useState("profit_rate");
 	const now = new Date();
 	const [startDate, setStartDate] = useState(format(startOfMonth(now), "yyyy-MM-dd"));
 	const [endDate, setEndDate] = useState(format(endOfMonth(now), "yyyy-MM-dd"));
+	const [graphMaxY, setGraphMaxY] = useState(0);
 
 	const chartHeight = salesData.length * 50;
 
@@ -25,7 +36,8 @@ const ProductSales = () => {
 	const addPercentage = (data) => {
 		const totalProfit = data.reduce((total, current) => total + Number(current.sum_gross_profit), 0);
 		const totalQuantity = data.reduce((total, current) => total + Number(current.sum_quantity), 0);
-		return data.map((item) => {
+
+		const dataWithRate = data.map((item) => {
 			const profitRate = ((item.sum_gross_profit / totalProfit) * 100).toFixed(2);
 			const quantityRate = ((item.sum_quantity / totalQuantity) * 100).toFixed(2);
 			return {
@@ -34,6 +46,12 @@ const ProductSales = () => {
 				quantity_rate: quantityRate,
 			};
 		});
+
+		const maxProfitRate = Math.max(...dataWithRate.map((data) => data.profit_rate));
+		const maxQuantityRate = Math.max(...dataWithRate.map((data) => data.quantity_rate));
+		const maxValue = Math.floor(Math.max(maxProfitRate, maxQuantityRate));
+		setGraphMaxY(maxValue);
+		return dataWithRate;
 	};
 
 	const fetchSales = (startDate, endDate) => {
@@ -82,108 +100,108 @@ const ProductSales = () => {
 				</div>
 				<div className="flex-initial w-full">
 					<div className="min-h-screen">
-						<div>Product Sales</div>
+						{/* <div>Product Sales</div> */}
 						<div>
 							<CalendarComponent setDate={handleChangeDate} />
 						</div>
-						<div className="flex flex-row w-full">
-							<div className="w-1/2">
-								<table className="min-w-full">
-									<thead className="bg-white border-b sticky top-0">
-										<tr>
-											<th
-												scope="col"
-												className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-												onClick={() => handleSortClick("name")}>
-												商品名
-												{sortColumn === "name" && (
-													<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-												)}
-											</th>
-											<th
-												scope="col"
-												className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-												onClick={() => handleSortClick("sum_gross_profit")}>
-												粗利
-												{sortColumn === "sum_gross_profit" && (
-													<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-												)}
-											</th>
-											<th
-												scope="col"
-												className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-												onClick={() => handleSortClick("profit_rate")}>
-												粗利割合
-												{sortColumn === "profit_rate" && (
-													<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-												)}
-											</th>
-											<th
-												scope="col"
-												className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-												onClick={() => handleSortClick("sum_quantity")}>
-												販売数
-												{sortColumn === "sum_quantity" && (
-													<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-												)}
-											</th>
-											<th
-												scope="col"
-												className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
-												onClick={() => handleSortClick("quantity_rate")}>
-												販売数割合
-												{sortColumn === "quantity_rate" && (
-													<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-												)}
-											</th>
+						<div className="w-full">
+							<ResponsiveContainer width="100%" height={chartHeight}>
+								<BarChart
+									width={600}
+									height={300}
+									data={sortedSalesData}
+									// layout="vertical"
+									margin={{
+										top: 20,
+										right: 100,
+										left: 100,
+										bottom: 10,
+									}}>
+									<CartesianGrid strokeDasharray="3 3" />
+									<YAxis type="number" domain={[0, graphMaxY + 5]}>
+										<Label value="粗利割合[%]" angle={-90} position="insideLeft" offset={-10} />
+									</YAxis>
+									<XAxis dataKey="name" type="category" />
+									<Tooltip />
+									<Legend verticalAlign="top" height={36} />
+									<Bar dataKey="profit_rate" name="粗利[%]" fill="#82ca9d" barSize={10} />
+									<Bar dataKey="quantity_rate" name="販売数[%]" fill="#8884d8" barSize={10} />
+								</BarChart>
+							</ResponsiveContainer>
+						</div>
+						<div className="w-full">
+							<table className="min-w-full">
+								<thead className="bg-white border-b sticky top-0">
+									<tr>
+										<th
+											scope="col"
+											className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+											onClick={() => handleSortClick("name")}>
+											商品名
+											{sortColumn === "name" && (
+												<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+											)}
+										</th>
+										<th
+											scope="col"
+											className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+											onClick={() => handleSortClick("sum_gross_profit")}>
+											粗利
+											{sortColumn === "sum_gross_profit" && (
+												<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+											)}
+										</th>
+										<th
+											scope="col"
+											className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
+											onClick={() => handleSortClick("profit_rate")}>
+											粗利割合
+											{sortColumn === "profit_rate" && (
+												<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+											)}
+										</th>
+										<th
+											scope="col"
+											className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
+											onClick={() => handleSortClick("sum_quantity")}>
+											販売数
+											{sortColumn === "sum_quantity" && (
+												<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+											)}
+										</th>
+										<th
+											scope="col"
+											className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
+											onClick={() => handleSortClick("quantity_rate")}>
+											販売数割合
+											{sortColumn === "quantity_rate" && (
+												<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+											)}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{sortedSalesData.map((value) => (
+										<tr key={value.product_id} className="bg-white border-b">
+											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+												{value.name}
+											</td>
+											<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+												{Number(value.sum_gross_profit).toLocaleString("jp-JP") + "円"}
+											</td>
+											<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+												{value.profit_rate}%
+											</td>
+											<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+												{value.sum_quantity + " " + value.unit}
+											</td>
+											<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
+												{value.quantity_rate}%
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										{sortedSalesData.map((value) => (
-											<tr key={value.product_id} className="bg-white border-b">
-												<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-													{value.name}
-												</td>
-												<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-													{Number(value.sum_gross_profit).toLocaleString("jp-JP") + "円"}
-												</td>
-												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-													{value.profit_rate}%
-												</td>
-												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-													{value.sum_quantity + " " + value.unit}
-												</td>
-												<td className="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-													{value.quantity_rate}%
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</table>
-							</div>
-							<div className="w-1/2">
-								<ResponsiveContainer width="100%" height={chartHeight}>
-									<BarChart
-										width={600}
-										height={300}
-										data={sortedSalesData}
-										layout="vertical"
-										margin={{
-											top: 20,
-											right: 50,
-											left: 100,
-											bottom: 10,
-										}}>
-										<CartesianGrid strokeDasharray="3 3" />
-										<XAxis type="number" domain={[0, "auto"]} />
-										<YAxis dataKey="name" type="category" />
-										<Tooltip />
-										<Legend verticalAlign="top" height={36} />
-										<Bar dataKey="profit_rate" name="粗利[%]" fill="#82ca9d" barSize={10} />
-										<Bar dataKey="quantity_rate" name="販売数[%]" fill="#8884d8" barSize={10} />
-									</BarChart>
-								</ResponsiveContainer>
-							</div>
+									))}
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

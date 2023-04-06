@@ -106,8 +106,8 @@ const CalendarComponent = (props) => {
 				staticRanges={customStaticRanges}
 				inputRanges={inputRanges}
 			/>
-			<p>開始日: {format(range.startDate, "yyyy/MM/dd")}</p>
-			<p>終了日: {format(range.endDate, "yyyy/MM/dd")}</p>
+			{/* <p>開始日: {format(range.startDate, "yyyy/MM/dd")}</p> */}
+			{/* <p>終了日: {format(range.endDate, "yyyy/MM/dd")}</p> */}
 		</div>
 	);
 };
