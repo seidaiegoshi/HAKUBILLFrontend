@@ -25,7 +25,7 @@ const createRoutes = (element) => createBrowserRouter(createRoutesFromElements(e
 
 const routes = createRoutes(
 	<Route path="/" errorElement={<div>error</div>}>
-		<Route index element={<Home />} />
+		<Route index element={<DeliverySlipList />} />
 
 		<Route path="/delivery-slip/new" element={<CreateDeliverySlip />} />
 		<Route path="/delivery-slip/list" element={<DeliverySlipList />} />
