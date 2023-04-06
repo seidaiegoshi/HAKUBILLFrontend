@@ -25,7 +25,6 @@ const PrintComponent = React.forwardRef((props, ref) => {
 			.get(requestUrl)
 			.then((response) => {
 				const data = response.data;
-				console.log(data);
 				const sanitizedData = {
 					name: data.name || "",
 					post_code: data.post_code || "",
@@ -56,7 +55,7 @@ const PrintComponent = React.forwardRef((props, ref) => {
 							<div className="text-right">
 								<div>
 									<span>
-										請求日:
+										納品日:
 										{format(parse(deliverySlipData.publish_date, "yyyy-MM-dd", new Date()), "yyyy年MM月dd日")}
 									</span>
 									<span className="pl-3">No. {deliverySlipData.id}</span>

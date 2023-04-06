@@ -31,17 +31,11 @@ const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal,
 							<tr key={index} className="bg-white border-b">
 								{/* 商品名 */}
 								<td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-									<div className="flex ">
-										<TextInput
-											type="text"
-											value={item.product_name}
-											onChange={(e) => handleChange(index, { product_name: e.target.value })}
-										/>
-										<Button
-											onClick={() => showProductSelectModal(index)}
-											className="block uppercase mx-1 shadow bg-gray-100 hover:bg-gray-200 focus:shadow-outline focus:outline-none text-base  px-4 rounded">
-											選択する
-										</Button>
+									<div className="flex">
+										<div className="flex items-center">
+											<p className=" items-center whitespace-normal">{item.product_name}</p>
+										</div>
+										<Button onClick={() => showProductSelectModal(index)}>商品選択</Button>
 									</div>
 								</td>
 								{/* 単位 */}

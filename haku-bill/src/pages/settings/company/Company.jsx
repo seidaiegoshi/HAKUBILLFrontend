@@ -158,7 +158,7 @@ const Company = () => {
 								name="invoice_number"
 								id="invoice_number"
 								value={company.invoice_number}
-								placeholder="インボイス制度の登録番号"
+								placeholder="登録番号"
 								onChange={(e) => handleChange("invoice_number", e.target.value)}
 							/>
 						</div>
