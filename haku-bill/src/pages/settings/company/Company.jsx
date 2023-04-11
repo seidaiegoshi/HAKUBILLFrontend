@@ -164,8 +164,7 @@ const Company = () => {
 						</div>
 
 						<div>
-							<Button onClick={postCompany} className="bg-blue-500  hover:bg-blue-600 text-white">
-								{" "}
+							<Button onClick={postCompany} primal="true">
 								会社情報を更新
 							</Button>
 						</div>

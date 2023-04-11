@@ -36,8 +36,7 @@ function SearchDelivery(props) {
 					className="ml-3"
 					onChange={handleChangeSearchWords("word")}
 				/>
-				<Button type="submit" className="ml-3 bg-blue-500  hover:bg-blue-600 text-white">
-					{" "}
+				<Button type="submit" className="ml-3" primal="true">
 					検索
 				</Button>
 			</div>
