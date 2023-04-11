@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import SettingSidebar from "@/pages/settings/SettingSidebar";
 import Button from "@/components/Atoms/Button";
+import SortButton from "@/components/Atoms/SortButton";
 
 const CategoryEdit = () => {
 	const navigate = useNavigate();
@@ -75,7 +76,9 @@ const CategoryEdit = () => {
 						</div>
 
 						<div>
-							<Button onClick={updateCategory}>カテゴリ情報を更新</Button>
+							<Button onClick={updateCategory} className="bg-blue-500  hover:bg-blue-600 text-white">
+								カテゴリ情報を更新
+							</Button>
 						</div>
 					</div>
 				</div>

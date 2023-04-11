@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
 import Button from "@/components/Atoms/Button";
+import SortButton from "@/components/Atoms/SortButton";
 
 const Category = () => {
 	const [categories, setCategories] = useState([]);
@@ -105,19 +106,23 @@ const Category = () => {
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
 													onClick={() => handleSortClick("name")}>
-													カテゴリ名
-													{sortColumn === "name" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														カテゴリ名
+														{sortColumn === "name" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("updated_at")}>
-													更新日
-													{sortColumn === "updated_at" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														更新日
+														{sortColumn === "updated_at" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th></th>
 												<th></th>

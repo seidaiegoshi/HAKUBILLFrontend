@@ -56,7 +56,9 @@ const CategoryAdd = () => {
 						</div>
 
 						<div>
-							<Button onClick={postCategory}>登録</Button>
+							<Button onClick={postCategory} className="bg-blue-500  hover:bg-blue-600 text-white">
+								登録
+							</Button>
 						</div>
 					</div>
 				</div>

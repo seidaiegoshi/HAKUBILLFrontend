@@ -71,7 +71,10 @@ const FixedCostAdd = () => {
 							/>
 						</div>
 						<div>
-							<Button onClick={postProduct}> 登録</Button>
+							<Button onClick={postProduct} className="bg-blue-500  hover:bg-blue-600 text-white">
+								{" "}
+								登録
+							</Button>
 						</div>
 					</div>
 				</div>
