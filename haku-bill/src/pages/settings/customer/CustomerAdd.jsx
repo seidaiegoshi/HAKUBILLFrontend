@@ -142,7 +142,7 @@ const CustomerAdd = () => {
 						</div>
 
 						<div>
-							<Button onClick={postCustomer} className="bg-blue-500  hover:bg-blue-600 text-white">
+							<Button onClick={postCustomer} primal="true">
 								{" "}
 								登録
 							</Button>

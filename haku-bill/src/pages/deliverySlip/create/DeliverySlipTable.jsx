@@ -35,9 +35,7 @@ const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal,
 										<div className="flex items-center">
 											<p className=" items-center whitespace-normal">{item.product_name}</p>
 										</div>
-										<Button
-											onClick={() => showProductSelectModal(index)}
-											className="bg-blue-500  hover:bg-blue-600 text-white">
+										<Button onClick={() => showProductSelectModal(index)} primal="true">
 											商品選択
 										</Button>
 									</div>
@@ -81,8 +79,7 @@ const DeliverySlipTable = ({ deliverySlip, handleChange, showProductSelectModal,
 				</table>
 			</div>
 			<div className="mt-3 flex justify-center">
-				<Button onClick={addRow} className="bg-blue-500  hover:bg-blue-600 text-white">
-					{" "}
+				<Button onClick={addRow} primal="true">
 					行追加
 				</Button>
 			</div>

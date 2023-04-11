@@ -89,7 +89,7 @@ const FixedCostEdit = () => {
 						</div>
 
 						<div>
-							<Button onClick={patchFixedCost} className="bg-blue-500  hover:bg-blue-600 text-white">
+							<Button onClick={patchFixedCost} primal="true">
 								{" "}
 								固定費情報を更新
 							</Button>

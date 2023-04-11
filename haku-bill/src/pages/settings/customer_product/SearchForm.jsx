@@ -34,7 +34,7 @@ function SearchForm(props) {
 						}}
 					/>
 				</label>
-				<Button type="submit" className="bg-blue-500  hover:bg-blue-600 text-white ml-3">
+				<Button type="submit" className="ml-3" primal="true">
 					検索
 				</Button>
 			</div>

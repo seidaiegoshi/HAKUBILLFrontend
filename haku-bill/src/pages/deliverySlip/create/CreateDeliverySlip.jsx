@@ -234,9 +234,7 @@ const CreateDeliverySlip = () => {
 					<div className="flex flex-col">
 						<div className="overflow-x-auto">
 							<div className="mb-4 flex items-center">
-								<Button
-									onClick={showCustomerSelectModal}
-									className="mr-4 bg-blue-500  hover:bg-blue-600 text-white">
+								<Button onClick={showCustomerSelectModal} className="mr-4 " primal="true">
 									取引先選択
 								</Button>
 								{deliverySlip.customer_name ? (

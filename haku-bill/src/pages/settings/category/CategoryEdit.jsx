@@ -76,7 +76,7 @@ const CategoryEdit = () => {
 						</div>
 
 						<div>
-							<Button onClick={updateCategory} className="bg-blue-500  hover:bg-blue-600 text-white">
+							<Button onClick={updateCategory} primal="true">
 								カテゴリ情報を更新
 							</Button>
 						</div>
