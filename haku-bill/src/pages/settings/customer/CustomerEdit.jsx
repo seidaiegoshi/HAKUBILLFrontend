@@ -159,7 +159,10 @@ const CustomerEdit = () => {
 						</div>
 
 						<div>
-							<Button onClick={postCustomer}> 取引先情報を更新</Button>
+							<Button onClick={postCustomer} className="bg-blue-500  hover:bg-blue-600 text-white">
+								{" "}
+								取引先情報を更新
+							</Button>
 						</div>
 					</div>
 				</div>

@@ -19,7 +19,7 @@ function SearchDelivery(props) {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="flex">
-				<div className="flex items-center">
+				<div className="flex items-center ml-4">
 					<span>期間</span>
 					<TextInput
 						type="date"
@@ -33,9 +33,13 @@ function SearchDelivery(props) {
 					type="text"
 					value={searchWords.word}
 					placeholder={"取引先名"}
+					className="ml-3"
 					onChange={handleChangeSearchWords("word")}
 				/>
-				<Button type="submit"> 検索</Button>
+				<Button type="submit" className="ml-3 bg-blue-500  hover:bg-blue-600 text-white">
+					{" "}
+					検索
+				</Button>
 			</div>
 		</form>
 	);

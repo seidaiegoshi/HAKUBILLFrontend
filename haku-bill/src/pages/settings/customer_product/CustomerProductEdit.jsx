@@ -95,7 +95,9 @@ const CustomerProductEdit = () => {
 						</div>
 
 						<div>
-							<Button onClick={patchFixedCost}>更新</Button>
+							<Button onClick={patchFixedCost} className="bg-blue-500  hover:bg-blue-600 text-white">
+								更新
+							</Button>
 						</div>
 					</div>
 				</div>

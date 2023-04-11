@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
 import Button from "@/components/Atoms/Button";
+import SortButton from "@/components/Atoms/SortButton";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -101,78 +102,94 @@ const Products = () => {
 									</Link>
 									<table className="min-w-full table-auto mt-4">
 										<thead className="bg-white border-b">
-											<tr className="bg-gray-200">
+											<tr className="">
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("name")}>
-													商品名
-													{sortColumn === "name" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														商品名
+														{sortColumn === "name" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("category_name")}>
-													カテゴリ
-													{sortColumn === "category_name" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														カテゴリ
+														{sortColumn === "category_name" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("unit")}>
-													単位
-													{sortColumn === "unit" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														単位
+														{sortColumn === "unit" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("total_cost")}>
-													原価
-													{sortColumn === "total_cost" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														原価
+														{sortColumn === "total_cost" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("price")}>
-													価格
-													{sortColumn === "price" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														価格
+														{sortColumn === "price" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("gross_profit")}>
-													粗利
-													{sortColumn === "gross_profit" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														粗利
+														{sortColumn === "gross_profit" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("gross_rate")}>
-													粗利率
-													{sortColumn === "gross_rate" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														粗利率
+														{sortColumn === "gross_rate" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left"
 													onClick={() => handleSortClick("updated_at")}>
-													更新日
-													{sortColumn === "updated_at" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														更新日
+														{sortColumn === "updated_at" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th></th>
 												<th></th>

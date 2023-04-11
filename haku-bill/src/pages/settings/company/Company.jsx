@@ -164,7 +164,10 @@ const Company = () => {
 						</div>
 
 						<div>
-							<Button onClick={postCompany}> 会社情報を更新</Button>
+							<Button onClick={postCompany} className="bg-blue-500  hover:bg-blue-600 text-white">
+								{" "}
+								会社情報を更新
+							</Button>
 						</div>
 						{message && <div>{message}</div>}
 					</div>

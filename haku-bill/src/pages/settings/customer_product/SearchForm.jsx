@@ -12,7 +12,7 @@ function SearchForm(props) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} className="border-b-2 pb-2">
 			<div className="flex">
 				<label>
 					取引先名:
@@ -34,7 +34,9 @@ function SearchForm(props) {
 						}}
 					/>
 				</label>
-				<Button type="submit"> 検索</Button>
+				<Button type="submit" className="bg-blue-500  hover:bg-blue-600 text-white ml-3">
+					検索
+				</Button>
 			</div>
 		</form>
 	);

@@ -1,7 +1,6 @@
 import React from "react";
 import LinkButton from "@/components/Atoms/LinkButton";
 import { SlGraph } from "react-icons/sl";
-import { BsBarChartSteps } from "react-icons/bs";
 import { GoGraph } from "react-icons/go";
 const AnalysisSidebar = () => {
 	return (

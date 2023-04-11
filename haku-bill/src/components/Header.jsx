@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "@/resources/logo.png";
-
-import { BsBarChartSteps } from "react-icons/bs";
+import HeaderButton from "@/components/Atoms/HeaderButton.jsx";
 
 const Header = () => {
 	return (
@@ -12,15 +11,15 @@ const Header = () => {
 				<nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
 					{/* <a className="mr-5 hover:text-gray-900">製造</a> */}
 					{/* <a className="mr-5 hover:text-gray-900">在庫</a> */}
-					<Link to="/delivery-slip/list" className="mr-5 hover:text-gray-900">
+					<HeaderButton to="/delivery-slip/list" path="/delivery-slip" className="mr-5 hover:text-gray-900">
 						納品
-					</Link>
-					<Link to="/analysis/daily_profit" className="mr-5 hover:text-gray-900">
+					</HeaderButton>
+					<HeaderButton to="/analysis/daily_profit" path="/analysis" className="mr-5 hover:text-gray-900">
 						分析
-					</Link>
-					<Link to="/setting/product" className="mr-5 hover:text-gray-900">
+					</HeaderButton>
+					<HeaderButton to="/setting/product" path="/setting" className="mr-5 hover:text-gray-900">
 						設定
-					</Link>
+					</HeaderButton>
 				</nav>
 			</div>
 		</header>

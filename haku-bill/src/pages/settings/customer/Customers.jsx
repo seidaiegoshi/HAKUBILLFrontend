@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmDeleteModal from "@/components/Atoms/ConfirmDeleteModal";
 import { parseISO, format } from "date-fns";
 import Button from "@/components/Atoms/Button";
+import SortButton from "@/components/Atoms/SortButton";
 
 const Customer = () => {
 	const [customers, setCustomer] = useState([]);
@@ -94,22 +95,22 @@ const Customer = () => {
 						<div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
 							<div className="p-2 inline-block min-w-full ">
 								<div className="overflow-hidden">
-									<Link
-										to="/setting/customer/new"
-										className="inline-flex items-center bg-gray-100 border-0 m-3 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-										取引先を追加
+									<Link to="/setting/customer/new">
+										<Button>取引先を追加</Button>
 									</Link>
 									<table className="min-w-full table-auto mt-4">
 										<thead className="bg-white border-b">
-											<tr className="bg-gray-200">
+											<tr className="">
 												<th
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("name")}>
-													取引先名
-													{sortColumn === "name" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														取引先名
+														{sortColumn === "name" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th scope="col" className="text-sm font-medium text-gray-900 px-6 py-2 text-left ">
 													敬称
@@ -124,10 +125,12 @@ const Customer = () => {
 													scope="col"
 													className="text-sm font-medium text-gray-900 px-6 py-2 text-left cursor-pointer"
 													onClick={() => handleSortClick("updated_at")}>
-													更新日
-													{sortColumn === "updated_at" && (
-														<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
-													)}
+													<SortButton>
+														更新日
+														{sortColumn === "updated_at" && (
+															<span className="ml-2">{sortOrder === "asc" ? "↑" : "↓"}</span>
+														)}
+													</SortButton>
 												</th>
 												<th></th>
 												<th></th>
