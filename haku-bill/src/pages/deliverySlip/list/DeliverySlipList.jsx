@@ -68,7 +68,9 @@ const DeliverySlipList = () => {
 	});
 
 	const handleDuplicate = () => {
-		navigate("/delivery-slip/new", { state: { deliverySlip: selectedDeliverySlip } });
+		const duplicatedDeliverySlip = { ...selectedDeliverySlip };
+		duplicatedDeliverySlip.publish_date = format(new Date(), "yyyy-MM-dd");
+		navigate("/delivery-slip/new", { state: { deliverySlip: duplicatedDeliverySlip } });
 	};
 
 	const handleDeleteClick = () => {

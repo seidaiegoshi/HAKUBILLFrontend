@@ -126,7 +126,7 @@ const CreateDeliverySlip = () => {
 
 		// 合計金額
 		newDeliverySlip.total_price = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
-			return accumulator + currentValue.subtotal;
+			return accumulator + Number(currentValue.subtotal);
 		}, 0);
 
 		setDeliverySlip(newDeliverySlip);
@@ -202,8 +202,16 @@ const CreateDeliverySlip = () => {
 		setCustomerModal(true);
 	};
 	const removeRow = (index) => {
+		// コンテンツを削除
 		const newContents = deliverySlip.contents.filter((_, i) => i !== index);
-		setDeliverySlip({ ...deliverySlip, contents: newContents });
+		const newDeliverySlip = { ...deliverySlip, contents: newContents };
+
+		// 合計金額
+		newDeliverySlip.total_price = newDeliverySlip.contents.reduce((accumulator, currentValue) => {
+			return accumulator + Number(currentValue.subtotal);
+		}, 0);
+
+		setDeliverySlip(newDeliverySlip);
 	};
 
 	const checkValidation = () => {
